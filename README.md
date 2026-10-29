@@ -1,4 +1,4 @@
-# Prêts — guide hors ligne
+# Guide de survie — repères hors ligne
 
 PWA mobile en français pour la préparation aux urgences en Belgique. Fiches préchargées, consultation hors ligne, recherche locale, favoris et listes sauvegardés sur cet appareil.
 
