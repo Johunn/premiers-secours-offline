@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#153b36"><meta name="description" content="Repères sourcés pour se préparer aux urgences, même hors ligne.">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icons/icon.svg" type="image/svg+xml"><link rel="stylesheet" href="./styles.css">
+<title>Prêts — guide hors ligne</title>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#" aria-label="Prêts, accueil"><span class="brand-mark">P</span><span>PRÊTS <small>GUIDE HORS LIGNE</small></span></a><button id="install" class="install hidden">Installer</button></header>
+<main>
+<section class="hero"><div class="eyebrow">BELGIQUE · PRÉPARATION AUX URGENCES</div><h1>Les bons repères,<br><em>même sans réseau.</em></h1><p>Des fiches concises, vérifiables et enregistrées sur cet appareil.</p>
+<div class="hero-actions"><a class="button urgent" href="tel:112">Appeler le 112 <span>↗</span></a><a class="button quiet" href="#fiches">Parcourir les fiches <span>↓</span></a></div>
+<div class="notice"><span class="pulse"></span><span><strong id="network-state">Prêt hors ligne</strong><small>Les liens externes et appels nécessitent une connexion ou un réseau téléphonique.</small></span></div>
+</section>
+<section class="quick-grid" aria-label="Accès rapide">
+<a class="quick-card" href="tel:070245245"><span class="quick-icon">+</span><span><strong>Centre Antipoisons</strong><small>070 245 245 · gratuit, 24/7</small></span><span class="arrow">↗</span></a>
+<a class="quick-card" href="https://www.be-alert.be/fr/" target="_blank" rel="noopener"><span class="quick-icon">!</span><span><strong>BE-Alert</strong><small>Alertes officielles en Belgique</small></span><span class="arrow">↗</span></a>
+</section>
+<section class="section-head" id="fiches"><div><div class="eyebrow">BIBLIOTHÈQUE LOCALE</div><h2>Fiches pratiques</h2></div><button id="favorites-toggle" class="text-button">☆ Favoris</button></section>
+<div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Rechercher un sujet…" aria-label="Rechercher dans les fiches"><button id="clear-search" aria-label="Effacer la recherche">×</button></div>
+<nav class="filters" id="filters" aria-label="Filtrer par thème"></nav><div class="results-note" id="results-note"></div><div class="cards" id="cards"></div>
+<section class="section-head checklist-heading" id="kit"><div><div class="eyebrow">À PRÉPARER CHEZ SOI</div><h2>Mon kit d’urgence</h2></div><span class="progress" id="progress"></span></section>
+<p class="section-intro">Liste indicative inspirée du Centre de crise national. Adaptez-la à votre foyer, vos traitements et vos animaux.</p><div id="checklist" class="checklist"></div>
+<section class="map-panel"><div class="eyebrow">CARTES DÉJÀ TÉLÉCHARGÉES</div><h2>Repérez-vous avec Organic Maps</h2><p>Ouvrir l’application de cartographie installée sur votre téléphone. Les cartes peuvent fonctionner hors ligne; les informations de terrain et les itinéraires restent à vérifier.</p><a class="button map-button" href="geo:50.8503,4.3517?q=50.8503,4.3517(Bruxelles)" aria-label="Ouvrir la carte autour de Bruxelles">Ouvrir Organic Maps <span>↗</span></a><small class="map-fallback">Si rien ne s’ouvre, ouvrez Organic Maps manuellement et recherchez un lieu. Le lien géographique est une demande au téléphone, pas une intégration garantie.</small></section>
+<section class="source-footer"><strong>Sources et fraîcheur</strong><p>Contenu vérifié le 29 octobre 2026. Les pages officielles peuvent changer. Cette copie hors ligne ne peut pas vérifier les mises à jour en temps réel.</p><a href="./SOURCES.md">Voir les références et les limites</a></section>
+</main>
+<nav class="bottom-nav"><a href="#">⌂<small>Accueil</small></a><a href="#fiches">▤<small>Fiches</small></a><a href="#kit">☑<small>Mon kit</small></a></nav>
+<dialog id="detail"><form method="dialog"><button class="close" aria-label="Fermer">×</button></form><div id="detail-content"></div></dialog>
+<script src="./fiches.js"></script><script src="./app.js"></script>
+</body></html>
