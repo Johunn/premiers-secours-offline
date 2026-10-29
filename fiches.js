@@ -667,6 +667,86 @@ window.FICHES=[
     "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"
    ]
   ]
+ },
+ {
+  "id": "traumatisme",
+  "category": "Urgence médicale",
+  "title": "Choc à la tête, à la colonne ou au bassin",
+  "summary": "Ne pas déplacer la personne; stabiliser doucement la tête et surveiller.",
+  "intro": "L’affiche de la Croix-Rouge belge demande de ne pas déplacer une personne après un choc à la tête, à la colonne ou au bassin et d’aider à garder la tête immobile.",
+  "steps": [
+   "Vérifiez la sécurité des lieux. Ne déplacez pas la personne après un choc important à la tête, au cou, au dos ou au bassin, sauf danger immédiat (feu, effondrement, eau).",
+   "Demandez-lui de ne pas bouger. Si elle le tolère, stabilisez doucement sa tête dans l’axe avec les mains, sans tirer ni forcer le cou.",
+   "Surveillez sa conscience et sa respiration sans la faire asseoir ou marcher. Gardez-la au chaud et rassurez-la.",
+   "Si elle vomit ou perd connaissance, protégez ses voies respiratoires; ne la tournez qu’en cas de nécessité vitale et en limitant autant que possible les mouvements de la tête/cou.",
+   "Faites chercher les secours dès qu’un moyen de communication est disponible. Si sa respiration devient absente ou anormale, appliquez la réanimation vitale même si un traumatisme est possible."
+  ],
+  "avoid": "Ne redressez pas, ne réalignez pas et ne testez pas le cou ou le dos. N’enlevez pas un casque si cela risque de mobiliser la tête, sauf nécessité immédiate pour la respiration.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Choc à la tête, colonne ou bassin (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Chocalatete-Croix-RougedeBelgique.pdf"
+   ],
+   [
+    "Croix-Rouge de Belgique — RCP adulte (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-adulte-Croix-Rouge-de-Belgique-2.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "convulsions",
+  "category": "Urgence médicale",
+  "title": "Convulsions : protéger sans retenir",
+  "summary": "Écarter les dangers, protéger la tête et ne rien mettre dans la bouche.",
+  "intro": "La Croix-Rouge belge recommande de laisser la personne convulser sans la retenir, de ne rien mettre dans sa bouche et de dégager l’espace autour.",
+  "steps": [
+   "Écartez les meubles et objets durs ou coupants. Protégez la tête avec un vêtement plié si possible, sans immobiliser la personne.",
+   "Desserrez les vêtements autour du cou et retirez les lunettes. Notez l’heure de début et la durée; observez les mouvements et la respiration.",
+   "Ne retenez pas les bras ou les jambes et ne mettez rien dans la bouche. Ne donnez ni boisson ni médicament pendant la crise.",
+   "Quand les mouvements cessent, vérifiez la respiration. Si elle respire normalement mais reste inconsciente, placez-la sur le côté et surveillez continuellement.",
+   "Si elle ne respire pas normalement, commencez la RCP. Faites chercher de l’aide dès que possible, surtout si la crise est prolongée, se répète, s’accompagne d’une blessure ou si la personne ne reprend pas conscience."
+  ],
+  "avoid": "Ne tentez pas de maintenir la langue et n’introduisez aucun objet dans la bouche. N’entravez pas les mouvements.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Malaise grave (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Malaisegrave-Croix-RougedeBelgique.pdf"
+   ],
+   [
+    "Croix-Rouge de Belgique — RCP adulte (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-adulte-Croix-Rouge-de-Belgique-2.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "alimentation",
+  "category": "Survie et autonomie",
+  "title": "Réserve alimentaire et repas sans électricité",
+  "summary": "Choisir des aliments stockables, utilisables sans cuisson et adaptés au foyer.",
+  "intro": "Le kit belge de 72 heures inclut de la nourriture simple et un ouvre-boîte. La fiche privilégie les aliments que le foyer sait manger et qui ne dépendent ni du réfrigérateur ni d’une cuisson.",
+  "steps": [
+   "Préparez au moins trois jours d’aliments familiers et stables à température ambiante : conserves, aliments secs, compotes, fruits secs, barres ou produits adaptés aux régimes du foyer.",
+   "Prévoyez l’eau nécessaire à la consommation et à la préparation, un ouvre-boîte manuel, couverts, gamelles et nourriture pour bébé et animaux.",
+   "Rangez au sec, à l’abri des inondations, de la chaleur et des produits chimiques. Étiquetez les dates; utilisez d’abord les produits les plus anciens et remplacez-les.",
+   "En panne de courant, gardez les portes du frigo et du congélateur fermées. Repères indicatifs : frigo fermé environ 4 h; congélateur plein 48 h ou à moitié plein 24 h. Ne goûtez jamais pour tester la sécurité.",
+   "Jetez les aliments périssables conservés au-dessus de 4 h sans froid; jetez les denrées touchées par l’eau d’inondation et les boîtes bombées, ouvertes, endommagées ou qui fuient.",
+   "Mangez d’abord les aliments qui ne demandent pas de cuisson. N’utilisez jamais un barbecue, groupe électrogène ou réchaud à combustible à l’intérieur ou dans un garage."
+  ],
+  "avoid": "Ne consommez pas une conserve qui fuit, est bombée ou endommagée. Les durées de conservation au froid sont des repères du CDC américain et supposent que les portes restent fermées.",
+  "sources": [
+   [
+    "Centre de crise national — Kit d’urgence à la maison",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison"
+   ],
+   [
+    "Centre de crise national — Défaillance de l’approvisionnement en électricité",
+    "https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-electricite"
+   ],
+   [
+    "CDC — Sécurité alimentaire après une catastrophe",
+    "https://www.cdc.gov/food-safety/foods/keep-food-safe-after-emergency.html"
+   ]
+  ]
  }
 ];
 window.CHECKLIST=[
