@@ -1,6 +1,6 @@
 # Sources, périmètre et dates
 
-**Version de l’application : 1.2.0 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
+**Version de l’application : 1.2.1 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
 
 ## Premiers secours — Belgique
 
@@ -52,3 +52,8 @@ Chaque guide possède une illustration vectorielle originale, intégrée dans il
 ## Schémas de procédures
 
 Les illustrations procédurales de 15 fiches sont des schémas vectoriels originaux conçus pour cette application et préchargés localement (`procedures.svg`). Elles résument les étapes déjà écrites dans chaque fiche; elles ne remplacent ni ces consignes ni une formation pratique. Les références médicales propres à chaque schéma figurent dans la fiche concernée. Le contenu a été cadré à partir des ressources officielles de la Croix-Rouge de Belgique et des recommandations du Conseil européen de réanimation 2025 : [affiches premiers secours de la Croix-Rouge de Belgique](https://formations.croix-rouge.be/affiches-premiers-secours/) · [European Resuscitation Council — Guidelines 2025](https://www.erc.edu/science-research/guidelines/guidelines-2025).
+
+
+## Actualisation de l’application
+
+Le bouton de version demande au navigateur de vérifier le service worker, puis recharge la page avec une URL renouvelée pour demander les fichiers publiés. Il ne vide pas le stockage local : les favoris et la liste de préparation restent enregistrés sur l’appareil.
