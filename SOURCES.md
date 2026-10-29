@@ -1,6 +1,6 @@
 # Sources, périmètre et dates
 
-**Version de l’application : 1.2.1 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
+**Version de l’application : 1.3.0 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
 
 ## Premiers secours — Belgique
 
@@ -49,9 +49,10 @@ La copie locale peut devenir dépassée. Date de vérification éditoriale de ce
 Chaque guide possède une illustration vectorielle originale, intégrée dans illustrations.svg et mise en cache avec la PWA. Aucune image informative n’est chargée depuis un site externe. Ces dessins sont des repères visuels décoratifs, non des schémas de geste médical; les consignes à suivre restent dans le texte et s’appuient sur les références propres à chaque fiche.
 
 
-## Schémas de procédures
+## Illustrations des gestes
 
-Les illustrations procédurales de 15 fiches sont des schémas vectoriels originaux conçus pour cette application et préchargés localement (`procedures.svg`). Elles résument les étapes déjà écrites dans chaque fiche; elles ne remplacent ni ces consignes ni une formation pratique. Les références médicales propres à chaque schéma figurent dans la fiche concernée. Le contenu a été cadré à partir des ressources officielles de la Croix-Rouge de Belgique et des recommandations du Conseil européen de réanimation 2025 : [affiches premiers secours de la Croix-Rouge de Belgique](https://formations.croix-rouge.be/affiches-premiers-secours/) · [European Resuscitation Council — Guidelines 2025](https://www.erc.edu/science-research/guidelines/guidelines-2025).
+Les pictogrammes de liste restent de simples repères. Les 16 fiches procédurales disposent maintenant d’illustrations narratives en plusieurs étapes, conçues pour cette application et regroupées dans quatre planches PNG préchargées hors ligne. Chaque fiche associe son illustration à ses consignes écrites et à ses propres références. Les images sont illustratives; les textes sourcés restent la référence pratique. Elles ne reprennent pas les affiches sous droit d’auteur de la Croix-Rouge. Les recommandations de gestes sont documentées dans les fiches et dans les références officielles correspondantes, notamment les [affiches de premiers secours de la Croix-Rouge belge](https://formations.croix-rouge.be/affiches-premiers-secours/) et les [recommandations ERC 2025](https://www.erc.edu/science-research/guidelines/guidelines-2025).
+
 
 
 ## Actualisation de l’application
