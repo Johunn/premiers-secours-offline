@@ -1,6 +1,6 @@
 # Sources, périmètre et dates
 
-**Version de l’application : 1.0.0 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
+**Version de l’application : 1.0.1 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
 
 ## Premiers secours — Belgique
 
