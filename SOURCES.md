@@ -1,6 +1,6 @@
 # Sources, périmètre et dates
 
-**Version de l’application : 1.0.1 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
+**Version de l’application : 1.1.0 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
 
 ## Premiers secours — Belgique
 
@@ -43,3 +43,7 @@ La copie locale peut devenir dépassée. Date de vérification éditoriale de ce
 - Croix-Rouge de Belgique, [canicule](https://croix-rouge.be/fr/articles/canicule-comment-vous-proteger-vous-et-vos-proches) et [premiers secours en route](https://formations.croix-rouge.be/croixrouge/themes/pdfGenerator/generatePdfGlobal.php?id=33) — gestes contre la chaleur et le froid. Consultés le 29-10-2026.
 - NHS, [hypothermie](https://www.nhs.uk/conditions/hypothermia/) — conseils complémentaires de premiers soins. Consulté le 29-10-2026.
 - CDC, [Keep Food Safe After a Disaster or Emergency](https://www.cdc.gov/food-safety/foods/keep-food-safe-after-emergency.html) — sécurité des aliments après une panne. Source américaine, consultée le 29-10-2026.
+
+## Illustrations hors ligne
+
+Chaque guide possède une illustration vectorielle originale, intégrée dans illustrations.svg et mise en cache avec la PWA. Aucune image informative n’est chargée depuis un site externe. Ces dessins sont des repères visuels décoratifs, non des schémas de geste médical; les consignes à suivre restent dans le texte et s’appuient sur les références propres à chaque fiche.
