@@ -1,24 +1,681 @@
 window.FICHES=[
-{id:"appel-112",category:"Urgence",title:"Appeler les secours en Belgique",summary:"Savoir quel numéro joindre et quelles informations préparer.",intro:"En cas de danger immédiat ou de détresse médicale, incendie ou intervention policière urgente, contactez les services d’urgence. Le téléphone et le réseau restent nécessaires.",steps:["Composez le 112 pour l’aide médicale urgente, les pompiers ou plusieurs services.","Pour une intervention policière urgente seule, le SPF conseille le 101.","Donnez votre identité, le lieu précis, ce qui s’est passé, le nombre de personnes concernées et leur état si vous le pouvez.","Répondez aux questions et suivez les instructions de l’opérateur. Ne raccrochez pas avant qu’il vous le dise."],avoid:"Cette fiche ne remplace pas l’opérateur. Un appel d’urgence ne peut pas être passé par la PWA sans réseau téléphonique.",sources:[["SPF Santé publique — Centrale d’urgence 112","https://www.health.belgium.be/fr/themes/sante/aide-medicale-urgente/acteurs-laide-medicale-urgente/centrale-durgence-112"]]},
-{id:"kit",category:"Préparation",title:"Préparer un kit pour 72 heures",summary:"Rassembler à l’avance l’essentiel pour votre foyer.",intro:"Le Centre de crise national recommande de pouvoir être autonome à domicile au moins 72 heures. Adaptez les quantités et objets aux besoins réels du foyer.",steps:["Choisissez un endroit sec et accessible; évitez les lieux exposés aux inondations.","Prévoyez eau et nourriture simple, médicaments indispensables, trousse de premiers soins et articles d’hygiène.","Ajoutez lampe et piles, radio à piles ou à dynamo, chargeur et batterie externe.","Gardez copies des documents importants, contacts sur papier, un peu d’argent liquide et les besoins des enfants et animaux.","Vérifiez les dates, remplacez les produits utilisés et discutez d’un plan de contact avec le foyer."],avoid:"La fiche officielle donne des exemples de contenu; elle ne fixe pas une quantité universelle adaptée à chaque personne.",sources:[["Centre de crise — Un kit d’urgence à la maison","https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison"]]},
-{id:"be-alert",category:"Préparation",title:"Recevoir les alertes officielles",summary:"Préparer votre accès à BE-Alert et aux canaux de crise.",intro:"BE-Alert permet aux autorités d’envoyer des SMS, appels vocaux ou courriels pour prévenir et donner des instructions. Les informations peuvent évoluer pendant une crise.",steps:["Inscrivez vos adresses importantes à BE-Alert lorsque vous êtes connecté.","En situation réelle, suivez les consignes du message officiel et des autorités locales.","Gardez une radio disponible et connaissez les canaux officiels de votre commune, province et du Centre de crise.","Cette copie ne reçoit pas les alertes : elle fournit uniquement un accès vers le service en ligne."],avoid:"N’agissez pas sur la base d’une ancienne capture ou d’une fiche hors ligne si une consigne officielle plus récente est disponible.",sources:[["Centre de crise — BE-Alert","https://centredecrise.be/fr/que-pouvez-vous-faire/informez-vous/be-alert-des-alertes-sur-votre-telephone"],["Centre de crise — Information pendant une urgence","https://centredecrise.be/fr/que-pouvez-vous-faire/informez-vous/linformation-pendant-une-situation-durgence"]]},
-{id:"intoxication",category:"Santé",title:"Suspicion d’intoxication",summary:"Contacter le Centre Antipoisons sans attendre les symptômes.",intro:"En Belgique, le Centre Antipoisons répond 24 h/24 au 070 245 245. En présence de symptômes potentiellement mortels ou d’une dégradation rapide, appelez le 112.",steps:["Appelez le Centre Antipoisons au 070 245 245 pour une exposition ou ingestion suspectée; n’attendez pas les symptômes.","Gardez l’emballage et la notice. Préparez le nom du produit, la quantité, l’heure, l’âge et l’état de la personne.","En cas de difficulté respiratoire, perte de connaissance, convulsions ou aggravation sévère, appelez immédiatement le 112.","En cas de contact du produit avec la peau ou les yeux, la brochure générale du Centre indique de rincer abondamment à l’eau."],avoid:"Ne faites pas vomir et ne donnez pas de lait comme antidote. Demandez une consigne adaptée au produit au Centre Antipoisons ou à un médecin.",sources:[["Centre Antipoisons — Quand appeler ?","https://www.centreantipoisons.be/quand-appeler/"],["Centre Antipoisons — Premiers soins (brochure)","https://www.centreantipoisons.be/sites/default/files/imce/AGC%20folder%20FR%20DEF.pdf"]]},
-{id:"inconscient",category:"Santé",title:"Personne inconsciente",summary:"Vérifier la respiration, alerter et placer en PLS si elle respire.",intro:"La fiche de la Croix-Rouge belge distingue la victime inconsciente qui respire de celle qui ne respire pas normalement. Appelez le 112 et suivez l’opérateur.",steps:["Vérifiez que vous pouvez approcher sans danger, puis stimulez doucement la personne en lui parlant et en touchant ses épaules.","Appelez le 112. Vérifiez sa respiration en regardant, écoutant et sentant selon la fiche Croix-Rouge.","Si elle respire normalement, placez-la en position latérale de sécurité (PLS), couvrez-la et surveillez sa respiration.","Si elle ne respire pas normalement, dites-le immédiatement au 112, faites apporter un défibrillateur et commencez la réanimation en suivant le régulateur."],avoid:"Ne laissez pas la personne seule. Réévaluez sa respiration pendant l’attente; si elle change ou s’arrête, prévenez tout de suite le 112.",sources:[["Croix-Rouge de Belgique — Fiche victime inanimée","https://ma.baos.croix-rouge.be/wp-content/uploads/2021/11/affiche-victime-inanimee.pdf"],["SPF Santé publique — Manuel belge de régulation médicale (PDF)","https://www.health.belgium.be/sites/default/files/media/files/2025-07/mbrm_112-1733_fr_final_signe.pdf"]]},
-{id:"monoxyde",category:"Habitat",title:"Suspicion de monoxyde de carbone",summary:"Sortir et appeler les secours sans se mettre en danger.",intro:"Le CO est un gaz dangereux. Les consignes belges insistent d’abord sur la sécurité du témoin et l’évacuation.",steps:["Ne pénétrez pas dans un local dangereux pour porter secours. Évitez de devenir une victime supplémentaire.","Si vous pouvez le faire sans risque, ouvrez portes et fenêtres; évacuez les personnes vers l’air libre.","Appelez le 112 et mentionnez une suspicion de monoxyde de carbone.","Ne réintégrez pas les lieux avant l’autorisation des services compétents."],avoid:"Ne tentez pas d’éteindre un appareil ou d’aérer si cela vous expose au danger.",sources:[["Belgium.be — Intoxication au monoxyde de carbone","https://www.belgium.be/fr/sante/vie_saine/habitat/intoxication_co"],["SPF Santé publique — Protocole belge CO","https://www.health.belgium.be/sites/default/files/uploads/fields/fpshealth_theme_file/protocoles_112_fr_220928_def.pdf"]]},
-{id:"eau",category:"Autonomie",title:"Eau : suivre les avis des autorités",summary:"Une eau limpide n’est pas une preuve de potabilité.",intro:"Cette première version ne donne pas de méthode universelle de potabilisation : une contamination chimique ne se traite pas comme une contamination microbiologique. En crise, suivez les avis des autorités et du distributeur d’eau.",steps:["Conservez de l’eau embouteillée dans le kit et suivez les recommandations locales de stockage.","En cas d’avis de non-potabilité, lisez la consigne exacte : elle peut concerner boire, cuisiner ou l’hygiène.","Si l’eau peut être polluée chimiquement ou si la nature du risque est inconnue, ne supposez pas que la faire bouillir la rend potable.","Consultez les autorités et le distributeur dès que la connexion est disponible."],avoid:"Pas de dosage improvisé de désinfectant, filtre ou ébullition proposé ici : la méthode dépend du contaminant et des instructions officielles.",sources:[["Centre de crise — Un kit d’urgence à la maison","https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison"],["Centre de crise — Information pendant une urgence","https://centredecrise.be/fr/que-pouvez-vous-faire/informez-vous/linformation-pendant-une-situation-durgence"]]},
-{id:"cartes",category:"Déplacement",title:"Utiliser une carte hors ligne",summary:"Préparer ses repères sans présumer qu’un itinéraire est sûr.",intro:"Organic Maps peut afficher les zones dont les cartes ont été téléchargées sur l’appareil. La disponibilité d’une carte ne confirme ni l’état du terrain, ni l’ouverture d’un service, ni la sécurité d’un parcours.",steps:["Téléchargez et vérifiez vos cartes dans Organic Maps avant de perdre la connexion.","Repérez à l’avance des adresses et points de rendez-vous; conservez-les aussi par écrit.","Le bouton carte transmet une position générique via un lien geo; Android peut proposer une application compatible.","En situation d’urgence, suivez les itinéraires et instructions donnés par les autorités."],avoid:"Les points cartographiés peuvent être incomplets ou anciens. Ne vous engagez pas sur un itinéraire dangereux parce qu’il apparaît sur la carte.",sources:[["Organic Maps — FAQ officielle (cartes, GPS, mises à jour)","https://organicmaps.app/faq/embedded-faq/"],["Centre de crise — Information pendant une urgence","https://centredecrise.be/fr/que-pouvez-vous-faire/informez-vous/linformation-pendant-une-situation-durgence"]]},
-{id:"arret-cardiaque",category:"Urgence médicale",title:"Arrêt cardiaque : personne inconsciente",summary:"Alerter le 112, faire apporter un défibrillateur et suivre le régulateur.",intro:"Si une personne ne réagit pas et ne respire pas normalement, chaque minute compte. Appelez le 112 en haut-parleur et suivez les instructions du régulateur. Cette fiche ne remplace pas une formation pratique.",steps:["Assurez-vous que vous pouvez intervenir sans danger.","Appelez le 112, de préférence en haut-parleur, et dites que la personne ne réagit pas et ne respire pas normalement.","Demandez à quelqu’un d’apporter un défibrillateur (DEA) si disponible.","Commencez la réanimation en suivant immédiatement les instructions du régulateur et les indications vocales du DEA.","Continuez jusqu’à la reprise d’une respiration normale, la relève par les secours ou une consigne contraire du régulateur."],avoid:"Ne retardez pas l’appel au 112 pour chercher des instructions sur Internet. Si vous doutez de la respiration, dites-le au régulateur et suivez sa conduite.",sources:[["Croix-Rouge de Belgique — Boîte à outils premiers secours","https://ma.baos.croix-rouge.be/application/"],["SPF Santé publique — 112","https://www.health.belgium.be/fr/themes/sante/aide-medicale-urgente/acteurs-laide-medicale-urgente/centrale-durgence-112"]]},
-{id:"etouffement",category:"Urgence médicale",title:"Étouffement",summary:"Obstruction complète : gestes immédiats et appel au 112.",intro:"Un étouffement grave est une urgence. La fiche de la Croix-Rouge belge indique d’alterner cinq claques dans le dos et cinq compressions abdominales jusqu’à la résolution ou la perte de connaissance.",steps:["Demandez à la personne si elle peut parler ou tousser. Si elle ne peut pas respirer ou tousser efficacement, demandez à quelqu’un d’appeler le 112.","Pour la conduite illustrée par la fiche adulte de la Croix-Rouge : donnez cinq claques dans le dos, puis cinq compressions abdominales; alternez et répétez.","Si l’obstruction ne se dégage pas ou si la personne perd connaissance, appelez le 112 et suivez les instructions du régulateur.","Après un épisode grave, demandez un avis médical, notamment après des compressions abdominales."],avoid:"Cette séquence illustrée est destinée à l’adulte. Les gestes diffèrent chez l’enfant et le nourrisson, ainsi que dans certaines situations : ouvrez la fiche adaptée de la Croix-Rouge ou suivez le 112.",sources:[["Croix-Rouge de Belgique — Fiche étouffement","https://ma.baos.croix-rouge.be/wp-content/uploads/2021/07/affiche-victime-etouffement.pdf"],["Croix-Rouge de Belgique — Gestes techniques","https://ma.baos.croix-rouge.be/fiches-techniques/"]]},
-{id:"hemorragie",category:"Urgence médicale",title:"Hémorragie",summary:"Appeler le 112, allonger la victime et comprimer la plaie.",intro:"La fiche de la Croix-Rouge belge recommande l’appel au 112, l’allongement de la victime et la compression directe de la plaie jusqu’à l’arrivée des secours.",steps:["Appelez le 112 ou demandez à quelqu’un de le faire.","Allongez la victime.","Exercez une compression directe sur la plaie et maintenez-la jusqu’à l’arrivée des secours.","Couvrez, rassurez et surveillez la victime; signalez toute évolution au 112."],avoid:"Ne relâchez pas la compression avant la relève des secours. N’improvisez pas de garrot : suivez la fiche complète et les instructions du régulateur.",sources:[["Croix-Rouge de Belgique — Fiche hémorragie","https://ma.baos.croix-rouge.be/wp-content/uploads/2021/07/affiche-hemorragie.pdf"],["Croix-Rouge de Belgique — Gestes techniques","https://ma.baos.croix-rouge.be/fiches-techniques/"]]},
-{id:"brulure",category:"Urgence médicale",title:"Brûlure grave",summary:"Appeler le 112 et refroidir selon la fiche de la Croix-Rouge.",intro:"Pour une brûlure grave, appelez le 112 et commencez le refroidissement en suivant les indications officielles. La fiche de la Croix-Rouge prévoit de poursuivre le refroidissement en attendant l’aide, tout en surveillant la victime.",steps:["Éloignez la personne de la source de chaleur seulement si cela peut se faire sans danger.","Appelez le 112 en cas de brûlure grave et suivez les instructions reçues.","Refroidissez la brûlure comme indiqué par la fiche officielle de la Croix-Rouge en attendant les secours.","Rassurez et surveillez la personne; signalez toute aggravation au régulateur."],avoid:"N’appliquez pas de glace, crème ou produit maison et ne décollez pas un vêtement collé à la peau. Utilisez la fiche officielle pour les étapes précises, particulièrement chez un enfant ou pour une brûlure étendue.",sources:[["Croix-Rouge de Belgique — Fiche brûlure grave","https://ma.baos.croix-rouge.be/wp-content/uploads/2021/08/affiche-brulure-grave.pdf"],["Croix-Rouge de Belgique — Gestes techniques","https://ma.baos.croix-rouge.be/fiches-techniques/"]]},
-{id:"douleur-thoracique",category:"Urgence médicale",title:"Douleur thoracique ou difficulté respiratoire",summary:"Un symptôme grave ou soudain justifie un appel au 112.",intro:"Une douleur thoracique importante ou une détresse respiratoire peut nécessiter une aide urgente. Les fiches de la Croix-Rouge belge orientent vers l’appel aux secours et les gestes immédiats.",steps:["Appelez le 112 si la douleur est intense ou soudaine, si la personne peine à respirer, s’effondre ou se dégrade.","Décrivez clairement les symptômes, leur début et l’état de la personne.","Laissez-la dans la position où elle respire le mieux et suivez les consignes du régulateur.","Restez auprès d’elle et surveillez tout changement jusqu’à l’arrivée des secours."],avoid:"Ne conduisez pas vous-même une personne en détresse si le 112 vous indique une prise en charge urgente. Ne donnez pas de médicament sur la base de cette fiche.",sources:[["Croix-Rouge de Belgique — Fiche détresse respiratoire","https://ma.baos.croix-rouge.be/wp-content/uploads/2021/08/affiche-detresse-respiratoire.pdf"],["Croix-Rouge de Belgique — Fiche douleur thoracique","https://ma.baos.croix-rouge.be/fiches-techniques/"]]},
-{id:"trouble-neurologique",category:"Urgence médicale",title:"Signes d’un trouble neurologique",summary:"Un changement brutal doit être décrit rapidement au 112.",intro:"Un trouble neurologique soudain figure parmi les situations d’urgence recensées par la Croix-Rouge de Belgique. Notez l’heure d’apparition si vous la connaissez et contactez les secours.",steps:["Appelez le 112 pour un trouble soudain comme une difficulté à parler, une faiblesse d’un côté ou un changement important de l’état de conscience.","Précisez l’heure à laquelle les signes ont commencé ou la dernière fois où la personne allait bien.","Suivez les consignes du régulateur et restez auprès de la personne.","Surveillez sa respiration et signalez immédiatement toute aggravation."],avoid:"Ne laissez pas la personne seule et ne lui donnez ni nourriture, ni boisson, ni médicament sans consigne médicale.",sources:[["Croix-Rouge de Belgique — Fiche troubles neurologiques","https://ma.baos.croix-rouge.be/wp-content/uploads/2021/07/affiche-troubles-neurologiques.pdf"],["Croix-Rouge de Belgique — Application premiers secours","https://ma.baos.croix-rouge.be/application/"]]},
-{id:"reserve-eau",category:"Eau potable",title:"Constituer une réserve d’eau",summary:"La recommandation belge prévoit 4 litres par personne et par jour en cas de pénurie.",intro:"Le Centre de crise national recommande de prévoir de l’eau potable et non potable. Il indique quatre litres par personne et par jour en cas de défaillance d’approvisionnement, pour quelques jours.",steps:["Calculez la réserve à partir du nombre de personnes et du nombre de jours envisagé : 4 litres par personne et par jour selon le Centre de crise.","Privilégiez des bouteilles d’eau du commerce conservées au frais et vérifiez leur date de péremption.","Gardez séparément une réserve non potable pour le nettoyage; marquez clairement les contenants.","Adaptez la réserve aux besoins du foyer et aux consignes des autorités si une pénurie survient."],avoid:"Cette quantité est le repère du Centre de crise pour une défaillance d’approvisionnement, pas une garantie adaptée à tous les besoins médicaux, à la chaleur ou à toute situation.",sources:[["Centre de crise — Défaillance de l’approvisionnement en eau potable","https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-eau-potable"]]},
-{id:"eau-suspecte",category:"Eau potable",title:"Eau suspecte : vérifier avant usage",summary:"La limpidité ne suffit pas; respecter l’avis lié au contaminant.",intro:"Les consignes après une interruption d’eau dépendent du problème. Une eau claire n’est pas une preuve de potabilité, et faire bouillir l’eau ne résout pas tous les types de contamination.",steps:["Recherchez l’avis du distributeur d’eau, de la commune ou des autorités dès que la connexion est disponible.","Vérifiez précisément les usages concernés : boire, préparer les aliments, se brosser les dents ou se laver.","Si la nature du risque est inconnue ou potentiellement chimique, n’utilisez pas l’eau pour boire ou cuisiner avant une consigne officielle.","Après une interruption, si l’eau du robinet est brune ou trouble, le Centre de crise indique de la laisser couler quelques minutes; restez attentif aux avis locaux."],avoid:"Ne supposez pas que l’ébullition, un filtre domestique ou un désinfectant rend une eau contaminée sûre. N’improvisez pas de dosage.",sources:[["Centre de crise — Défaillance de l’approvisionnement en eau potable","https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-eau-potable"],["Centre de crise — Informations pendant une urgence","https://centredecrise.be/fr/que-pouvez-vous-faire/informez-vous/linformation-pendant-une-situation-durgence"]]},
-{id:"panne-electricite",category:"Urgence à domicile",title:"Panne d’électricité",summary:"Économiser la batterie, garder les aliments froids et suivre les autorités.",intro:"Une panne peut durer plus longtemps que prévu. Les conseils du Centre de crise privilégient la préparation, la conservation du froid et l’information officielle.",steps:["Éclairez-vous avec une lampe; le Centre de crise déconseille de privilégier les bougies.","Gardez portes et fenêtres du réfrigérateur et du congélateur fermées autant que possible.","Utilisez des aliments qui ne nécessitent pas de cuisson et limitez les déplacements inutiles.","Préservez la charge du téléphone, utilisez une batterie externe et écoutez la radio si les réseaux sont perturbés.","Suivez les consignes des autorités et vérifiez la sécurité des aliments si la panne a duré."],avoid:"N’utilisez jamais un barbecue, groupe électrogène ou appareil à combustion à l’intérieur. En cas d’odeur de gaz ou de danger, éloignez-vous et contactez les secours adaptés.",sources:[["Centre de crise — Défaillance de l’approvisionnement en électricité","https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-electricite"]]},
-{id:"mise-abri",category:"Urgence à domicile",title:"Quand les autorités demandent de se mettre à l’abri",summary:"Rester dans un bâtiment peut être plus sûr qu’évacuer de son propre chef.",intro:"Le Centre de crise cite notamment les orages violents, inondations, fuites chimiques et dégagements de fumée. La bonne conduite dépend du danger et des instructions reçues.",steps:["Suivez l’avis officiel indiquant où et combien de temps vous mettre à l’abri.","Rejoignez le bâtiment le plus proche et restez à l’intérieur jusqu’à nouvel avis.","Fermez portes et fenêtres. Pour certains risques chimiques ou nucléaires, les autorités peuvent aussi demander d’arrêter la ventilation; suivez la consigne précise.","Écoutez les canaux officiels et évitez d’aller chercher des enfants à l’école si les autorités demandent de rester à l’abri."],avoid:"Ne sortez pas et n’évacuez pas de votre propre initiative pendant une consigne de mise à l’abri. Les gestes dépendent du scénario : une consigne générique ne remplace pas l’alerte locale.",sources:[["Centre de crise — Se mettre à l’abri","https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/se-mettre-labri"]]},
-{id:"evacuation",category:"Urgence à domicile",title:"Préparer et suivre une évacuation",summary:"Préparer les sorties et le sac; évacuer selon les instructions officielles.",intro:"Une évacuation locale n’est pas toujours plus sûre qu’une mise à l’abri. Le Centre de crise demande de suivre les instructions des autorités et de se préparer à partir rapidement.",steps:["À l’avance, choisissez un lieu de rendez-vous et une personne de contact; prévoyez l’aide aux enfants et aux personnes ayant des besoins spécifiques.","Gardez un petit sac accessible avec papiers, médicaments essentiels, eau, téléphone, chargeur, clés et contacts papier.","Si les autorités ordonnent l’évacuation, suivez l’itinéraire et les consignes données.","En cas de danger immédiat chez vous, sortez par une issue sûre sans perdre de temps à rassembler des affaires.","Quand c’est possible sans danger, emportez les animaux selon les consignes des services de secours."],avoid:"N’évacuez pas un quartier de votre propre initiative lors d’un incident collectif; les autorités peuvent considérer qu’il est plus sûr de rester à l’abri. En danger immédiat, ne retardez pas la sortie pour le kit.",sources:[["Centre de crise — Évacuer","https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/evacuer"],["Centre de crise — Plan d’urgence à la maison","https://centredecrise.be/fr/que-pouvez-vous-faire/faites-un-plan/un-plan-la-maison"]]},
-{id:"inondation",category:"Urgence à domicile",title:"Inondation : réduire le risque",summary:"Éviter l’eau en mouvement, libérer le 112 pour les vies en danger.",intro:"Les consignes du Centre de crise distinguent l’aide non urgente des pompiers et le danger vital. Les eaux rapides ou troubles sont dangereuses; suivez toute demande d’évacuation.",steps:["Préparez-vous à l’avance : repérez les zones à risque, protégez les documents en hauteur et sachez où couper les arrivées si cela peut se faire sans danger.","Pendant l’inondation, limitez les déplacements et éloignez-vous des zones dangereuses.","Appelez le 112 si une personne est potentiellement en danger de mort; pour une aide non urgente des pompiers, suivez les canaux 1722 actifs.","Si les autorités demandent d’évacuer, suivez leurs instructions et leur itinéraire.","Ne marchez pas et ne conduisez pas dans l’eau dont la profondeur ou le courant sont incertains."],avoid:"Ne traversez pas une chaussée inondée et ne descendez pas dans une cave inondée si l’eau peut être en contact avec l’électricité. N’utilisez pas le 112 pour un dégât non urgent.",sources:[["Centre de crise — Inondation pluviale","https://centredecrise.be/fr/risques-en-belgique/risques-naturels/inondation-pluviale-eaux-de-ruissellement"],["Centre de crise — Évacuer","https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/evacuer"]]}
+ {
+  "id": "appel-112",
+  "category": "Urgence",
+  "title": "Appeler les secours en Belgique",
+  "summary": "Préparer les gestes utiles, et savoir ce que le téléphone ne peut pas faire hors réseau.",
+  "intro": "Un smartphone hors réseau ne peut pas joindre le 112. La fiche d’urgence reste utile pour les gestes ci-dessous; l’appel, les alertes et l’arrivée des secours dépendent d’un moyen de communication et de secours disponibles.",
+  "steps": [
+   "Si un téléphone dispose d’un réseau, composez le 112 pour ambulance ou pompiers; le 101 concerne la police urgente. Donnez l’adresse précise, le type d’événement et le nombre de personnes blessées.",
+   "Sans réseau, demandez à une personne d’aller chercher de l’aide ou de transmettre un message à un voisin, un poste de secours ou un lieu occupé; dites où vous êtes et ce qui est nécessaire. Ne quittez pas une victime instable sans relais.",
+   "Commencez immédiatement les gestes de premiers secours adaptés aux fiches de cette application; demandez à quelqu’un de préparer l’accès aux secours et d’apporter un défibrillateur s’il y en a un.",
+   "Réessayez l’appel quand un réseau est disponible. Si l’appel aboutit, suivez les consignes de l’opérateur et ne raccrochez pas avant son accord."
+  ],
+  "avoid": "Aucune application ne peut remplacer un réseau téléphonique ou faire venir des secours par elle-même. En l’absence durable de communication, ces fiches expliquent les gestes de base mais ne garantissent ni diagnostic ni prise en charge.",
+  "sources": [
+   [
+    "Centre de crise national — Appeler le 112",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"
+   ]
+  ]
+ },
+ {
+  "id": "kit",
+  "category": "Préparation",
+  "title": "Préparer un kit pour 72 heures",
+  "summary": "Constituer un stock concret pour les premières 72 heures, adapté au foyer.",
+  "intro": "Le Centre de crise national recommande de pouvoir faire face aux premières 72 heures. Les besoins varient avec le nombre de personnes, les traitements, l’âge, les animaux et la saison.",
+  "steps": [
+   "Eau : prévoyez le repère belge de 4 litres par personne et par jour, soit 12 litres par personne pour 3 jours; prévoyez en plus de l’eau non potable pour nettoyer.",
+   "Nourriture qui se conserve et se mange sans cuisson, ouvre-boîte manuel et nourriture spéciale des enfants ou animaux.",
+   "Trousse de premiers soins avec compresses, pansements, bandes, gants, ciseaux; médicaments habituels et ordonnances utiles, sans modifier les traitements.",
+   "Lampe à piles ou dynamo, piles de rechange, radio à piles/dynamo, batteries externes chargées, câbles et chargeur solaire compatible.",
+   "Hygiène : savon, gel hydroalcoolique, lingettes, papier toilette, sacs résistants, protections menstruelles et couches si nécessaires.",
+   "Ajoutez copies papier de contacts et documents importants, espèces, clés, vêtements chauds et plan familial; stockez au sec et contrôlez régulièrement les dates."
+  ],
+  "avoid": "Les 4 L par personne et par jour sont le repère de préparation du Centre de crise; chaleur, maladie, allaitement et autres besoins peuvent demander davantage. Ne stockez pas le kit en cave exposée aux inondations.",
+  "sources": [
+   [
+    "Centre de crise national — Kit d’urgence à la maison",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison"
+   ],
+   [
+    "Centre de crise national — Défaillance de l’approvisionnement en eau",
+    "https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-eau-potable"
+   ]
+  ]
+ },
+ {
+  "id": "be-alert",
+  "category": "Préparation",
+  "title": "Recevoir les alertes officielles",
+  "summary": "Préparer l’information quand Internet et les alertes téléphoniques ne passent plus.",
+  "intro": "BE-Alert envoie des messages lorsque le téléphone et le réseau fonctionnent. Cette fiche n’affiche pas de nouvelles alertes hors ligne : elle donne un plan de remplacement matériel.",
+  "steps": [
+   "Avant une crise, inscrivez vos lieux importants à BE-Alert et écrivez sur papier les numéros, adresses, médicaments et points de rendez-vous de votre foyer.",
+   "Gardez une radio à piles ou à dynamo et des piles de rechange; écoutez les consignes locales si les émissions sont disponibles.",
+   "Désignez un point de rencontre proche et un point hors du quartier; convenez d’une personne-contact à l’extérieur de la zone.",
+   "Quand le réseau fonctionne, suivez la consigne la plus récente des autorités; notez son heure et sa source afin de ne pas confondre avec une ancienne information."
+  ],
+  "avoid": "Une fiche enregistrée ou une capture d’écran n’est pas une alerte actuelle. Sans signal radio ou réseau, cette application ne peut pas connaître une nouvelle consigne.",
+  "sources": [
+   [
+    "Centre de crise — BE-Alert",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/informez-vous/be-alert-des-alertes-sur-votre-telephone"
+   ],
+   [
+    "Centre de crise — information pendant une urgence",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/informez-vous/linformation-pendant-une-situation-durgence"
+   ],
+   [
+    "Centre de crise national — Kit d’urgence à la maison",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison"
+   ]
+  ]
+ },
+ {
+  "id": "intoxication",
+  "category": "Santé",
+  "title": "Suspicion d’intoxication",
+  "summary": "Protéger le témoin, interrompre l’exposition et conserver les éléments utiles.",
+  "intro": "Une intoxication peut venir d’un produit avalé, inhalé ou projeté. Les premiers gestes généraux peuvent être faits hors réseau; l’identification d’un produit précis et son traitement ne peuvent pas être déterminés par cette fiche.",
+  "steps": [
+   "Protégez-vous d’abord. N’entrez pas dans une pièce avec des vapeurs ou une victime inconsciente; sortez à l’air libre sans traverser la zone contaminée.",
+   "Gaz inhalé : emmenez la personne à l’air frais uniquement si vous pouvez le faire sans vous exposer; laissez-la au repos.",
+   "Produit sur la peau ou dans les yeux : rincez immédiatement et abondamment à l’eau courante; retirez les vêtements contaminés si cela peut se faire sans danger.",
+   "Produit avalé : rincez la bouche. Ne faites pas vomir et ne donnez pas de lait. Ne donnez rien d’autre sans consigne spécifique au produit.",
+   "Gardez l’emballage, la notice et le nom du produit; notez heure, quantité possible, âge/poids et symptômes. Si la personne est inconsciente, convulse ou respire mal, positionnez-la selon sa respiration et faites rechercher de l’aide immédiatement."
+  ],
+  "avoid": "Il n’existe pas d’antidote universel. Les conseils téléphoniques du Centre Antipoisons nécessitent un téléphone et un réseau; ne laissez pas l’absence de réseau vous pousser à provoquer un vomissement ou à improviser un antidote.",
+  "sources": [
+   [
+    "Centre Antipoisons belge — Premiers soins (brochure)",
+    "https://www.centreantipoisons.be/sites/default/files/imce/AGC%20folder%20FR%20DEF.pdf"
+   ],
+   [
+    "Croix-Rouge de Belgique — Malaise grave (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Malaisegrave-Croix-RougedeBelgique.pdf"
+   ],
+   [
+    "Centre de crise national — Appeler le 112",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"
+   ]
+  ]
+ },
+ {
+  "id": "inconscient",
+  "category": "Santé",
+  "title": "Personne inconsciente",
+  "summary": "Vérifier la respiration en 10 secondes au plus et agir selon son état.",
+  "intro": "Les affiches de la Croix-Rouge belge distinguent respiration normale et respiration anormale ou absente. Le contrôle et les gestes suivants sont intégrés ici pour rester lisibles sans connexion.",
+  "steps": [
+   "Vérifiez que l’endroit est sûr. Parlez à la personne et stimulez doucement ses épaules. Si elle ne réagit pas, appelez à l’aide.",
+   "Ouvrez les voies respiratoires en basculant délicatement la tête en arrière et en soulevant le menton. Pendant au plus 10 secondes, regardez si le thorax bouge et écoutez/sentez la respiration.",
+   "Respiration normale : placez la personne sur le côté en position latérale de sécurité, couvrez-la et surveillez continuellement sa respiration.",
+   "Respiration absente, irrégulière ou seulement haletante : traitez comme un arrêt cardiaque et commencez la réanimation de la fiche dédiée.",
+   "Si le réseau revient, faites appeler le 112; autrement envoyez une personne chercher physiquement de l’aide. Ne laissez pas la victime seule."
+  ],
+  "avoid": "Ne confondez pas des halètements isolés avec une respiration normale. Si la personne a subi un traumatisme important, déplacez-la le moins possible sauf danger immédiat.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — RCP adulte (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-adulte-Croix-Rouge-de-Belgique-2.pdf"
+   ],
+   [
+    "Croix-Rouge de Belgique — RCP enfant (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-enfant-Croix-Rouge-de-Belgique-2.pdf"
+   ],
+   [
+    "Centre de crise national — Appeler le 112",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"
+   ]
+  ]
+ },
+ {
+  "id": "monoxyde",
+  "category": "Habitat",
+  "title": "Suspicion de monoxyde de carbone",
+  "summary": "Évacuer sans s’exposer : le CO est invisible et peut tuer sans avertissement.",
+  "intro": "Le monoxyde de carbone (CO) est incolore et inodore. Maux de tête, vertiges, nausées, confusion ou perte de connaissance dans un logement avec combustion peuvent alerter; l’absence d’odeur ne rassure pas.",
+  "steps": [
+   "N’entrez pas dans une pièce à risque et ne retournez pas chercher quelqu’un si vous-même seriez exposé. Évitez de devenir une deuxième victime.",
+   "Faites sortir les personnes vers l’air libre si vous pouvez le faire sans traverser une zone dangereuse.",
+   "Depuis l’extérieur, faites prévenir les secours dès qu’un téléphone/réseau est disponible et signalez le risque CO.",
+   "Aérez ou coupez l’appareil uniquement si vous pouvez le faire sans danger; sinon laissez cela aux secours. Gardez les personnes au repos et surveillez conscience et respiration.",
+   "Ne rentrez pas dans le bâtiment avant l’autorisation des services compétents et le contrôle de l’installation."
+  ],
+  "avoid": "Un appareil de chauffage, barbecue, groupe électrogène ou réchaud à combustion ne doit pas être utilisé dans un espace clos pour se chauffer ou cuisiner.",
+  "sources": [
+   [
+    "Belgium.be — Intoxication au monoxyde de carbone",
+    "https://www.belgium.be/fr/sante/vie_saine/habitat/intoxication_co"
+   ],
+   [
+    "SPF Santé publique — Protocoles 112 (PDF)",
+    "https://www.health.belgium.be/sites/default/files/uploads/fields/fpshealth_theme_file/protocoles_112_fr_220928_def.pdf"
+   ],
+   [
+    "Centre Antipoisons — accident CO (PDF)",
+    "https://www.centreantipoisons.be/sites/default/files/imce/Brochure%20CAP_Prevenir%20l%27intoxication%20au%20CO_FR_web.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "eau",
+  "category": "Autonomie",
+  "title": "Eau : suivre les avis des autorités",
+  "summary": "Choisir une méthode adaptée au risque; ébullition et filtre ne retirent pas les produits chimiques.",
+  "intro": "Quand le réseau d’eau est interrompu, une eau claire n’est pas une preuve de potabilité. Le contenu ci-dessous décrit les méthodes microbiologiques de secours et leurs limites; un avis de pollution chimique exige une autre eau.",
+  "steps": [
+   "D’abord, utilisez l’eau en bouteille ou une réserve correctement stockée. En cas d’avis local, suivez exactement ce qui est interdit ou autorisé; une consigne locale prévaut sur cette fiche.",
+   "Si la seule inquiétude est microbienne et qu’aucune pollution chimique n’est suspectée : laissez les particules se déposer ou préfiltrez l’eau trouble à travers un tissu propre, puis portez l’eau claire à gros bouillons pendant 1 minute. Laissez refroidir à couvert. Le tissu ne désinfecte pas.",
+   "Si faire bouillir est impossible : utilisez un produit explicitement prévu pour désinfecter l’eau potable et suivez son étiquette pour le volume exact et le temps d’attente.",
+   "Repère CDC uniquement si l’étiquette confirme de l’eau de Javel liquide simple, non parfumée, sans additif, contenant 5 à 9 % d’hypochlorite de sodium : 2 gouttes (ou 0,1 ml) par litre d’eau claire, mélanger et attendre 30 minutes; eau trouble/colorée/très froide : doubler après préfiltration/décantation. Cette dose américaine n’est pas transposable à un produit belge d’une autre concentration.",
+   "Pour une eau suspectée de carburant, pesticide, métal, produit industriel, toxine ou contamination inconnue : ne la buvez pas. Ni ébullition, ni désinfectant, ni filtre courant ne garantissent qu’elle soit sûre. Cherchez une source scellée ou une distribution potable.",
+   "Transvasez l’eau traitée dans un récipient propre, alimentaire, fermé et réservé à l’eau potable."
+  ],
+  "avoid": "Ne mélangez jamais l’eau de Javel avec un acide, vinaigre, ammoniaque ou autre nettoyant : des gaz dangereux peuvent se dégager. Si la concentration ou le type du produit n’est pas lisible, n’improvisez pas de dose.",
+  "sources": [
+   [
+    "Centre de crise national — Défaillance de l’approvisionnement en eau",
+    "https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-eau-potable"
+   ],
+   [
+    "CDC (États-Unis) — Rendre l’eau plus sûre en urgence",
+    "https://www.cdc.gov/water-emergency/about/"
+   ],
+   [
+    "SWDE — Avis de non-potabilité (système de couleurs SWDE)",
+    "https://www.swde.be/fr/qualite-de-leau-eau-non-potable"
+   ]
+  ]
+ },
+ {
+  "id": "cartes",
+  "category": "Déplacement",
+  "title": "Utiliser une carte hors ligne",
+  "summary": "Préparer des repères cartographiques avant la coupure, sans supposer qu’une route est praticable.",
+  "intro": "Organic Maps peut afficher les cartes téléchargées sur le téléphone sans Internet. Ce guide contient aussi les étapes de préparation; les lieux et voies cartographiés peuvent être incomplets ou anciens.",
+  "steps": [
+   "Avant la crise, téléchargez les cartes utiles de Belgique et des zones de repli, puis ouvrez l’application en mode avion pour vérifier leur présence.",
+   "Enregistrez des repères personnels utiles et notez leurs adresses/coordonnées sur papier : domicile, points de rendez-vous, contacts et itinéraires alternatifs.",
+   "Une carte hors ligne aide à se situer mais ne montre pas forcément routes fermées, inondations, incendies, dangers ou services disponibles. Vérifiez le terrain et les consignes reçues.",
+   "Si le GPS ne fixe pas ou si le téléphone s’éteint, utilisez la carte papier et les repères visibles; économisez la batterie et gardez l’appareil au chaud et au sec."
+  ],
+  "avoid": "Le bouton de carte ouvre une autre application lorsqu’Android l’autorise. Il ne transmet aucune alerte et ne garantit ni guidage vocal hors ligne ni route sûre.",
+  "sources": [
+   [
+    "Organic Maps — FAQ officielle",
+    "https://organicmaps.app/faq/embedded-faq/"
+   ]
+  ]
+ },
+ {
+  "id": "arret-cardiaque",
+  "category": "Urgence médicale",
+  "title": "Arrêt cardiaque : personne inconsciente",
+  "summary": "En l’absence de respiration normale, commencer la RCP et utiliser un défibrillateur s’il est disponible.",
+  "intro": "Cette séquence correspond à l’affiche actuelle de la Croix-Rouge belge pour les adultes à partir d’environ 12 ans. Les gestes sont écrits ici; l’appel au 112 ou l’arrivée des secours ne sont pas possibles sans moyen de communication.",
+  "steps": [
+   "Vérifiez la sécurité. Appelez la personne et secouez doucement ses épaules. Si elle ne répond pas, demandez de l’aide et faites apporter un défibrillateur si quelqu’un en trouve un.",
+   "Basculez doucement la tête en arrière, soulevez le menton et contrôlez la respiration pendant 10 secondes au maximum. Des halètements isolés ne sont pas une respiration normale.",
+   "Si la respiration est normale, placez la personne sur le côté et surveillez-la. Si elle n’est pas normale ou est absente, allongez-la sur le dos sur un sol ferme.",
+   "Commencez 30 compressions rapides et fortes au centre du thorax. Laissez le thorax remonter entre les compressions.",
+   "Ouvrez les voies respiratoires et faites 2 insufflations douces, juste assez pour voir le thorax se soulever. Reprenez aussitôt les compressions.",
+   "Continuez les cycles 30 compressions / 2 insufflations. Si vous ne pouvez pas ou ne voulez pas insuffler, faites des compressions continues.",
+   "Dès qu’un défibrillateur est disponible, allumez-le, posez les électrodes comme indiqué sur les dessins et suivez ses instructions vocales; ne touchez pas la personne pendant l’analyse/choc. Reprenez la RCP dès que l’appareil le demande."
+  ],
+  "avoid": "Cette fiche est la séquence adulte de la Croix-Rouge. Pour un enfant ou un bébé, la fiche dédiée diffère. Ne retardez pas les compressions pour chercher un tutoriel en ligne.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — RCP adulte (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-adulte-Croix-Rouge-de-Belgique-2.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "etouffement",
+  "category": "Urgence médicale",
+  "title": "Étouffement",
+  "summary": "Si la toux reste efficace, laisser tousser; si l’obstruction est complète, alterner tapes et poussées.",
+  "intro": "Cette séquence de la Croix-Rouge belge s’applique à partir de 1 an. Une toux sonore signifie que l’air passe encore; les gestes ci-dessous concernent une personne qui ne peut plus parler/tousser efficacement.",
+  "steps": [
+   "Si la personne tousse fort et peut respirer, encouragez-la à tousser. Ne donnez ni tape ni poussée tant que sa toux reste efficace.",
+   "Si elle ne peut plus parler, respirer ou tousser : penchez-la vers l’avant et donnez 5 tapes sèches entre les omoplates, en vérifiant après chaque tape si l’objet est sorti.",
+   "Si cela échoue, placez-vous derrière elle. Mettez un poing juste au-dessus du nombril, saisissez-le avec l’autre main et faites 5 poussées brusques vers l’intérieur et vers le haut.",
+   "Alternez 5 tapes dans le dos et 5 poussées abdominales jusqu’à expulsion de l’objet ou perte de connaissance.",
+   "Si elle s’effondre, allongez-la, faites rechercher de l’aide et commencez la réanimation de la fiche adulte ou enfant selon son âge.",
+   "Après expulsion, la Croix-Rouge conseille une évaluation pour écarter une complication; si la personne respire difficilement ou se dégrade, urgence immédiate."
+  ],
+  "avoid": "Ne mettez pas les doigts à l’aveugle dans la bouche. N’utilisez jamais les poussées abdominales pour un bébé de moins d’un an : voir la fiche bébé.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Étouffement dès 1 an (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-D-sobstruction-enfant-adulte-Croix-Rouge-de-Belgique-2.pdf"
+   ],
+   [
+    "Croix-Rouge de Belgique — Étouffement du bébé (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-D-sobstruction-b-b-Croix-Rouge-de-Belgique-2.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "hemorragie",
+  "category": "Urgence médicale",
+  "title": "Hémorragie",
+  "summary": "Se protéger si possible, allonger et maintenir une pression ferme directement sur la plaie.",
+  "intro": "Pour une hémorragie abondante, l’affiche de la Croix-Rouge belge recommande une compression maintenue. La priorité est d’arrêter le saignement sans exposer le sauveteur.",
+  "steps": [
+   "Assurez-vous qu’il n’y a pas de danger et mettez des gants si vous en avez. Faites allonger la personne.",
+   "Posez une compresse ou un tissu propre sur la plaie et appuyez fermement directement dessus avec la main. Maintenez la pression sans relâcher pour vérifier.",
+   "Si le tissu est saturé, ne l’arrachez pas : ajoutez du tissu par-dessus et continuez à appuyer. Si possible, maintenez la compression avec une bande.",
+   "Gardez la personne au repos et au chaud, surveillez sa conscience et sa respiration. Faites chercher de l’aide et le 112 dès qu’un moyen de communication existe.",
+   "Si un objet est planté dans la plaie, ne le retirez pas et n’appuyez pas dessus; appuyez autour et stabilisez l’objet."
+  ],
+  "avoid": "Ne relâchez pas la pression pour inspecter la plaie. N’improvisez pas de garrot, sauf formation et matériel prévus pour cette situation.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Plaie et hémorragie (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Hemorragieetplaie-Croix-Rouge-de-Belgique.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "brulure",
+  "category": "Urgence médicale",
+  "title": "Brûlure grave",
+  "summary": "Refroidir à l’eau courante, retirer ce qui ne colle pas, couvrir et reconnaître les brûlures graves.",
+  "intro": "La Croix-Rouge belge demande de refroidir une brûlure sous l’eau courante; pour une brûlure grave, de maintenir sous l’eau et d’alerter les secours. Les étapes ci-dessous précisent quoi faire sans lien Internet.",
+  "steps": [
+   "Éloignez la personne de la source de chaleur sans vous mettre en danger. Arrêtez la combustion.",
+   "Refroidissez la zone sous de l’eau courante fraîche/tiède, à faible débit, jusqu’à ce que la douleur diminue. Ne retardez pas le refroidissement pour chercher un produit.",
+   "Pendant le refroidissement, retirez bijoux et vêtements proches de la zone s’ils ne sont pas collés à la peau. Ne décollez jamais un tissu adhérent.",
+   "Après diminution de la douleur, couvrez la brûlure avec un pansement stérile non adhérent ou un linge propre. Gardez le reste du corps au chaud.",
+   "Brûlure étendue, peau cartonnée, zone sensible, douleur persistante, inhalation de fumée ou personne très jeune/fragile : faites chercher une aide urgente; si téléphone et réseau disponibles, 112.",
+   "Brûlure chimique : protégez-vous et rincez immédiatement et abondamment à l’eau courante; retirez les vêtements souillés sans exposer la peau saine ou le sauveteur. Ne tentez jamais de neutraliser avec un autre produit."
+  ],
+  "avoid": "Pas de glace, beurre, huile, crème ou poudre. Ne percez pas les cloques et ne décollez pas les vêtements collés. Une brûlure grave peut provoquer un choc : surveillez respiration et conscience.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Brûlure (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Brulure-Croix-RougedeBelgique.pdf"
+   ],
+   [
+    "Centre Antipoisons belge — Premiers soins (brochure)",
+    "https://www.centreantipoisons.be/sites/default/files/imce/AGC%20folder%20FR%20DEF.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "douleur-thoracique",
+  "category": "Urgence médicale",
+  "title": "Douleur thoracique ou difficulté respiratoire",
+  "summary": "Arrêter l’effort, mettre au repos et observer respiration et conscience.",
+  "intro": "Une douleur thoracique forte, une détresse respiratoire ou une aggravation brutale sont des signes de malaise grave dans les repères Croix-Rouge belges. La fiche reste centrée sur ce que le témoin peut faire immédiatement.",
+  "steps": [
+   "Faites cesser l’effort. Aidez la personne à s’installer dans la position où elle respire le mieux et desserrez les vêtements serrés.",
+   "Restez auprès d’elle, gardez-la au calme et au chaud; observez continuellement sa conscience et sa respiration.",
+   "Ne lui faites pas marcher et ne la conduisez pas vous-même si elle est en détresse. Ne donnez pas de médicament qui ne lui a pas été prescrit pour cette situation.",
+   "Si elle perd connaissance mais respire normalement, placez-la sur le côté; si elle ne respire pas normalement, commencez la RCP.",
+   "Dès qu’un téléphone/réseau est disponible, faites appeler le 112 en précisant douleur thoracique ou difficulté respiratoire."
+  ],
+  "avoid": "Ne banalisez pas une douleur thoracique et ne faites pas boire, manger ou prendre un médicament sur la base de cette fiche.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Malaise grave (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Malaisegrave-Croix-RougedeBelgique.pdf"
+   ],
+   [
+    "Croix-Rouge de Belgique — RCP adulte (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-adulte-Croix-Rouge-de-Belgique-2.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "trouble-neurologique",
+  "category": "Urgence médicale",
+  "title": "Signes d’un trouble neurologique",
+  "summary": "Repérer visage, bras, parole; noter l’heure et éviter tout effort.",
+  "intro": "Une déformation du visage, l’impossibilité de lever un bras ou une difficulté à parler figurent parmi les signes d’AVC rappelés par la Croix-Rouge belge.",
+  "steps": [
+   "Demandez à la personne de sourire, de lever les deux bras et de répéter une phrase simple; observez asymétrie, faiblesse d’un bras ou parole inhabituelle.",
+   "Notez l’heure où les signes ont commencé ou la dernière fois où la personne allait bien.",
+   "Faites-la s’asseoir ou s’allonger en sécurité, évitez tout effort et restez auprès d’elle. Surveillez la respiration et la conscience.",
+   "Ne donnez ni nourriture, ni boisson, ni médicament. Si elle vomit ou devient inconsciente tout en respirant, mettez-la sur le côté.",
+   "Dès qu’un moyen de communication existe, alertez immédiatement le 112 et décrivez les signes et l’heure de début."
+  ],
+  "avoid": "Même si les signes disparaissent, ne concluez pas que le danger est passé. Cette fiche ne pose pas de diagnostic.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Malaise grave (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Malaisegrave-Croix-RougedeBelgique.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "reserve-eau",
+  "category": "Eau potable",
+  "title": "Constituer une réserve d’eau",
+  "summary": "Prévoir 12 litres d’eau par personne pour trois jours, plus une réserve non potable.",
+  "intro": "Le Centre de crise belge indique quatre litres par personne et par jour pendant une défaillance d’approvisionnement. La quantité est un repère de préparation à adapter aux besoins particuliers.",
+  "steps": [
+   "Calculez le minimum du foyer : nombre de personnes × 4 litres × nombre de jours; pour 3 jours, cela représente 12 litres par personne.",
+   "Gardez une réserve distincte d’eau non potable pour le nettoyage et les usages non alimentaires. Étiquetez clairement chaque récipient.",
+   "Privilégiez l’eau commerciale en bouteille pour le stockage; conservez-la au frais, à l’abri du soleil et des produits chimiques, en surveillant sa date.",
+   "Pour remplir un récipient, utilisez un contenant alimentaire propre avec couvercle; ne réutilisez pas un récipient ayant contenu carburant, pesticide ou produit ménager.",
+   "Faites tourner la réserve, notez la date de stockage et vérifiez les besoins d’enfants, de personnes malades et d’animaux."
+  ],
+  "avoid": "Ne considérez pas l’eau de pluie, de rivière, de piscine ou d’un chauffe-eau comme potable sans méthode adaptée et sans tenir compte des contaminants possibles.",
+  "sources": [
+   [
+    "Centre de crise national — Défaillance de l’approvisionnement en eau",
+    "https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-eau-potable"
+   ],
+   [
+    "CDC — Stockage sûr de l’eau",
+    "https://www.cdc.gov/global-water-sanitation-hygiene/about/about-safe-water-storage.html"
+   ]
+  ]
+ },
+ {
+  "id": "eau-suspecte",
+  "category": "Eau potable",
+  "title": "Eau suspecte : vérifier avant usage",
+  "summary": "Identifier l’avis en vigueur; ne pas déduire la potabilité de l’aspect ou du goût.",
+  "intro": "Une eau limpide peut contenir des microbes ou des contaminants invisibles. Les couleurs ci-dessous décrivent le système de la SWDE en Wallonie uniquement; d’autres distributeurs peuvent employer d’autres codes.",
+  "steps": [
+   "Lisez l’avis reçu et identifiez le distributeur, la commune, la zone, la date et les usages concernés.",
+   "Dans les avis SWDE : rouge = eau non potable, ne pas boire même bouillie; orange = ébullition demandée avant consommation; vert = incident terminé et eau déclarée potable. Vérifiez le texte complet de l’avis.",
+   "Si l’eau a une odeur ou un film de carburant, est touchée par une pollution chimique, ou si la contamination est inconnue, ne la buvez pas et ne la faites pas bouillir pour essayer de la rendre sûre.",
+   "Pour un avis d’ébullition microbiologique, utilisez une autre eau ou faites bouillir l’eau selon la durée indiquée par l’avis; si aucune durée n’est donnée et que le seul risque est microbien, le repère CDC est un bouillon franc pendant 1 minute.",
+   "À défaut d’information et d’eau de remplacement, conservez l’échantillon/avis, évitez l’ingestion et cherchez une source en bouteille ou une distribution organisée dès qu’elle est accessible."
+  ],
+  "avoid": "L’ébullition ne neutralise pas les produits chimiques, toxines ou métaux. La couleur ou l’absence d’odeur ne suffit pas à établir qu’une eau est potable.",
+  "sources": [
+   [
+    "SWDE — Avis de non-potabilité (système de couleurs SWDE)",
+    "https://www.swde.be/fr/qualite-de-leau-eau-non-potable"
+   ],
+   [
+    "Centre de crise national — Défaillance de l’approvisionnement en eau",
+    "https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-eau-potable"
+   ],
+   [
+    "CDC (États-Unis) — Rendre l’eau plus sûre en urgence",
+    "https://www.cdc.gov/water-emergency/about/"
+   ]
+  ]
+ },
+ {
+  "id": "panne-electricite",
+  "category": "Urgence à domicile",
+  "title": "Panne d’électricité",
+  "summary": "Économiser la batterie, conserver les aliments et éviter le CO et l’incendie.",
+  "intro": "Les coupures peuvent interrompre chauffage, eau, télécommunications et conservation des médicaments/aliments. Ces mesures concrètes sont disponibles hors ligne.",
+  "steps": [
+   "Utilisez d’abord la lampe de poche; gardez les bougies comme dernier recours et ne les laissez jamais sans surveillance.",
+   "Laissez réfrigérateur et congélateur fermés. Un réfrigérateur fermé garde les aliments froids environ 4 heures; un congélateur plein environ 48 heures, à moitié plein environ 24 heures.",
+   "Ne goûtez jamais un aliment pour décider s’il est sûr. Jetez les denrées périssables du réfrigérateur après 4 heures sans froid, et les aliments décongelés du congélateur s’ils ne contiennent plus de cristaux de glace et ne sont plus froids.",
+   "Économisez la batterie : baissez la luminosité, utilisez le mode avion si vous n’avez pas besoin d’un réseau, gardez téléphone et batterie externe au chaud et consultez la radio sur piles/dynamo.",
+   "Ne faites jamais fonctionner barbecue, groupe électrogène ou réchaud à combustion à l’intérieur, dans un garage ou près d’une fenêtre; le monoxyde de carbone est mortel et inodore.",
+   "Pour une personne dépendant d’un appareil médical ou d’un médicament réfrigéré, appliquez le plan de secours établi avec le soignant; la PWA ne peut pas confirmer la stabilité d’un médicament."
+  ],
+  "avoid": "N’utilisez pas le four ou un appareil à combustion pour chauffer la pièce. Après une inondation, ne touchez pas aux installations électriques humides.",
+  "sources": [
+   [
+    "Centre de crise national — Défaillance de l’approvisionnement en électricité",
+    "https://centredecrise.be/fr/risques-en-belgique/risques-societaux/defaillance-de-lapprovisionnement-en-electricite"
+   ],
+   [
+    "CDC — Sécurité alimentaire après une panne",
+    "https://www.cdc.gov/food-safety/foods/keep-food-safe-after-emergency.html"
+   ],
+   [
+    "Belgium.be — Intoxication au monoxyde de carbone",
+    "https://www.belgium.be/fr/sante/vie_saine/habitat/intoxication_co"
+   ]
+  ]
+ },
+ {
+  "id": "mise-abri",
+  "category": "Urgence à domicile",
+  "title": "Quand les autorités demandent de se mettre à l’abri",
+  "summary": "Rester à l’intérieur, réduire les entrées d’air et suivre la consigne précise reçue.",
+  "intro": "La mise à l’abri n’est pas identique pour chaque incident. Le Centre de crise belge demande de suivre la consigne officielle; la radio autonome est utile si Internet est coupé.",
+  "steps": [
+   "Rentrez dans un bâtiment solide et faites entrer les personnes présentes. Fermez portes et fenêtres.",
+   "Si la consigne liée à une fumée ou à un produit chimique le demande, arrêtez ventilation, chauffage/climatisation qui prélève l’air extérieur, et fermez les aérations.",
+   "Choisissez une pièce intérieure, éloignée des fenêtres, rassemblez les personnes et animaux, l’eau, les médicaments, une lampe et la radio.",
+   "Restez à l’intérieur jusqu’à une nouvelle consigne vérifiée par radio ou par les autorités; préparez-vous à évacuer si la consigne change.",
+   "Si vous voyez fumée ou danger immédiat dans le bâtiment, sortez par une voie sûre; n’attendez pas une consigne qui vous mettrait en danger immédiat."
+  ],
+  "avoid": "Ne sortez pas pour aller chercher des enfants si l’école ou les autorités ont ordonné la mise à l’abri; contactez l’établissement par un moyen disponible. Les consignes peuvent varier selon le produit ou l’incident.",
+  "sources": [
+   [
+    "Centre de crise national — Se mettre à l’abri",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/se-mettre-labri"
+   ],
+   [
+    "Centre de crise national — Kit d’urgence à la maison",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison"
+   ]
+  ]
+ },
+ {
+  "id": "evacuation",
+  "category": "Urgence à domicile",
+  "title": "Préparer et suivre une évacuation",
+  "summary": "Prendre les essentiels, quitter par un chemin sûr et tenir un point de rendez-vous.",
+  "intro": "Une évacuation peut être décidée par les autorités ou rendue nécessaire par un danger immédiat. Le plan prêt à l’avance fait gagner du temps et réduit les oublis.",
+  "steps": [
+   "Avant : définissez deux points de rendez-vous, un contact hors quartier, un itinéraire principal et une alternative; notez-les sur papier.",
+   "Au départ : prenez personnes, médicaments indispensables, documents, téléphone+batterie, clés, eau, nourriture simple, vêtements, hygiène et animaux en caisse/laisse si cela ne retarde pas une sortie urgente.",
+   "Coupez eau, gaz ou électricité uniquement si vous savez le faire sans danger et si cela ne retarde pas la sortie. Fermez la porte en partant.",
+   "Suivez la route et le lieu de destination indiqués par les autorités. Évitez les raccourcis inconnus et les voies inondées ou bloquées.",
+   "Si le danger est immédiat, partez sans attendre de rassembler le kit. Signalez votre destination au point de contact dès que vous le pouvez."
+  ],
+  "avoid": "Ne partez pas spontanément en voiture au milieu d’une alerte collective : rester à l’abri peut être plus sûr. N’utilisez pas une carte hors ligne comme preuve qu’un itinéraire est ouvert.",
+  "sources": [
+   [
+    "Centre de crise national — Évacuer",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/evacuer"
+   ],
+   [
+    "Organic Maps — FAQ officielle",
+    "https://organicmaps.app/faq/embedded-faq/"
+   ]
+  ]
+ },
+ {
+  "id": "inondation",
+  "category": "Urgence à domicile",
+  "title": "Inondation : réduire le risque",
+  "summary": "Monter en hauteur, éviter l’eau et couper les installations uniquement sans risque.",
+  "intro": "L’eau d’inondation peut cacher trous, courants, objets coupants, eaux usées ou conducteurs électriques. La consigne locale et la sécurité physique priment.",
+  "steps": [
+   "Éloignez-vous des cours d’eau, caves, passages souterrains et routes submergées. Ne marchez ni ne conduisez dans l’eau.",
+   "Si l’eau monte dans le bâtiment, gagnez un étage ou un point haut accessible sans traverser l’eau; prenez téléphone, lampe et médicaments si à portée.",
+   "Éloignez-vous des prises, appareils et câbles touchés par l’eau. Ne descendez jamais dans une cave inondée où l’électricité peut être présente.",
+   "Coupez électricité, gaz ou eau seulement si le tableau/robinet est sec et accessible sans traverser une zone dangereuse. Sinon, n’y touchez pas.",
+   "Évacuez si les autorités le demandent ou si votre position devient dangereuse; prenez un itinéraire non inondé et restez loin des ponts et routes submergés.",
+   "Après le retrait de l’eau, ne consommez pas d’aliments en contact avec l’eau de crue; évitez de boire l’eau du réseau tant que son statut n’est pas confirmé."
+  ],
+  "avoid": "Même peu profonde, l’eau en mouvement peut emporter une personne ou un véhicule. Ne touchez pas à une installation électrique mouillée.",
+  "sources": [
+   [
+    "Centre de crise national — Inondation pluviale",
+    "https://centredecrise.be/fr/risques-en-belgique/risques-naturels/inondation-pluviale-eaux-de-ruissellement"
+   ],
+   [
+    "Centre de crise national — Évacuer",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/evacuer"
+   ]
+  ]
+ },
+ {
+  "id": "arret-cardiaque-enfant",
+  "category": "Urgence médicale",
+  "title": "Arrêt cardiaque chez l’enfant (1 an à la puberté)",
+  "summary": "Séquence pédiatrique de l’affiche Croix-Rouge belge, accessible hors ligne.",
+  "intro": "L’affiche belge donne une séquence différente de l’adulte : 5 insufflations initiales, puis 15 compressions et 2 insufflations. Elle concerne l’enfant de 1 an jusqu’à la puberté; le bébé de moins d’un an nécessite une formation et des gestes adaptés.",
+  "steps": [
+   "Vérifiez la sécurité, parlez à l’enfant et stimulez doucement ses épaules. Appelez à l’aide.",
+   "Ouvrez les voies respiratoires en basculant délicatement la tête et contrôlez la respiration pendant au plus 10 secondes.",
+   "S’il ne respire pas normalement, faites 5 insufflations douces, chacune juste assez pour soulever le thorax. Si le thorax ne bouge pas, repositionnez la tête et réessayez.",
+   "Faites 15 compressions au centre du thorax, vite et fort, avec une ou deux mains selon la taille de l’enfant.",
+   "Alternez 15 compressions et 2 insufflations. Si vous ne pouvez pas insuffler, faites des compressions continues.",
+   "Utilisez un défibrillateur dès qu’il est disponible et suivez ses instructions vocales; reprenez la RCP aussitôt demandé. Si vous êtes seul, poursuivez les gestes et cherchez une aide réelle dès que cela peut être fait sans abandonner une urgence immédiate."
+  ],
+  "avoid": "Ne transposez pas cette séquence à un nourrisson de moins d’un an. Les gestes de réanimation de l’enfant sont un rappel simplifié, pas une formation.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — RCP enfant (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-enfant-Croix-Rouge-de-Belgique-2.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "etouffement-bebe",
+  "category": "Urgence médicale",
+  "title": "Étouffement du bébé (moins d’un an)",
+  "summary": "Alterner 5 tapes dorsales et 5 compressions thoraciques avec la tête soutenue.",
+  "intro": "Séquence issue de l’affiche de la Croix-Rouge belge pour un bébé de moins d’un an. Ne pas appliquer les tapes ou poussées abdominales prévues pour l’adulte.",
+  "steps": [
+   "Si le bébé tousse efficacement, laissez-le tousser et observez-le.",
+   "S’il ne peut plus respirer/tousser efficacement, placez-le tête vers le bas sur votre avant-bras ou votre cuisse en soutenant fermement sa tête et sa mâchoire.",
+   "Donnez 5 tapes sèches entre les omoplates, en vérifiant après chaque tape si l’objet sort.",
+   "Retournez-le sur le dos en soutenant toujours sa tête. Faites 5 compressions au centre du thorax avec deux doigts, en vérifiant si l’objet sort.",
+   "Alternez 5 tapes et 5 compressions thoraciques jusqu’à ce que l’objet sorte ou que le bébé perde connaissance.",
+   "S’il perd connaissance, allongez-le sur une surface ferme, faites chercher de l’aide et commencez la réanimation adaptée au bébé si vous en avez été formé."
+  ],
+  "avoid": "Ne secouez pas le bébé et ne faites pas de poussées abdominales. Les gestes pour un nourrisson sont particulièrement sensibles : suivez une formation pratique lorsque cela est possible.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Étouffement du bébé (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-D-sobstruction-b-b-Croix-Rouge-de-Belgique-2.pdf"
+   ],
+   [
+    "Croix-Rouge de Belgique — RCP enfant (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-enfant-Croix-Rouge-de-Belgique-2.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "chaleur",
+  "category": "Urgence médicale",
+  "title": "Coup de chaleur et épuisement par la chaleur",
+  "summary": "Mettre au frais, découvrir et refroidir; reconnaître les signes d’alarme.",
+  "intro": "La Croix-Rouge belge cite maux de tête, vertiges, vomissements, démarche titubante, peau sèche et rouge, puis perte de connaissance ou convulsions comme signes possibles de coup de chaleur.",
+  "steps": [
+   "Amenez la personne à l’ombre ou dans un endroit plus frais; faites-la s’asseoir ou s’allonger et arrêtez tout effort.",
+   "Desserrez ou retirez les vêtements superflus. Aérez sans courant d’air froid et rafraîchissez cou, aisselles et aines avec un linge humide mais pas froid.",
+   "Si elle est pleinement consciente et avale sans difficulté, faites-lui boire par petites gorgées de l’eau fraîche. Ne faites rien avaler à une personne confuse, somnolente, inconsciente ou qui vomit.",
+   "Surveillez la respiration et la conscience. Perte de connaissance, convulsions, vomissements après boisson, arrêt de transpiration ou température supérieure à 40°C sont des signes d’urgence vitale : faites chercher les secours au plus vite.",
+   "Après amélioration, repos au frais et boissons; restez avec la personne et surveillez une aggravation."
+  ],
+  "avoid": "Ne donnez pas de boisson à une personne dont la vigilance est altérée. Soyez particulièrement prudent avec les bébés, enfants, personnes âgées et personnes malades.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Canicule : protéger vos proches",
+    "https://croix-rouge.be/fr/articles/canicule-comment-vous-proteger-vous-et-vos-proches"
+   ],
+   [
+    "Croix-Rouge de Belgique — Malaise grave (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Malaisegrave-Croix-RougedeBelgique.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "hypothermie",
+  "category": "Urgence médicale",
+  "title": "Froid intense et hypothermie : premiers gestes",
+  "summary": "Mettre à l’abri du froid, retirer le mouillé et réchauffer progressivement.",
+  "intro": "La Croix-Rouge belge inclut l’hypothermie dans ses gestes de premiers secours. Les gestes généraux ci-dessous sont complétés par des conseils de premiers soins du NHS; une personne inconsciente ou qui respire mal est en danger grave.",
+  "steps": [
+   "Mettez la personne à l’abri du vent et du froid; manipulez-la avec douceur et évitez les efforts brusques.",
+   "Isolez-la du sol. Retirez les vêtements mouillés, séchez-la si possible, puis couvrez-la avec des couches sèches et une couverture; couvrez la tête.",
+   "Réchauffez progressivement; ne frottez pas les bras/jambes et n’utilisez pas de bain chaud, lampe chauffante ou bouillotte directement sur la peau.",
+   "Si elle est pleinement consciente et avale normalement, proposez une boisson tiède non alcoolisée. Ne donnez rien à boire à une personne somnolente, confuse ou inconsciente.",
+   "Restez auprès d’elle, parlez-lui et surveillez respiration et conscience. Si elle ne répond pas ou ne respire pas normalement, appliquez les fiches correspondantes et faites rechercher les secours dès qu’un moyen existe."
+  ],
+  "avoid": "Ne réchauffez pas brutalement et ne faites pas marcher une personne très refroidie. Une perte de conscience, une respiration anormale ou une détérioration est une urgence.",
+  "sources": [
+   [
+    "Croix-Rouge de Belgique — Premiers secours en route (hypo-/hyperthermie)",
+    "https://formations.croix-rouge.be/croixrouge/themes/pdfGenerator/generatePdfGlobal.php?id=33"
+   ],
+   [
+    "NHS — Hypothermie : gestes immédiats",
+    "https://www.nhs.uk/conditions/hypothermia/"
+   ],
+   [
+    "Croix-Rouge de Belgique — RCP adulte (affiche)",
+    "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-adulte-Croix-Rouge-de-Belgique-2.pdf"
+   ]
+  ]
+ },
+ {
+  "id": "hygiene",
+  "category": "Survie et autonomie",
+  "title": "Hygiène et toilettes sans eau courante",
+  "summary": "Limiter les contaminations avec une réserve d’eau, du savon et des sacs fermés.",
+  "intro": "En cas de panne d’eau ou de toilettes, l’hygiène des mains, la séparation de l’eau potable et l’évacuation sûre des déchets protègent le foyer. Le plan domestique dépend des équipements du logement.",
+  "steps": [
+   "Réservez l’eau potable à boire, préparer les aliments, se brosser les dents et administrer les médicaments; marquez séparément l’eau de nettoyage.",
+   "Lavez-vous les mains avec de l’eau et du savon pendant 20 secondes, surtout après les toilettes et avant de préparer ou manger des aliments. Si eau et savon manquent, utilisez si possible un gel contenant au moins 60 % d’alcool; il est moins efficace sur des mains visiblement sales ou grasses.",
+   "Gardez une réserve de papier toilette, lingettes, sacs résistants, gants jetables et protections menstruelles dans le kit.",
+   "Si les toilettes ne fonctionnent plus, n’utilisez pas l’eau potable pour tirer la chasse. Utilisez une solution de toilettes d’urgence déjà prévue (seau stable avec sac adapté), gardez-la hors des zones de préparation des aliments et fermez les sacs avant leur élimination selon les consignes communales.",
+   "Nettoyez les surfaces souillées avec des gants; lavez les mains ensuite. Ne mélangez jamais eau de Javel et vinaigre, ammoniaque ou autre nettoyant."
+  ],
+  "avoid": "Ne videz pas d’excréments dans la rue, un égout pluvial ou un cours d’eau. Les solutions improvisées peuvent contaminer l’eau ou le logement; prévoyez le matériel et vérifiez les instructions locales.",
+  "sources": [
+   [
+    "Centre de crise national — Kit d’urgence à la maison",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison"
+   ],
+   [
+    "CDC — Hygiène personnelle en situation d’urgence",
+    "https://www.cdc.gov/water-emergency/safety/guidelines-for-personal-hygiene-during-an-emergency.html"
+   ],
+   [
+    "CDC — Prévenir les maladies diarrhéiques après une urgence",
+    "https://www.cdc.gov/water-emergency/safety/index.html"
+   ]
+  ]
+ },
+ {
+  "id": "incendie",
+  "category": "Urgence à domicile",
+  "title": "Incendie dans le logement : sortir et fermer derrière soi",
+  "summary": "Alerter, évacuer par une sortie sûre et rester dehors.",
+  "intro": "En cas d’incendie, la priorité est de sortir et de ne pas se retrouver pris dans la fumée. Le Centre de crise belge recommande d’évacuer rapidement et d’appeler les secours.",
+  "steps": [
+   "Donnez l’alerte aux personnes présentes et quittez le bâtiment par une sortie accessible, sans récupérer les affaires.",
+   "Si une porte est chaude ou si la fumée empêche le passage, ne l’ouvrez pas; cherchez une autre sortie sûre. Restez aussi bas que possible si vous devez traverser de la fumée.",
+   "Fermez les portes derrière vous si possible sans retarder la sortie. N’utilisez pas l’ascenseur.",
+   "Une fois dehors, éloignez-vous du bâtiment et ne rentrez pas chercher quelqu’un ou un objet; dites aux secours s’il manque une personne.",
+   "Appelez le 112 lorsqu’un téléphone/réseau est disponible; précisez l’adresse et les personnes éventuellement bloquées."
+  ],
+  "avoid": "Ne retournez jamais dans un bâtiment en feu. Si la sortie est impossible, isolez-vous de la fumée derrière une porte fermée, signalez votre présence par une fenêtre si cela peut être fait sans sauter et faites rechercher les secours.",
+  "sources": [
+   [
+    "Centre de crise national — BE-READY, bons réflexes incendie",
+    "https://centredecrise.be/sites/default/files/documents/files/beready_brochure_fr_print.pdf"
+   ],
+   [
+    "Centre de crise national — Appeler le 112",
+    "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"
+   ]
+  ]
+ }
 ];
-window.CHECKLIST=["Eau et aliments simples adaptés au foyer","Médicaments indispensables et liste des traitements","Trousse de premiers soins de base","Lampe et piles de rechange","Radio à piles ou à dynamo","Téléphone, chargeur et batterie externe","Documents importants et contacts papier","Un peu d’argent liquide","Hygiène, besoins des enfants et animaux","Vérifier et renouveler les réserves"];
-
+window.CHECKLIST=[
+ "Eau en bouteille : 12 L par personne pour 72 h, à adapter aux besoins du foyer",
+ "Eau non potable distincte pour le nettoyage; récipients alimentaires propres et étiquetés",
+ "Aliments qui se conservent, nourriture bébé/animaux et ouvre-boîte manuel",
+ "Compresses, pansements, bandes, gants, ciseaux et médicaments habituels",
+ "Lampe, piles, radio autonome, batteries externes chargées et câbles",
+ "Savon, gel, lingettes, papier toilette, sacs résistants et protections nécessaires",
+ "Copies papier des contacts, documents, adresses et points de rendez-vous",
+ "Couvertures, vêtements chauds, clés, un peu d’argent et besoins particuliers"
+];
