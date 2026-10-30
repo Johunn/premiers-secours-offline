@@ -25,7 +25,8 @@ Si l'accès direct n'est pas possible, le prototype affiche une erreur explicite
 Ouvrir le dossier `android-zim-probe` dans Android Studio avec un JDK 17, laisser Gradle synchroniser les dépendances, puis lancer la configuration `app` sur un appareil Android.
 
 - Android Gradle Plugin 8.11.1
-- Kotlin Android 1.9.20
+- Kotlin Android 2.2.0
+- Gradle 8.13 (wrapper recommandé)
 - Compile SDK 35
 - Minimum Android 8.0 (API 26)
 - `org.kiwix:libkiwix:2.6.0`
