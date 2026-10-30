@@ -36,7 +36,7 @@ Une connexion sera nécessaire à la première synchronisation Gradle pour tél�
 ## Validation sur le Galaxy S21 FE
 
 1. Installer et lancer le prototype.
-2. Choisir une archive ZIM déjà présente sur le téléphone.
+2. Saisir si nécessaire le titre exact d'un article, puis choisir une archive ZIM déjà présente sur le téléphone. Si le champ est vide, le prototype extrait la page principale de l'archive.
 3. Vérifier que le sélecteur Android la propose sans demander de la copier ou déplacer.
 4. Vérifier l'écran « LECTURE RÉUSSIE », les métadonnées, le titre et le chemin d'une entrée, ainsi qu'un extrait lisible.
 5. Refaire le test en mode avion après installation.
