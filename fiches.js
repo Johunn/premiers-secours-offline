@@ -747,6 +747,89 @@ window.FICHES=[
     "https://www.cdc.gov/food-safety/foods/keep-food-safe-after-emergency.html"
    ]
   ]
+ },
+ {
+  "id": "anaphylaxie",
+  "category": "Urgence médicale",
+  "title": "Réaction allergique grave (anaphylaxie)",
+  "summary": "Reconnaître une réaction sévère, utiliser l’auto-injecteur prescrit et surveiller.",
+  "intro": "Une réaction sévère peut associer une gêne respiratoire, une voix rauque ou un gonflement, une urticaire ou rougeur, un malaise, des vomissements ou des douleurs abdominales après une exposition possible à un allergène. Elle peut s’aggraver rapidement.",
+  "steps": [
+   "Éloignez si possible la personne de l’allergène sans vous exposer. Restez avec elle et demandez immédiatement de l’aide; si un téléphone avec réseau fonctionne, appelez le 112. Sans réseau, envoyez quelqu’un chercher de l’aide.",
+   "Aidez la personne à prendre son auto-injecteur d’adrénaline prescrit et à l’utiliser conformément à son plan et aux instructions du dispositif. Un témoin formé peut l’aider. L’injection se fait dans la face externe de la cuisse selon le dispositif.",
+   "Gardez la personne assise ou allongée dans une position confortable. Ne la laissez pas se lever ou marcher; si elle perd connaissance mais respire normalement, placez-la sur le côté et surveillez sa respiration.",
+   "Si les symptômes persistent cinq minutes après la première dose et qu’un second auto-injecteur prescrit est disponible, utilisez-le conformément à son plan et à sa notice.",
+   "Surveillez continuellement la conscience et la respiration. Si la personne ne respire pas normalement, commencez la réanimation selon la fiche correspondante. Transmettez aux secours l’heure des doses et l’évolution observée."
+  ],
+  "avoid": "Ne faites pas marcher la personne et ne retardez pas l’adrénaline prescrite. Ne donnez rien à boire ou à manger à une personne inconsciente. Cette fiche ne permet pas de diagnostiquer une allergie ni de prescrire un auto-injecteur.",
+  "kiwix": {"book":"WikiMed ou Wikipédia en français", "term":"anaphylaxie · choc anaphylactique"},
+  "sources": [
+   ["European Resuscitation Council — Guidelines 2025 First Aid (PDF)", "https://www.erc.edu/media/i2vllpae/gl2025-12-faid-e.pdf"],
+   ["Croix-Rouge de Belgique — Vos vacances en sécurité (PDF, 2023)", "https://www.croix-rouge.be/content/uploads/2023/06/Guide_Conseils_ete_2023.pdf"],
+   ["Centre de crise national — Appeler le 112", "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"]
+  ]
+ },
+ {
+  "id": "asthme",
+  "category": "Urgence médicale",
+  "title": "Crise d’asthme",
+  "summary": "Aider la personne à utiliser son inhalateur de secours et repérer l’aggravation.",
+  "intro": "Une personne asthmatique qui peine à respirer peut avoir besoin de son inhalateur de secours habituel. Le geste recommandé est de l’aider à utiliser son propre bronchodilatateur, avec une chambre d’inhalation si elle en a une.",
+  "steps": [
+   "Installez la personne assise dans une position confortable, desserrez les vêtements serrés et restez auprès d’elle. Éloignez-la d’une fumée ou d’un déclencheur évident si cela peut être fait sans danger.",
+   "Aidez-la à utiliser son inhalateur de secours personnel en suivant son plan d’action et la notice du médicament. Utilisez sa chambre d’inhalation si elle en possède une. Laissez-la tenir et utiliser son propre traitement si elle le peut.",
+   "Faites rechercher de l’aide et appelez le 112 si la gêne est sévère, s’aggrave, ne s’améliore pas après le traitement prescrit, si la personne parle difficilement, s’épuise ou devient confuse. Sans réseau, envoyez immédiatement quelqu’un chercher de l’aide.",
+   "Surveillez la respiration et la conscience. Si la personne devient inconsciente mais respire normalement, placez-la sur le côté. Si elle ne respire pas normalement, commencez la réanimation selon la fiche correspondante.",
+   "Notez le nom du médicament utilisé, l’heure et la réponse observée pour les transmettre aux secours ou au soignant."
+  ],
+  "avoid": "Ne donnez pas le médicament d’une autre personne et n’improvisez pas de dose. Ne laissez pas seule une personne dont la respiration se détériore.",
+  "kiwix": {"book":"WikiMed ou Wikipédia en français", "term":"asthme · crise d’asthme"},
+  "sources": [
+   ["European Resuscitation Council — Guidelines 2025 First Aid (PDF)", "https://www.erc.edu/media/i2vllpae/gl2025-12-faid-e.pdf"],
+   ["Croix-Rouge de Belgique — Malaise grave (affiche)", "https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-Malaisegrave-Croix-RougedeBelgique.pdf"],
+   ["Centre de crise national — Appeler le 112", "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"]
+  ]
+ },
+ {
+  "id": "hypoglycemie",
+  "category": "Urgence médicale",
+  "title": "Hypoglycémie : aider sans risque",
+  "summary": "Donner du sucre uniquement si la personne est éveillée et peut avaler sans danger.",
+  "intro": "Une baisse de sucre peut se manifester par des sueurs, tremblements, palpitations, confusion ou somnolence. Elle est fréquente chez les personnes traitées pour un diabète, mais ces signes ne suffisent pas à confirmer le diagnostic.",
+  "steps": [
+   "Si la personne a un lecteur de glycémie et sait s’en servir, aidez-la à mesurer sa glycémie sans retarder une aide urgente si son état est grave.",
+   "Si elle est éveillée et avale normalement, donnez 15 à 20 g de sucre rapide : comprimés de glucose/dextrose selon leur emballage, ou à défaut une boisson sucrée non light ou du jus. Laissez-la avaler elle-même et restez avec elle.",
+   "Réévaluez après 15 minutes. Si les symptômes persistent et ne s’améliorent pas, répétez le sucre rapide si elle est toujours éveillée et capable d’avaler sans danger.",
+   "Si elle reprend ses esprits, encouragez une petite collation après amélioration pour limiter une rechute. Un glucagon ne doit être utilisé que s’il est prescrit à cette personne et selon sa notice, par elle-même ou par une personne formée.",
+   "Si elle devient inconsciente, convulse, ne peut pas avaler ou ne respire pas normalement : ne mettez rien dans sa bouche, faites rechercher immédiatement de l’aide et appelez le 112 si possible. Si elle respire normalement, mettez-la sur le côté; sinon, commencez la réanimation selon la fiche correspondante."
+  ],
+  "avoid": "Ne donnez jamais de nourriture, boisson ou sucre par la bouche à une personne inconsciente ou qui avale mal : risque d’étouffement. Les symptômes peuvent avoir une autre cause; une absence d’amélioration exige une évaluation urgente.",
+  "kiwix": {"book":"WikiMed ou Wikipédia en français", "term":"hypoglycémie · diabète"},
+  "sources": [
+   ["European Resuscitation Council — Guidelines 2025 First Aid (PDF)", "https://www.erc.edu/media/i2vllpae/gl2025-12-faid-e.pdf"],
+   ["Centre de crise national — Appeler le 112", "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"]
+  ]
+ },
+ {
+  "id": "noyade",
+  "category": "Urgence médicale",
+  "title": "Noyade : intervenir sans se mettre en danger",
+  "summary": "Privilégier le secours depuis la terre; vérifier la respiration dès la sortie de l’eau.",
+  "intro": "Une noyade peut être silencieuse. La priorité est de ne pas créer une deuxième victime : une personne non formée au sauvetage aquatique ne doit pas entrer dans l’eau.",
+  "steps": [
+   "Appelez à l’aide. Depuis un endroit sûr, tendez une perche ou une corde, ou lancez une bouée ou un objet flottant. Gardez la personne en vue et guidez-la vers un bord sûr. N’entrez dans l’eau que si vous êtes formé et que la manœuvre est sûre.",
+   "Dès que la personne est sortie de l’eau, vérifiez sa réaction et sa respiration. Faites appeler le 112; sans réseau, envoyez quelqu’un chercher les secours sans laisser la victime sans surveillance.",
+   "Si elle est inconsciente mais respire normalement, placez-la sur le côté, surveillez sans interruption et protégez-la du froid : retirez doucement les vêtements mouillés si possible, séchez-la et couvrez-la.",
+   "Si elle est inconsciente et ne respire pas normalement, commencez la réanimation. Les recommandations ERC 2025 préconisent cinq insufflations initiales après une noyade si le sauveteur sait les réaliser et peut le faire sans danger, puis la réanimation habituelle. Suivez la fiche RCP de l’application et utilisez un défibrillateur si disponible.",
+   "Même si elle reprend connaissance, restez auprès d’elle et faites évaluer toute difficulté respiratoire, toux persistante, confusion ou malaise. Surveillez une aggravation pendant l’attente."
+  ],
+  "avoid": "Ne plongez pas si vous n’êtes pas formé au sauvetage aquatique. Ne tentez pas de vider l’eau des poumons en secouant ou en suspendant la victime. Ne retardez pas la réanimation pour chercher un appareil.",
+  "kiwix": {"book":"Wikipédia en français ou Wikivoyage", "term":"noyade · réanimation après noyade"},
+  "sources": [
+   ["European Resuscitation Council — Guidelines 2025 First Aid (PDF)", "https://www.erc.edu/media/i2vllpae/gl2025-12-faid-e.pdf"],
+   ["Croix-Rouge de Belgique — Affiches premiers secours", "https://formations.croix-rouge.be/affiches-premiers-secours/"],
+   ["Centre de crise national — Appeler le 112", "https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/donnez-lalerte/appelez-le-112"]
+  ]
  }
 ];
 window.CHECKLIST=[

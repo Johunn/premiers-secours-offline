@@ -1,6 +1,6 @@
 # Sources, périmètre et dates
 
-**Version de l’application : 1.3.1 · Vérification éditoriale : 29 octobre 2026.** Les pages listées ont été consultées pour préparer les résumés. Cette date n’est ni une date de publication des recommandations ni une garantie de mise à jour. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
+**Version de l’application : 1.4.0 · Vérification éditoriale : 30 octobre 2026.** Les dates indiquent la consultation ou la mise à jour éditoriale, pas la date d’émission des recommandations ni une garantie de mise à jour future. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
 
 ## Premiers secours — Belgique
 
@@ -11,6 +11,8 @@
 - SPF Santé publique, [Manuel belge de régulation médicale (PDF)](https://www.health.belgium.be/sites/default/files/media/files/2025-07/mbrm_112-1733_fr_final_signe.pdf) — instructions données aux opérateurs et conduite pour certaines urgences. Consulté le 29-10-2026.
 - Centre Antipoisons belge, [Quand appeler ?](https://www.centreantipoisons.be/quand-appeler/) et brochure [Premiers soins en cas d’intoxication](https://www.centreantipoisons.be/sites/default/files/imce/AGC%20folder%20FR%20DEF.pdf) — critères d’appel et précautions générales. Consultées le 29-10-2026. Les instructions spécifiques doivent être demandées au Centre.
 - Belgium.be, [Intoxication au monoxyde de carbone](https://www.belgium.be/fr/sante/vie_saine/habitat/intoxication_co) et SPF Santé publique, [Protocoles 112 (PDF)](https://www.health.belgium.be/sites/default/files/uploads/fields/fpshealth_theme_file/protocoles_112_fr_220928_def.pdf) — sécurité et alerte en cas de suspicion de CO. Consultés le 29-10-2026.
+- European Resuscitation Council, [Guidelines 2025 First Aid (PDF)](https://www.erc.edu/media/i2vllpae/gl2025-12-faid-e.pdf) — recommandations actualisées pour anaphylaxie, asthme, hypoglycémie, noyade, positionnement et réanimation après noyade. Consulté le 30-10-2026. Les fiches correspondantes de cette PWA en résument les premiers gestes; elles ne remplacent ni une formation ni une évaluation médicale.
+- Croix-Rouge de Belgique, [Vos vacances en sécurité (PDF, 2023)](https://www.croix-rouge.be/content/uploads/2023/06/Guide_Conseils_ete_2023.pdf) — informations complémentaires sur l’allergie grave. Ce document est daté de 2023; les gestes de la fiche PWA s’appuient en priorité sur l’ERC 2025.
 
 ## Eau, logement et préparation
 
@@ -32,7 +34,7 @@ La fiche de traitement de l’eau intègre une méthode d’ébullition et, à t
 
 Le code couleur rouge/orange/vert de la fiche d’eau suspecte décrit l’avis SWDE uniquement; les autres distributeurs peuvent utiliser d’autres formulations. Les quantités de 4 L/jour sont le repère belge de préparation, à adapter aux personnes et aux conditions.
 
-La copie locale peut devenir dépassée. Date de vérification éditoriale de cette version : **29 octobre 2026**. Vérifier les recommandations et alertes dès qu’une connexion est à nouveau disponible. Aucune liste de refuges, hôpitaux ou points d’eau n’est incluse, car ces données locales changent. Organic Maps reste une application séparée; les cartes téléchargées peuvent être utilisées hors ligne mais ne reflètent pas l’état actuel des routes ou services. Les favoris et cases cochées sont enregistrés localement sur l’appareil.
+La copie locale peut devenir dépassée. Vérification éditoriale de l’édition 1.4.0 : **30 octobre 2026**. Vérifier les recommandations et alertes dès qu’une connexion est à nouveau disponible. Aucune liste de refuges, hôpitaux ou points d’eau n’est incluse, car ces données locales changent. Organic Maps reste une application séparée; les cartes téléchargées peuvent être utilisées hors ligne mais ne reflètent pas l’état actuel des routes ou services. Les favoris et cases cochées sont enregistrés localement sur l’appareil.
 
 ## Références des procédures embarquées
 
@@ -46,7 +48,7 @@ La copie locale peut devenir dépassée. Date de vérification éditoriale de ce
 
 ## Illustrations hors ligne
 
-Chaque guide possède une illustration vectorielle originale, intégrée dans illustrations.svg et mise en cache avec la PWA. Aucune image informative n’est chargée depuis un site externe. Ces dessins sont des repères visuels décoratifs, non des schémas de geste médical; les consignes à suivre restent dans le texte et s’appuient sur les références propres à chaque fiche.
+Les catégories utilisent une planche d’illustrations éditoriales originale, enregistrée dans category-atlas.png et mise en cache avec la PWA. Les illustrations de procédures existantes restent dans les quatre planches PNG séparées. Ces images ne sont pas des schémas de gestes médicaux; les consignes à suivre restent dans le texte et s’appuient sur les références propres à chaque fiche.
 
 
 ## Illustrations des gestes
@@ -58,3 +60,15 @@ Les pictogrammes de liste restent de simples repères. Les 16 fiches procédural
 ## Actualisation de l’application
 
 Le bouton de version demande au navigateur de vérifier le service worker, puis recharge la page avec une URL renouvelée pour demander les fichiers publiés. Il ne vide pas le stockage local : les favoris et la liste de préparation restent enregistrés sur l’appareil.
+
+## Compléments via Kiwix Android
+
+Les nouvelles fiches d’anaphylaxie, d’asthme, d’hypoglycémie et de noyade incluent un titre de recherche conseillé pour WikiMed ou Wikipédia; les fiches médicales existantes proposent aussi leur titre comme terme de recherche. Cela suppose que le livre ZIM installé contient l’article correspondant. Le résultat dépend de la variante, de l’édition et de la date de téléchargement du ZIM.
+
+Kiwix Android accepte les URI d’article de la forme `zim://<identifiant-du-ZIM>/<chemin-de-l’article>` (exemple de test dans le dépôt officiel Kiwix Android : [DeepLinksTest.kt](https://github.com/kiwix/kiwix-android/blob/main/app/src/androidTest/java/org/kiwix/kiwixmobile/deeplinks/DeepLinksTest.kt)). Le guide n’essaie pas de deviner ces liens : une PWA web ne peut pas lire l’index privé des livres présents sur le téléphone, et l’identifiant ZIM ainsi que le chemin exact sont propres au livre et à l’article. Pour approfondir hors ligne, ouvrir Kiwix, sélectionner WikiMed ou Wikipédia, puis rechercher le terme indiqué dans la fiche. Les gestes essentiels restent intégralement dans la PWA.
+
+## Revue de couverture — 30 octobre 2026
+
+Un examen de l’inventaire de la PWA à la lumière des thèmes de premiers secours couverts par l’ERC 2025 a fait ressortir quatre lacunes prioritaires que cette version comble : anaphylaxie, asthme, hypoglycémie et noyade. L’inventaire comprenait déjà notamment arrêt cardiaque, inconscience, étouffement adulte et bébé, hémorragie, brûlure, douleur thoracique, AVC, convulsions, traumatisme, chaleur et hypothermie.
+
+Cette passe est un contrôle de couverture, pas une validation clinique exhaustive ni une relecture ligne par ligne de chaque fiche existante. Des thèmes ERC tels que la surdose d’opioïdes et la crise suicidaire ne sont pas ajoutés dans cette version : leurs gestes et relais nécessitent des sources et un cadrage belge dédiés.
