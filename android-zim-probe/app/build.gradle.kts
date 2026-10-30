@@ -2,6 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+val debugBuildId = System.getenv("GITHUB_RUN_NUMBER")?.takeIf { it.isNotBlank() } ?: "local"
+
 android {
     namespace = "be.johunn.survie.zimprobe"
     compileSdk = 35
@@ -19,9 +22,9 @@ android {
     }
     buildTypes {
         getByName("debug") {
-            // The Actions runner uses a different debug key on each run. Keep
-            // test APKs installable alongside the user's existing app.
-            applicationIdSuffix = ".debug"
+            // GitHub Actions generates a new debug signing key for each run.
+            // A unique package lets each debug APK install alongside older ones.
+            applicationIdSuffix = ".debug.$debugBuildId"
         }
     }
     compileOptions {
