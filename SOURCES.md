@@ -1,6 +1,6 @@
 # Sources, périmètre et dates
 
-**Version de l’application : 1.5.1 · Vérification éditoriale : 30 octobre 2026.** Les dates indiquent la consultation ou la mise à jour éditoriale, pas la date d’émission des recommandations ni une garantie de mise à jour future. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
+**Version de l’application : 1.6.0 · Vérification éditoriale : 30 octobre 2026.** Les dates indiquent la consultation ou la mise à jour éditoriale, pas la date d’émission des recommandations ni une garantie de mise à jour future. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
 
 ## Premiers secours — Belgique
 
@@ -92,6 +92,16 @@ Cette version reste un guide de préparation à domicile et de premiers gestes, 
 - Centre de Prévention du Suicide, [ligne d’écoute 0800 32 123](https://www.preventionsuicide.be/la-ligne-decoute-0800-32-123), et Centre de Crise, [lignes d’écoute](https://centredecrise.be/fr/que-pouvez-vous-faire/prenez-soin-de-vous/lignes-decoute) — soutien en Belgique francophone; nécessite un réseau téléphonique. Consultées le 30-10-2026.
 
 
-## Interface de la version 1.5.1
+## Interface de la version 1.6.0
 
 Un clic sur le fond en dehors de la fiche ouverte ferme maintenant la fenêtre de détail. Les clics dans la fiche n’entraînent pas sa fermeture.
+
+## Urgences animales — chiens et chats
+
+- American Veterinary Medical Association (AVMA), [Pet First Aid (PDF, édition 2025)](https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf) — pression directe pour une plaie qui saigne, coup de chaleur, convulsions, intoxication, étouffement, blessure, sécurité du sauveteur et contenu d’une trousse. Consulté le 30-10-2026.
+- Centre Antipoisons belge, [Intoxications d’animaux](https://www.centreantipoisons.be/animaux/) et [Animaux et médicaments](https://www.centreantipoisons.be/tox-infos/animaux-et-medicaments/) — conduite face à une suspicion d’intoxication, rinçage après contact cutané/oculaire et risques des médicaments humains ou d’une espèce sur l’autre. Le Centre indique des horaires limités pour les appels concernant les animaux et donne priorité aux urgences humaines. Consultés le 30-10-2026.
+- Blue Cross, [Premiers secours chez le chien](https://www.bluecross.org.uk/advice/dog/basic-first-aid-for-dogs) — refroidissement initial d’une brûlure thermique. Consulté le 30-10-2026.
+
+## Préparation hors ligne — document fourni par l’utilisateur
+
+- « Kit d'urgence numérique » (@unefille.ia, édition octobre 2026), PDF communiqué dans la conversation — source d’idées de préparation numérique, notamment le test en mode avion des contenus déjà téléchargés et la conservation sur papier de contacts/itinéraires. Ce document n’est pas utilisé comme source de conseils médicaux; les numéros d’urgence français qu’il présente ne sont pas transposés au contexte belge. Consulté le 30-10-2026.

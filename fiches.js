@@ -1120,6 +1120,235 @@ window.FICHES=[
         "https://centredecrise.be/fr/que-pouvez-vous-faire/prenez-soin-de-vous/lignes-decoute"
       ]
     ]
+  },
+  {
+    "id": "animal-urgence",
+    "category": "Urgence animale",
+    "title": "Urgence chez le chien ou le chat : premiers gestes",
+    "summary": "Se protéger, reconnaître une urgence et organiser une aide vétérinaire.",
+    "intro": "Cette fiche donne des gestes d’attente pour chiens et chats. Une blessure ou un comportement inhabituel peut cacher une urgence; les premiers secours ne remplacent pas l’examen vétérinaire.",
+    "steps": [
+      "Écartez les dangers et les autres animaux. Approchez lentement, parlez doucement et gardez votre visage et vos mains à distance de la gueule : un animal douloureux ou désorienté peut mordre, même s’il est habituellement calme.",
+      "Difficulté à respirer, perte de connaissance, saignement important, convulsions, coup de chaleur, accident grave ou suspicion d’intoxication : cherchez sans délai une clinique vétérinaire et préparez le transport.",
+      "Limitez les manipulations. Ne forcez ni nourriture, ni eau, ni médicament. En cas de vomissements ou de difficulté respiratoire, ne mettez pas de muselière.",
+      "S’il n’y a pas de réseau téléphonique, demandez à un tiers d’aller chercher une aide vétérinaire ou d’apporter le véhicule. Gardez l’animal dans un endroit sûr et surveillez sa respiration et son état.",
+      "Préparez à l’avance sur papier le nom, l’adresse et le numéro du vétérinaire habituel et d’une clinique d’urgence, ainsi qu’une caisse ou une laisse adaptée."
+    ],
+    "avoid": "Ne donnez jamais de médicament humain ou destiné à une autre espèce sans consigne vétérinaire. Le 112 concerne les urgences humaines; il ne remplace pas un vétérinaire pour une urgence médicale animale.",
+    "sources": [
+      [
+        "AVMA — Pet First Aid (2025)",
+        "https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf"
+      ],
+      [
+        "Centre Antipoisons belge — Intoxications d’animaux",
+        "https://www.centreantipoisons.be/animaux/"
+      ],
+      [
+        "Centre Antipoisons belge — Animaux et médicaments",
+        "https://www.centreantipoisons.be/tox-infos/animaux-et-medicaments/"
+      ]
+    ]
+  },
+  {
+    "id": "animal-hemorragie",
+    "category": "Urgence animale",
+    "title": "Saignement important chez un animal",
+    "summary": "Comprimer directement la plaie avec un linge propre et organiser le transport.",
+    "intro": "Un saignement abondant est une urgence vétérinaire. Les gestes ci-dessous visent à limiter la perte de sang pendant la recherche d’une prise en charge.",
+    "steps": [
+      "Protégez-vous si possible avec des gants. Approchez l’animal avec prudence et faites-le aider par une autre personne si cela peut se faire sans danger.",
+      "Posez une compresse ou un linge propre directement sur la plaie et maintenez une pression ferme et continue pendant au moins trois minutes sans soulever pour vérifier.",
+      "Si le tissu se gorge de sang, ne le retirez pas : ajoutez une autre épaisseur par-dessus et continuez la pression.",
+      "Si un objet est planté dans la plaie, ne le retirez pas et ne poussez pas dessus; comprimez autour sans le déplacer.",
+      "Faites transporter l’animal vers un vétérinaire dès que possible. Limitez ses déplacements et gardez-le au calme."
+    ],
+    "avoid": "Ne retirez pas le premier linge pour regarder sous la compresse; ne retirez pas un objet fiché dans la plaie. N’improvisez pas un garrot.",
+    "sources": [
+      [
+        "AVMA — Pet First Aid (2025)",
+        "https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf"
+      ]
+    ]
+  },
+  {
+    "id": "animal-chaleur",
+    "category": "Urgence animale",
+    "title": "Coup de chaleur chez le chien ou le chat",
+    "summary": "Commencer un refroidissement progressif et faire examiner l’animal en urgence.",
+    "intro": "Halètement rapide ou intense, salivation abondante, faiblesse, somnolence, confusion, vomissements ou diarrhée peuvent accompagner un coup de chaleur. Il faut agir et organiser un transport vétérinaire sans délai.",
+    "steps": [
+      "Mettez l’animal à l’ombre ou dans une pièce fraîche et bien ventilée.",
+      "Humidifiez des serviettes avec de l’eau à température ambiante et placez-les doucement autour du cou, aux aisselles et à l’aine. Renouvelez-les dès qu’elles se réchauffent; un ventilateur peut aider.",
+      "Faites préparer et commencer le transport vers la clinique vétérinaire tout en poursuivant le refroidissement doux pendant le trajet si cela ne gêne pas la sécurité du transport.",
+      "Gardez l’animal aussi calme que possible et surveillez sa respiration et sa conscience."
+    ],
+    "avoid": "Ne plongez pas l’animal dans un bain froid ou glacé. Ne retardez pas le départ pour tenter de le soigner seul.",
+    "sources": [
+      [
+        "AVMA — Pet First Aid (2025)",
+        "https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf"
+      ]
+    ]
+  },
+  {
+    "id": "animal-intoxication",
+    "category": "Urgence animale",
+    "title": "Suspicion d’intoxication chez un chien ou un chat",
+    "summary": "Éloigner le produit, garder son emballage et ne rien faire avaler.",
+    "intro": "Une intoxication peut ne pas donner de signe immédiatement, et les symptômes ne permettent pas d’identifier sûrement le produit. Certains médicaments humains et produits destinés aux chiens sont dangereux pour les chats.",
+    "steps": [
+      "Éloignez l’animal de la substance sans vous exposer vous-même. Gardez l’emballage ou prenez-en une photo et notez, si vous le savez, l’heure, la quantité et la voie d’exposition.",
+      "Appelez votre vétérinaire ou une clinique vétérinaire d’urgence. En Belgique, le Centre Antipoisons indique traiter les questions sur animaux selon ses disponibilités : 070 245 245, en semaine de 8 h à 16 h et les week-ends/jours fériés de 10 h à 16 h. Il donne priorité aux urgences humaines; ce n’est pas une permanence vétérinaire 24/7.",
+      "Pour un produit sur la peau ou dans l’œil, commencez immédiatement un rinçage prolongé à l’eau tiède du robinet pendant 15 minutes, puis demandez conseil au vétérinaire.",
+      "Pour une ingestion, gardez l’animal au calme et apportez le produit ou son emballage. Faites transmettre au vétérinaire le nom du produit et la quantité estimée.",
+      "Le paracétamol, l’ibuprofène et certains antiparasitaires pour chiens peuvent être particulièrement dangereux selon l’espèce; ne donnez jamais de médicament de votre propre initiative."
+    ],
+    "avoid": "Ne faites pas vomir l’animal et ne lui faites rien avaler : ni lait, ni nourriture, ni médicament, ni charbon actif, sauf consigne explicite d’un vétérinaire. Le numéro et les horaires du Centre Antipoisons sont une information datée qui peut évoluer.",
+    "sources": [
+      [
+        "Centre Antipoisons belge — Intoxications d’animaux",
+        "https://www.centreantipoisons.be/animaux/"
+      ],
+      [
+        "Centre Antipoisons belge — Animaux et médicaments",
+        "https://www.centreantipoisons.be/tox-infos/animaux-et-medicaments/"
+      ]
+    ]
+  },
+  {
+    "id": "animal-convulsions",
+    "category": "Urgence animale",
+    "title": "Convulsions chez un chien ou un chat",
+    "summary": "Protéger l’animal des chocs sans le retenir ni approcher la gueule.",
+    "intro": "Une convulsion est impressionnante. L’objectif immédiat est de réduire le risque de blessure et de transmettre au vétérinaire des informations utiles.",
+    "steps": [
+      "Éloignez meubles, objets, enfants et autres animaux. Si l’animal est près d’un escalier ou de l’eau, bloquez l’accès sans tenter de le saisir pendant les secousses.",
+      "Ne retenez pas l’animal et ne mettez jamais les doigts ou un objet dans sa gueule. Éloignez votre visage.",
+      "Si cela ne vous met pas en danger, chronométrez l’épisode et filmez-le brièvement pour le montrer au vétérinaire.",
+      "Quand les convulsions ont cessé, gardez l’animal au calme et dans un espace sûr. Il peut être désorienté; évitez les manipulations inutiles.",
+      "Contactez rapidement un vétérinaire ou transportez l’animal en urgence, surtout si les convulsions continuent ou se répètent."
+    ],
+    "avoid": "Ne cherchez pas à réveiller ou immobiliser l’animal. Ne donnez ni eau, ni nourriture, ni médicament pendant les convulsions.",
+    "sources": [
+      [
+        "AVMA — Pet First Aid (2025)",
+        "https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf"
+      ]
+    ]
+  },
+  {
+    "id": "animal-etouffement",
+    "category": "Urgence animale",
+    "title": "Étouffement ou gêne respiratoire chez un animal",
+    "summary": "Distinguer l’objet visible d’une obstruction inaccessible et éviter les gestes à l’aveugle.",
+    "intro": "Respiration difficile, bruits d’étouffement, patte portée à la gueule ou muqueuses bleutées sont des signes d’urgence. Une manipulation de la gueule peut provoquer une morsure ou pousser l’objet plus loin.",
+    "steps": [
+      "Si l’animal respire encore, gardez-le calme et partez immédiatement vers un vétérinaire. Faites appeler la clinique par une autre personne si c’est possible.",
+      "N’ouvrez la gueule que si cela peut être fait sans vous exposer à une morsure. Si un objet est clairement visible, libre et facile à saisir, retirez-le doucement sans le pousser vers le fond.",
+      "Si l’objet n’est pas visible ou ne vient pas facilement, cessez les manipulations. Ne balayez pas la gorge à l’aveugle et ne tirez pas sur un objet planté.",
+      "Limitez les efforts et transportez l’animal en sécurité. Si sa respiration s’arrête, la situation nécessite des gestes de réanimation vétérinaire; ne retardez pas la recherche d’aide."
+    ],
+    "avoid": "Ne mettez pas vos doigts à l’aveugle dans la gorge. Les manœuvres de désobstruction dépendent de l’espèce et du gabarit; ne transposez pas automatiquement la manœuvre humaine à un animal.",
+    "sources": [
+      [
+        "AVMA — Pet First Aid (2025)",
+        "https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf"
+      ]
+    ]
+  },
+  {
+    "id": "animal-arret-cardiaque",
+    "category": "Urgence animale",
+    "title": "Arrêt respiratoire ou cardiaque chez un chien ou un chat",
+    "summary": "Ventilation et compressions thoraciques selon le gabarit, uniquement si l’animal ne respire pas.",
+    "intro": "Cette procédure de l’AVMA concerne un animal inconscient qui ne respire pas; les compressions sont indiquées si aucun battement cardiaque n’est présent. Une formation vétérinaire pratique est fortement préférable. Ne pratiquez pas de compressions sur un animal qui respire.",
+    "steps": [
+      "Vérifiez que vous pouvez intervenir sans danger. Un animal inconscient peut mordre par réflexe. Appelez un vétérinaire ou demandez à quelqu’un d’organiser immédiatement le transport.",
+      "Si l’animal est inconscient et ne respire pas, ouvrez la gueule uniquement si vous pouvez le faire sans danger; avancez doucement la langue et retirez seulement un objet clairement visible et facile à saisir.",
+      "Gardez la gueule fermée et soufflez doucement par les narines jusqu’à voir le thorax se soulever. L’AVMA indique de poursuivre à environ 10 insufflations par minute jusqu’à reprise de la respiration ou prise en charge vétérinaire.",
+      "Si aucun battement cardiaque n’est présent, placez la plupart des chiens et des chats sur le côté; les chiens à thorax très large (par exemple bouledogue anglais) sont placés sur le dos. Pour un chat ou un petit chien, entourez le bas du thorax d’une main et comprimez entre le pouce et les doigts. Pour la plupart des autres chiens, placez les mains superposées sur la partie la plus large du thorax; le placement varie aussi selon la forme du thorax.",
+      "Effectuez 100 à 120 compressions par minute, en enfonçant le thorax d’environ un tiers à la moitié de sa largeur lorsqu’il est sur le côté. Si vous êtes seul, alternez 30 compressions et 2 insufflations. Faites garder la tête et le cou dans l’axe.",
+      "Continuez jusqu’au retour d’une respiration régulière et d’un battement cardiaque, ou jusqu’à ce qu’une équipe vétérinaire prenne le relais. Si une autre personne est présente, demandez-lui de préparer la clinique et le trajet."
+    ],
+    "avoid": "Ne faites pas de compressions si l’animal respire. Ne retardez pas l’organisation du transport; la réanimation n’assure pas la survie et doit être remplacée par des soins vétérinaires dès que possible.",
+    "sources": [
+      [
+        "American Veterinary Medical Association (AVMA) — Pet First Aid (PDF, 2025)",
+        "https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf"
+      ]
+    ]
+  },
+  {
+    "id": "animal-traumatisme",
+    "category": "Urgence animale",
+    "title": "Accident ou blessure : déplacer un chien ou un chat",
+    "summary": "Éviter les morsures et limiter les mouvements pendant le transport.",
+    "intro": "Après un accident, l’animal peut avoir une lésion interne ou une fracture qui ne se voit pas. Les gestes de transport doivent réduire les mouvements et ne pas retarder l’examen vétérinaire.",
+    "steps": [
+      "Assurez-vous que les lieux sont sûrs. Approchez avec prudence; gardez le visage loin de la gueule et demandez de l’aide si une personne peut vous assister.",
+      "Ne faites pas marcher l’animal et ne tentez pas de redresser une patte ou d’aligner le dos. Ne retirez pas un objet fiché dans la peau.",
+      "Pour un chat ou un petit chien, utilisez une caisse ou un contenant stable avec assez d’air. Pour un grand chien, une couverture ou un support rigide peut servir de civière si plusieurs personnes peuvent le déplacer doucement.",
+      "Maintenez l’animal confiné et aussi immobile que possible pendant le trajet. Une attelle improvisée mal posée peut aggraver la blessure; laissez-la au vétérinaire si vous n’avez pas été formé.",
+      "Rejoignez une clinique vétérinaire sans délai en cas de choc important, de plaie profonde, d’atteinte de l’œil, de difficulté respiratoire ou de faiblesse marquée."
+    ],
+    "avoid": "Ne portez pas un animal blessé contre votre visage; la douleur et la peur peuvent le rendre imprévisible. Ne mettez pas de muselière en cas de vomissements ou de difficulté respiratoire.",
+    "sources": [
+      [
+        "AVMA — Pet First Aid (2025)",
+        "https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf"
+      ]
+    ]
+  },
+  {
+    "id": "animal-brulure",
+    "category": "Urgence animale",
+    "title": "Brûlure ou projection de produit sur un animal",
+    "summary": "Refroidir ou rincer la zone avec de l’eau et protéger l’animal du refroidissement général.",
+    "intro": "Une brûlure thermique et une projection de produit corrosif demandent un rinçage et une évaluation vétérinaire. N’approchez pas si l’animal est trop douloureux ou dangereux à manipuler.",
+    "steps": [
+      "Éloignez l’animal de la source de chaleur ou du produit. Protégez-vous contre tout contact avec un produit corrosif.",
+      "Pour une brûlure thermique, si l’animal le tolère, faites couler de l’eau fraîche mais non glacée sur la zone pendant au moins cinq minutes. Ne refroidissez pas tout son corps et ne retardez pas le transport pour une brûlure grave.",
+      "Pour un produit sur la peau ou dans l’œil, rincez immédiatement et continuellement à l’eau tiède pendant 15 minutes.",
+      "Si l’animal se débat fortement, semble très douloureux ou si la brûlure est grave, arrêtez le geste qui retarde les soins et partez chez le vétérinaire.",
+      "Protégez la zone des saletés sans serrer ni appliquer de produit; faites examiner l’animal par un vétérinaire."
+    ],
+    "avoid": "Ne retardez pas le transport chez le vétérinaire si l’animal souffre beaucoup ou si la brûlure est grave.",
+    "sources": [
+      [
+        "Blue Cross — Premiers secours chez le chien (brûlures)",
+        "https://www.bluecross.org.uk/advice/dog/basic-first-aid-for-dogs"
+      ],
+      [
+        "Centre Antipoisons belge — Intoxications d’animaux",
+        "https://www.centreantipoisons.be/animaux/"
+      ]
+    ]
+  },
+  {
+    "id": "animal-kit",
+    "category": "Urgence animale",
+    "title": "Préparer la fiche et la trousse d’urgence de son animal",
+    "summary": "Garder les informations vétérinaires et le matériel utile prêts, même sans réseau.",
+    "intro": "Les coordonnées et informations médicales doivent rester accessibles quand le téléphone n’a plus de réseau ou de batterie. Adaptez la trousse avec votre vétérinaire aux besoins de votre animal.",
+    "steps": [
+      "Sur une fiche papier, notez le nom de l’animal, espèce, poids récent si connu, traitements prescrits, allergies connues, vétérinaire habituel et clinique d’urgence : adresses, numéros et itinéraire.",
+      "Ajoutez une copie du dossier ou des ordonnances utiles et une photo récente de l’animal. Ne modifiez pas les traitements pour constituer une réserve.",
+      "Préparez une caisse de transport adaptée pour le chat ou le petit chien, une laisse pour le chien, des serviettes propres, des compresses ou linges propres, des bandes non adhérentes et des gants jetables.",
+      "Gardez aussi sa nourriture habituelle, de l’eau, les médicaments prescrits dans leurs conditions de conservation et de quoi nettoyer les déjections.",
+      "Testez le guide et les cartes en mode avion avant une crise; gardez une batterie externe chargée, mais conservez aussi les contacts et itinéraires sur papier."
+    ],
+    "avoid": "Le contenu de la trousse et les produits adaptés dépendent de l’animal. N’ajoutez pas de médicament ou de traitement d’urgence sans consigne du vétérinaire.",
+    "sources": [
+      [
+        "AVMA — Pet First Aid (2025)",
+        "https://ebusiness.avma.org/files/ProductDownloads/mcm-client-brochures-pet-first-aid-2025.pdf"
+      ],
+      [
+        "Centre de crise national — Kit d’urgence à la maison",
+        "https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison"
+      ]
+    ]
   }
 ];
 
@@ -1134,5 +1363,6 @@ window.CHECKLIST=[
   "Couvertures, vêtements chauds, clés, un peu d’argent et besoins particuliers",
   "Plan médical papier : traitements, allergies, contacts et besoins de chaque personne",
   "Réserve raisonnable des traitements indispensables, prévue avec médecin ou pharmacien",
-  "Plan de secours pour appareils médicaux et médicaments à conserver au frais"
+  "Plan de secours pour appareils médicaux et médicaments à conserver au frais",
+  "Avant une crise : ouvrir le guide et la carte Organic Maps en mode avion; garder contacts et itinéraires importants aussi sur papier."
 ];
