@@ -11,6 +11,11 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "0.1.0"
+        // Le prototype vise le Galaxy S21 FE (ARM64). Évite d'embarquer
+        // trois architectures inutiles dans l'APK de test.
+        ndk {
+            abiFilters += "arm64-v8a"
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
