@@ -38,11 +38,11 @@ jobs:
           target_platform: android-arm64
           project: libzim
 
-      - name: Install Meson and Ninja
+      - name: Verify native build tools
         run: |
-          apt-get update
-          apt-get install -y python3-pip ninja-build pkg-config
-          pip3 install meson
+          meson --version
+          ninja --version
+          pkg-config --version
 
       - name: Apply SAF descriptor patch
         working-directory: vendor/libzim
