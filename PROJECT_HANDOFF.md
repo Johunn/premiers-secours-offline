@@ -6,8 +6,9 @@ Dernière mise à jour : 30 octobre 2026.
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK livré et testé : version 0.7.0, build CI 41; ouverture des résultats ZIM et retour validés sur téléphone.
-- Le code source prépare la version 0.8.0 : application Android unique, recherche commune guide + ZIM, résultats séparés par source. La compilation CI et l'essai de cette version restent à faire.
+- Dernier APK construit : version 0.8.0, build CI 42; compilation, alignement et signature validés. L'essai sur téléphone reste à faire.
+- Dernier test utilisateur : version 0.7.0, build CI 41; ouverture des résultats ZIM et retour validés sur téléphone.
+- Commit Android de la version 0.8.0 : `da952fc` — application unique avec recherche commune guide + ZIM et résultats séparés par source.
 - La PWA du guide de survie reste le produit web existant. Ses fichiers n'ont pas été modifiés dans ce chantier Android.
 - L'application Android lit une archive ZIM choisie par l'utilisateur et construit un index plein texte FTS4 local.
 
@@ -21,20 +22,20 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 
 ### Dernier APK
 
-- Version : 0.7.0, code 8, build CI numéro 41.
-- Identifiant Android : `be.johunn.survie.zimprobe.debug.run41`.
-- Fichier joint à l'exécution CI : [APK run 41](https://github.com/Johunn/premiers-secours-offline/actions/runs/41128831129).
-- SHA-256 de l'APK : `E997E19009E48F997F6B4381D21F0806598843CAE8CAEA6DD4690982FBBB8AED`.
-- La compilation CI, l'alignement et la signature APK ont réussi. Le tap d'un résultat et l'ouverture d'un article ont aussi été confirmés sur téléphone pour `Bruxelles` et `grand-place`; le retour aux résultats a fonctionné.
+- Version : 0.8.0, code 9, build CI numéro 42.
+- Identifiant Android : `be.johunn.survie.zimprobe.debug.run42`.
+- Fichier joint à l'exécution CI : [APK run 42](https://github.com/Johunn/premiers-secours-offline/actions/runs/41135050442).
+- SHA-256 de l'APK : `720F8ED7571D89A041845BC9A3FDD447C9B12E7021F7B20DA73B62E4D79BC208`.
+- Taille : 68 424 245 octets. L'APK extrait de l'artefact CI a été lu et haché localement; le workflow a aussi réussi les contrôles zipalign et apksigner.
 - L'artefact GitHub expire le 13 novembre 2026. S'il n'est plus disponible, relancer la compilation sur la branche active.
 
-### Version intégrée en préparation
+### Version intégrée
 
-- Version source : 0.8.0, code 9.
+- Version source : 0.8.0, code 9, commit `da952fc`.
 - L'accueil permet une requête commune dans les fiches hors ligne et dans l'archive ZIM sélectionnée; les résultats sont présentés séparément (jusqu'à 10 par source).
 - Les fiches et l'interface complètes de la PWA sont intégrées comme ressources locales au build Android, sans modification des fichiers PWA. Les données de recherche du guide sont extraites de `fiches.js` au moment de la compilation.
 - Les articles ZIM continuent de s'ouvrir dans le lecteur natif; les fiches de guide ouvrent le détail existant de la PWA intégrée.
-- Compilation CI : en attente de la poussée du code.
+- Compilation CI : réussie pour le workflow [build 42](https://github.com/Johunn/premiers-secours-offline/actions/runs/41135050442); bibliothèques natives, APK, alignement et signature vérifiés.
 - Essai sur téléphone : pas encore effectué.
 
 ### Dernier essai rapporté par l'utilisateur
@@ -54,7 +55,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Les recherches `Bruxelles` et `grand-place` ainsi que l'ouverture des articles et le retour à la liste sont validés sur téléphone avec le build 41. La version 0.8.0 doit maintenant être compilée puis testée sur le Galaxy : ouverture du guide hors ligne, recherche commune avec et sans archive choisie, provenance des résultats, ouverture de chaque type de résultat, retour et mode avion.
+Les recherches `Bruxelles` et `grand-place` ainsi que l'ouverture des articles et le retour à la liste sont validés sur téléphone avec le build 41. Le build 42 (0.8.0) est prêt pour un essai sur le Galaxy : ouverture du guide hors ligne, recherche `hémorragie` sans ZIM, sélection de l'archive, recherches communes `Bruxelles` et `grand-place`, provenance des groupes, ouverture de fiches et d'articles, retour et mode avion.
 
 ### Données et installation
 
