@@ -24,7 +24,7 @@ android {
         getByName("debug") {
             // GitHub Actions generates a new debug signing key for each run.
             // A unique package lets each debug APK install alongside older ones.
-            applicationIdSuffix = ".debug.$debugBuildId"
+            applicationIdSuffix = ".debug.run$debugBuildId"
         }
     }
     compileOptions {
