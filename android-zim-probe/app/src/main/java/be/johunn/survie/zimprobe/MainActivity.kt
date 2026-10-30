@@ -161,7 +161,8 @@ class MainActivity : Activity() {
             try {
                 if (!localIndex.isReady()) {
                     localIndex.beginRebuild()
-                    val iterator = archive.iterEfficient()
+                    // iterByTitle() yields editorial articles on both legacy A/ and modern namespace ZIMs.
+                    val iterator = archive.iterByTitle()
                     var scanned = 0
                     var indexed = 0
                     val batch = mutableListOf<ArticleDocument>()
@@ -170,7 +171,7 @@ class MainActivity : Activity() {
                             val entry = iterator.next()
                             scanned++
                             val path = entry.path.orEmpty()
-                            if (!entry.isRedirect() && path.startsWith("A/")) {
+                            if (!entry.isRedirect()) {
                                 val item = entry.getItem(true)
                                 if (item.size in 1..MAX_INDEXED_ARTICLE_BYTES &&
                                     item.mimetype.orEmpty().startsWith("text/html", ignoreCase = true)
@@ -218,7 +219,7 @@ class MainActivity : Activity() {
                         iterator.dispose()
                     }
                     if (indexed == 0) {
-                        error("Aucun article HTML du namespace A/ n’a pu être indexé.")
+                        error("Aucun article HTML éditorial n’a pu être indexé. Articles déclarés par l’archive : ${archive.articleCount}.")
                     }
                     localIndex.finishRebuild(indexed)
                 }
