@@ -14,7 +14,6 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import org.kiwix.libzim.Archive
-import org.kiwix.libzim.EntryIterator
 import java.io.FileDescriptor
 import java.util.concurrent.Executors
 
@@ -183,9 +182,7 @@ class MainActivity : Activity() {
                                     val body = android.text.Html.fromHtml(
                                         articleHtml, android.text.Html.FROM_HTML_MODE_COMPACT
                                     ).toString()
-                                        .replace(Regex("[ \\t]+"), " ")
-                                        .replace(Regex(" *\\n *"), "\\n")
-                                        .replace(Regex("\\n{3,}"), "\\n\\n")
+                                        .replace(Regex("\\s+"), " ")
                                         .trim()
                                     if (body.length >= 40) {
                                         batch += ArticleDocument(
@@ -203,9 +200,12 @@ class MainActivity : Activity() {
                                 batch.clear()
                             }
                             if (scanned % 250 == 0) {
-                                val progress = "Indexation locale en cours…\\n\\n" +
-                                    "Entrées parcourues : $scanned / ${archive.allEntryCount}\\n" +
-                                    "Articles indexés : $indexed"
+                                val progress = buildString {
+                                    appendLine("Indexation locale en cours…")
+                                    appendLine()
+                                    appendLine("Entrées parcourues : $scanned / ${archive.allEntryCount}")
+                                    append("Articles indexés : $indexed")
+                                }
                                 mainHandler.post { statusView.text = progress }
                             }
                         }
