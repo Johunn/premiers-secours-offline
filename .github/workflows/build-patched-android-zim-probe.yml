@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   build-patched-libzim:
-    name: Build libzim with SAF descriptor support
+    name: Build libzim 9.8.2 with SAF descriptor support
     runs-on: ubuntu-22.04
     container:
       image: ghcr.io/kiwix/kiwix-build_ci_focal:2023-10-30
@@ -25,11 +25,11 @@ jobs:
       - name: Checkout application repository
         uses: actions/checkout@v4
 
-      - name: Checkout libzim 9.7.0
+      - name: Checkout libzim 9.8.2
         uses: actions/checkout@v4
         with:
           repository: openzim/libzim
-          ref: 9.7.0
+          ref: 9.8.2
           path: vendor/libzim
 
       - name: Download Android ARM64 build dependencies
@@ -46,7 +46,7 @@ jobs:
 
       - name: Apply SAF descriptor patch
         working-directory: vendor/libzim
-        run: git apply ../../android-zim-probe/patches/libzim-saf-fd.patch
+        run: git apply --check ../../android-zim-probe/patches/libzim-saf-fd.patch && git apply ../../android-zim-probe/patches/libzim-saf-fd.patch
 
       - name: Configure and compile patched libzim
         working-directory: vendor/libzim
@@ -79,7 +79,7 @@ jobs:
           retention-days: 1
 
   build-apk:
-    name: Package patched library and build APK
+    name: Package ABI-matched libraries and build APK
     needs: build-patched-libzim
     runs-on: ubuntu-latest
     steps:
@@ -92,15 +92,27 @@ jobs:
           name: patched-libzim-arm64
           path: patched-native
 
-      - name: Download official Java/Kotlin binding AAR
+      - name: Download matching Java/Kotlin binding AAR
         run: |
           curl --fail --location --retry 3 \
-            https://repo.maven.apache.org/maven2/org/kiwix/libkiwix/2.6.0/libkiwix-2.6.0.aar \
-            --output /tmp/libkiwix-2.6.0.aar
+            https://repo.maven.apache.org/maven2/org/kiwix/libkiwix/2.7.0/libkiwix-2.7.0.aar \
+            --output /tmp/libkiwix-2.7.0.aar
           mkdir -p /tmp/libkiwix-aar
-          unzip -q /tmp/libkiwix-2.6.0.aar -d /tmp/libkiwix-aar
+          unzip -q /tmp/libkiwix-2.7.0.aar -d /tmp/libkiwix-aar
           LIBZIM_IN_AAR="$(find /tmp/libkiwix-aar -type f -path '*/arm64-v8a/libzim.so' -print -quit)"
+          LIBKIWIX_IN_AAR="$(find /tmp/libkiwix-aar -type f -path '*/arm64-v8a/libkiwix.so' -print -quit)"
           test -n "$LIBZIM_IN_AAR"
+          test -n "$LIBKIWIX_IN_AAR"
+          # Fail the build if libkiwix requires any libzim symbol that the
+          # patched libzim does not export. APK compilation alone cannot catch this.
+          nm -D --undefined-only "$LIBKIWIX_IN_AAR" | awk '{print $NF}' | grep '^_ZN3zim' | sort -u > /tmp/libkiwix-zim-undefined.txt || true
+          nm -D --defined-only patched-native/libzim.so | awk '{print $NF}' | sort -u > /tmp/libzim-defined.txt
+          comm -23 /tmp/libkiwix-zim-undefined.txt /tmp/libzim-defined.txt > /tmp/libzim-missing.txt
+          if [ -s /tmp/libzim-missing.txt ]; then
+            echo "libkiwix/libzim ABI mismatch. Missing symbols:"
+            cat /tmp/libzim-missing.txt
+            exit 1
+          fi
           cp patched-native/libzim.so "$LIBZIM_IN_AAR"
           mkdir -p android-zim-probe/app/libs
           (cd /tmp/libkiwix-aar && zip -qr "$GITHUB_WORKSPACE/android-zim-probe/app/libs/libkiwix-patched.aar" .)
