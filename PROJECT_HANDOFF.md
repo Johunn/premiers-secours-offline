@@ -6,9 +6,10 @@ Dernière mise à jour : 30 octobre 2026.
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK testé : version 0.8.0, build CI 42; l'utilisateur rapporte que la recherche commune et les parcours du guide et du ZIM fonctionnent correctement.
-- Code source en cours : version 0.9.0, mémorisation et restauration de l'archive ZIM après redémarrage; compilation CI et essai téléphone restent à faire.
-- Commit Android de l'intégration 0.8.0 : `da952fc` — application unique avec recherche commune guide + ZIM et résultats séparés par source.
+- Dernier APK construit : version 0.9.0, build CI 43; compilation, alignement et signature validés. L'essai sur téléphone reste à faire.
+- Dernière version testée : 0.8.0, build CI 42; l'utilisateur rapporte que la recherche commune et les parcours du guide et du ZIM fonctionnent correctement.
+- Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
+- Commit de l'intégration guide + ZIM : `da952fc`.
 - La PWA du guide de survie reste le produit web existant. Ses fichiers n'ont pas été modifiés dans ce chantier Android.
 - L'application Android lit une archive ZIM choisie par l'utilisateur et construit un index plein texte FTS4 local.
 
@@ -22,11 +23,11 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 
 ### Dernier APK
 
-- Version : 0.8.0, code 9, build CI numéro 42.
-- Identifiant Android : `be.johunn.survie.zimprobe.debug.run42`.
-- Fichier joint à l'exécution CI : [APK run 42](https://github.com/Johunn/premiers-secours-offline/actions/runs/41135050442).
-- SHA-256 de l'APK : `720F8ED7571D89A041845BC9A3FDD447C9B12E7021F7B20DA73B62E4D79BC208`.
-- Taille : 68 424 245 octets. L'APK extrait de l'artefact CI a été lu et haché localement; le workflow a aussi réussi les contrôles zipalign et apksigner.
+- Version : 0.9.0, code 10, build CI numéro 43.
+- Identifiant Android : `be.johunn.survie.zimprobe.debug.run43`.
+- Fichier joint à l'exécution CI : [APK run 43](https://github.com/Johunn/premiers-secours-offline/actions/runs/41139363163).
+- SHA-256 de l'APK : `F762A8AF760AB8C87A06F210A9D72F2FC2F430458295A3645EE83A0B6BD65B49`.
+- Taille : 68 424 245 octets. L'APK a été extrait de l'artefact CI et son contenu local du guide est valide; le workflow a réussi les contrôles zipalign et apksigner.
 - L'artefact GitHub expire le 13 novembre 2026. S'il n'est plus disponible, relancer la compilation sur la branche active.
 
 ### Version intégrée
@@ -38,13 +39,13 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Compilation CI : réussie pour le workflow [build 42](https://github.com/Johunn/premiers-secours-offline/actions/runs/41135050442); bibliothèques natives, APK, alignement et signature vérifiés.
 - Essai sur téléphone : l'utilisateur indique que les fonctions testées dans cette version marchent correctement, notamment la recherche `hémorragie` dans le guide et la recherche commune dans le ZIM. Le mode avion n'a pas été précisé explicitement.
 
-### Version 0.9.0 en préparation
+### Version 0.9.0
 
-- Version source : 0.9.0, code 10.
+- Version source : 0.9.0, code 10, commit `962a42a`.
 - Mémorise l'URI de l'archive seulement quand Android confirme une autorisation SAF de lecture persistante; restaure l'archive au prochain démarrage.
 - Si l'autorisation a disparu, efface l'URI mémorisée et indique qu'il faut choisir l'archive à nouveau. L'index FTS4 existant n'est pas supprimé.
-- Le prochain APK CI aura un nouvel identifiant de paquet de test : l'utilisateur devra choisir à nouveau l'archive et construire un index distinct dans cette installation; la restauration sera ensuite vérifiée après fermeture/réouverture de la même installation.
-- Compilation CI : en attente de la poussée du code.
+- L'APK run 43 a un nouvel identifiant de paquet de test : l'utilisateur devra choisir à nouveau l'archive et construire un index distinct dans cette installation; la restauration sera ensuite vérifiée après fermeture/réouverture de cette même installation.
+- Compilation CI : réussie pour le workflow [build 43](https://github.com/Johunn/premiers-secours-offline/actions/runs/41139363163); bibliothèques natives, APK, alignement et signature vérifiés.
 - Essai sur téléphone : à faire après publication de l'APK.
 
 ### Dernier essai rapporté par l'utilisateur
@@ -65,7 +66,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Le build 42 (0.8.0) a été rapporté comme fonctionnel pour l'intégration du guide et du ZIM. Après compilation du build 43 (0.9.0), faire vérifier sur le Galaxy : choisir l'archive, lancer une recherche pour créer l'index, fermer puis rouvrir l'application, vérifier que l'archive est restaurée et refaire une recherche sans re-sélection ni réindexation. Le test explicite en mode avion n'a pas été confirmé.
+Le build 42 (0.8.0) a été rapporté comme fonctionnel pour l'intégration du guide et du ZIM. Le build 43 (0.9.0) est prêt pour essai sur le Galaxy : choisir l'archive, lancer une recherche pour créer l'index, fermer puis rouvrir l'application, vérifier que l'archive est restaurée et refaire une recherche sans re-sélection ni réindexation. Le test explicite en mode avion n'a pas été confirmé.
 
 ### Données et installation
 

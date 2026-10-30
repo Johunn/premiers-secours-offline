@@ -21,7 +21,7 @@ L'archive Wikivoyage utilisée pour les essais sert à vérifier le lecteur et l
 - La première indexation d'une archive peut prendre plusieurs minutes; les recherches suivantes réutilisent la base locale.
 - Les articles ZIM sont affichés en texte nettoyé. Leurs liens internes, images et tableaux ne sont pas reproduits.
 - Les liens externes des fiches ouvrent une autre application et peuvent nécessiter du réseau. Les fiches elles-mêmes sont locales.
-- La pertinence de la nouvelle recherche commune doit être vérifiée sur téléphone avec des termes venant du guide et du ZIM.
+- La recherche commune a été rapportée fonctionnelle sur le Galaxy avec le guide et l'archive Wikivoyage de test; le comportement avec d'autres archives ZIM reste à évaluer.
 - La restauration de l'archive et la réutilisation de l'index après fermeture de l'application restent à vérifier sur téléphone.
 
 ## Construction
