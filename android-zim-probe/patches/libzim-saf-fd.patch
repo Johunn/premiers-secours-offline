@@ -1,0 +1,46 @@
+diff --git a/src/file_part.h b/src/file_part.h
+index 0000000..0000000 100644
+--- a/src/file_part.h
++++ b/src/file_part.h
+@@ -18,6 +18,9 @@
+ #include <string>
+ #include <memory>
++#include <cerrno>
++#include <system_error>
++#include <unistd.h>
+ 
+ #include <zim/zim.h>
+ 
+@@ -28,6 +31,17 @@ namespace zim {
+ 
++// SAF providers may grant access to an already-open descriptor while
++// denying a second open() of /dev/fd/N. Keep the granted capability by
++// duplicating the descriptor instead of resolving that path again.
++inline int duplicateGrantedFd(int fd)
++{
++  const int duplicate = ::dup(fd);
++  if (duplicate < 0) {
++    throw std::system_error(errno, std::generic_category(),
++                            "Cannot duplicate granted ZIM file descriptor");
++  }
++  return duplicate;
++}
++
+ /** A part of file.
+@@ -52,12 +66,16 @@ class FilePart {
+ 
+ #ifndef _WIN32
+     explicit FilePart(int fd) :
+-        FilePart(getFilePathFromFD(fd)) {}
++        m_filename(getFilePathFromFD(fd)),
++        m_fhandle(std::make_shared<FS::FD>(duplicateGrantedFd(fd))),
++        m_offset(0),
++        m_size(m_fhandle->getSize()) {}
+ 
+     explicit FilePart(FdInput fdInput):
+         m_filename(getFilePathFromFD(fdInput.fd)),
+-        m_fhandle(std::make_shared<FS::FD>(FS::openFile(m_filename))),
++        m_fhandle(std::make_shared<FS::FD>(duplicateGrantedFd(fdInput.fd))),
+         m_offset(fdInput.offset),
+         m_size(fdInput.size) {}
+ #endif
