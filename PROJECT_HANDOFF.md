@@ -55,6 +55,10 @@ Chaque APK CI porte actuellement un identifiant de paquet différent (`.debug.ru
 - Avant de proposer l'installation d'un nouvel APK, préciser son effet sur les données, les permissions de l'archive et l'index local.
 - Ne pas supprimer l'application ou ses données sans demande explicite.
 
+## Sauvegarde et compte rendu
+
+Après toute tâche qui modifie des fichiers, terminer la conversation par un état visible indiquant si les changements sont sauvegardés sur GitHub. Quand les limites du projet le permettent, créer le commit et pousser sur la branche active; indiquer la branche, le commit et les fichiers concernés. Ne déclarer la sauvegarde faite qu'après avoir confirmé que le push a réussi. Signaler séparément l'état de la sauvegarde GitHub, de la compilation CI et des essais sur téléphone.
+
 ## Démarrer une nouvelle conversation
 
 Si le dépôt est accessible dans la nouvelle conversation, demander :
