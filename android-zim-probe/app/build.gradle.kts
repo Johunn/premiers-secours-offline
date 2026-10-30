@@ -17,6 +17,13 @@ android {
             abiFilters += "arm64-v8a"
         }
     }
+    buildTypes {
+        getByName("debug") {
+            // The Actions runner uses a different debug key on each run. Keep
+            // test APKs installable alongside the user's existing app.
+            applicationIdSuffix = ".debug"
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
