@@ -1,6 +1,6 @@
 # Sources, périmètre et dates
 
-**Version de l’application : 1.5.0 · Vérification éditoriale : 30 octobre 2026.** Les dates indiquent la consultation ou la mise à jour éditoriale, pas la date d’émission des recommandations ni une garantie de mise à jour future. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
+**Version de l’application : 1.5.1 · Vérification éditoriale : 30 octobre 2026.** Les dates indiquent la consultation ou la mise à jour éditoriale, pas la date d’émission des recommandations ni une garantie de mise à jour future. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
 
 ## Premiers secours — Belgique
 
@@ -90,3 +90,8 @@ Cette version ajoute des repères hors ligne sur la réanimation du nourrisson, 
 Cette version reste un guide de préparation à domicile et de premiers gestes, centré sur les premières 72 heures. Elle ne remplace ni une formation pratique, ni une consultation, ni les secours, et ne constitue pas un manuel complet de survie prolongée ou en milieu sauvage.
 
 - Centre de Prévention du Suicide, [ligne d’écoute 0800 32 123](https://www.preventionsuicide.be/la-ligne-decoute-0800-32-123), et Centre de Crise, [lignes d’écoute](https://centredecrise.be/fr/que-pouvez-vous-faire/prenez-soin-de-vous/lignes-decoute) — soutien en Belgique francophone; nécessite un réseau téléphonique. Consultées le 30-10-2026.
+
+
+## Interface de la version 1.5.1
+
+Un clic sur le fond en dehors de la fiche ouverte ferme maintenant la fenêtre de détail. Les clics dans la fiche n’entraînent pas sa fermeture.
