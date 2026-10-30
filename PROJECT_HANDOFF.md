@@ -6,7 +6,7 @@ Dernière mise à jour : 30 octobre 2026.
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Commit courant : `2db354ca054f31618a6ffb31ff0f377bbce11ab9` — « Treat hyphenated search terms as phrases »
+- Dernier commit de code Android testé : `2db354ca054f31618a6ffb31ff0f377bbce11ab9` — « Treat hyphenated search terms as phrases »
 - La PWA du guide de survie reste le produit web existant. Ses fichiers n'ont pas été modifiés dans ce chantier Android.
 - Le prototype Android lit une archive ZIM choisie par l'utilisateur et construit un index plein texte FTS4 local.
 
@@ -22,20 +22,23 @@ L'idée évoquée est une expérience Android unique permettant de chercher à l
 - Identifiant Android : `be.johunn.survie.zimprobe.debug.run40`.
 - Fichier joint à l'exécution CI : [APK run 40](https://github.com/Johunn/premiers-secours-offline/actions/runs/41122230627).
 - SHA-256 de l'APK : `7736B66B877226C291FCF2301C8E5442B8F0E19F74E3AA52557BEB4CC7124440`.
-- La compilation CI a réussi; l'alignement et la signature APK ont été vérifiés. Ce build n'a pas encore de résultat de recherche confirmé sur le téléphone.
+- La compilation CI a réussi; l'alignement et la signature APK ont été vérifiés. Les deux recherches décrites ci-dessous ont ensuite été confirmées par l'utilisateur sur le téléphone.
 - L'artefact GitHub expire le 13 novembre 2026. S'il n'est plus disponible, relancer la compilation sur la branche active.
 
 ### Dernier essai rapporté par l'utilisateur
 
 - Archive : `wikivoyage_fr_all_nopic_2026-10.zim`, UUID `1985c9fc-40e3-5546-ebe0-08bfc503d30d`.
 - Indexation rapportée : 11 985 articles, environ six minutes la première fois.
-- La recherche hors ligne a répondu instantanément.
+- Sur un build précédent, l'utilisateur avait confirmé que la recherche fonctionnait instantanément en mode avion. Son dernier compte rendu ne précise pas le mode réseau.
 - Avec le build précédent, `Bruxelles` renvoyait les articles bruxellois en tête et des extraits surlignés lisibles.
 - Avec le build précédent, `grand-place` renvoyait encore des résultats trop larges : les mots pouvaient apparaître séparément dans l'article. Le correctif du build 40 conserve les groupes avec trait d'union comme une phrase, par exemple `grand-place` → « grand place ».
+- Sur le build 40, `Bruxelles` renvoie Bruxelles en premier et des pages bruxelloises pertinentes; les extraits surlignent correctement le mot recherché.
+- Sur le build 40, `grand-place` renvoie des pages où l'expression apparaît effectivement. `Quartier du Centre (Bruxelles)` arrive en premier; la page `Bruxelles` est neuvième, avec des pages d'autres villes ayant elles aussi une Grand-Place entre les deux. Les extraits confirment les correspondances exactes.
+- La pertinence de ces deux recherches est donc validée sur téléphone. Le classement reflète les occurrences dans l'archive; une recherche générale `grand-place` peut légitimement retourner les Grand-Places d'autres villes.
 
 ### Prochaine étape
 
-L'utilisateur a indiqué être en train de reconstruire l'index avec le build 40. Attendre ses résultats de recherche, en particulier `grand-place`. Vérifier si les résultats sont désormais centrés sur les articles où l'expression est présente; ne pas présumer que le comportement est validé avant son compte rendu.
+Les recherches `Bruxelles` et `grand-place` ont été rapportées sur téléphone avec le build 40 et sont pertinentes. Aucune correction supplémentaire de recherche n'est actuellement justifiée par ces résultats. Garder le prochain chantier en attente de la décision de l'utilisateur sur l'expérience Android unifiée (guide + archive ZIM) et sur la place de la PWA.
 
 ### Données et installation
 
