@@ -111,7 +111,7 @@ class MainActivity : Activity() {
             val archive = openArchive(afd.fileDescriptor, afd.startOffset, afd.length)
             val archiveTitle = safeMetadata(archive, "Title")
             val archiveName = safeMetadata(archive, "Name")
-            val language = runCatching { archive.mainLanguage }.getOrNull().orEmpty()
+            val language = safeMetadata(archive, "Language")
             val uuid = runCatching { archive.uuid }.getOrNull().orEmpty()
             val selectedEntry = if (requestedTitle.isBlank()) archive.mainEntry
                 else archive.getEntryByTitle(requestedTitle)
