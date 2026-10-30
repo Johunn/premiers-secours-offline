@@ -9,6 +9,7 @@ import android.os.Looper
 import android.provider.OpenableColumns
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -19,7 +20,7 @@ import java.util.concurrent.Executors
 class MainActivity : Activity() {
     companion object {
         private const val REQUEST_OPEN_ZIM = 4102
-        private const val MAX_ARTICLE_BYTES = 1_000_000L
+        private const val MAX_ARTICLE_BYTES = 4_000_000L
         init {
             System.loadLibrary("kiwix")
             System.loadLibrary("zim")
@@ -32,6 +33,7 @@ class MainActivity : Activity() {
     private val mainHandler = Handler(Looper.getMainLooper())
     private lateinit var statusView: TextView
     private lateinit var chooseButton: Button
+    private lateinit var articleTitleInput: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,11 @@ class MainActivity : Activity() {
             text = "Aucune archive sélectionnée.\n\nCe prototype tente une lecture directe via le sélecteur Android. Il ne copie pas l’archive."
             setTextIsSelectable(true)
         }
+        articleTitleInput = EditText(this).apply {
+            hint = "Titre exact de l’article (facultatif)"
+            singleLine = true
+            textSize = 16f
+        }
         chooseButton = Button(this).apply {
             text = "Sélectionner une archive ZIM"
             setOnClickListener { openDocumentPicker() }
@@ -53,6 +60,7 @@ class MainActivity : Activity() {
             orientation = LinearLayout.VERTICAL
             setPadding(24, 24, 24, 24)
             addView(title, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(articleTitleInput, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(chooseButton, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(statusView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
@@ -96,6 +104,7 @@ class MainActivity : Activity() {
 
     private fun inspectArchive(uri: Uri): String {
         val displayName = queryDisplayName(uri)
+        val requestedTitle = articleTitleInput.text.toString().trim()
         val asset = contentResolver.openAssetFileDescriptor(uri, "r")
             ?: error("Le fournisseur Android n’a pas fourni de descripteur exploitable.")
         asset.use { afd ->
@@ -104,10 +113,12 @@ class MainActivity : Activity() {
             val archiveName = safeMetadata(archive, "Name")
             val language = runCatching { archive.mainLanguage }.getOrNull().orEmpty()
             val uuid = runCatching { archive.uuid }.getOrNull().orEmpty()
-            val item = archive.mainEntry.getItem(true)
+            val selectedEntry = if (requestedTitle.isBlank()) archive.mainEntry
+                else archive.getEntryByTitle(requestedTitle)
+            val item = selectedEntry.getItem(true)
             val itemSize = item.size
             require(itemSize in 1..MAX_ARTICLE_BYTES) {
-                "L’article principal fait ${itemSize} octets. Limite du prototype : ${MAX_ARTICLE_BYTES} octets."
+                "L’article sélectionné fait ${itemSize} octets. Limite du prototype : ${MAX_ARTICLE_BYTES} octets."
             }
             val bytes = item.data.data
             val html = bytes.toString(Charsets.UTF_8)
@@ -130,7 +141,8 @@ class MainActivity : Activity() {
                 appendLine("Décalage du contenu : ${afd.startOffset} octets")
                 appendLine()
                 appendLine("ARTICLE EXTRAIT")
-                appendLine("Titre : ${item.title}")
+                appendLine("Titre recherché : ${requestedTitle.ifBlank { "(page principale de l’archive)" }}")
+                appendLine("Titre extrait : ${item.title}")
                 appendLine("Chemin : ${item.path}")
                 appendLine("Type MIME : ${item.mimetype}")
                 appendLine("Taille : ${itemSize} octets")
