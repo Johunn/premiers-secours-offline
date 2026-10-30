@@ -86,10 +86,11 @@ class MainActivity : Activity() {
         } catch (_: SecurityException) {
             // Certains fournisseurs ne proposent pas de permission persistante.
         }
+        val requestedTitle = articleTitleInput.text.toString().trim()
         chooseButton.isEnabled = false
         statusView.text = "Archive sélectionnée. Vérification et extraction en cours…"
         executor.execute {
-            val result = runCatching { inspectArchive(uri) }.fold(
+            val result = runCatching { inspectArchive(uri, requestedTitle) }.fold(
                 onSuccess = { it },
                 onFailure = { error ->
                     "ÉCHEC DE LECTURE\n${error.javaClass.simpleName}: ${error.message ?: "erreur sans détail"}\n\nAucune copie automatique n’a été effectuée."
@@ -102,9 +103,8 @@ class MainActivity : Activity() {
         }
     }
 
-    private fun inspectArchive(uri: Uri): String {
+    private fun inspectArchive(uri: Uri, requestedTitle: String): String {
         val displayName = queryDisplayName(uri)
-        val requestedTitle = articleTitleInput.text.toString().trim()
         val asset = contentResolver.openAssetFileDescriptor(uri, "r")
             ?: error("Le fournisseur Android n’a pas fourni de descripteur exploitable.")
         asset.use { afd ->
