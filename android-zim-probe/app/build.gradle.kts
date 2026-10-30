@@ -9,8 +9,8 @@ android {
         applicationId = "be.johunn.survie.zimprobe"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
-        versionName = "0.5.0"
+        versionCode = 6
+        versionName = "0.5.1"
         // Le prototype vise le Galaxy S21 FE (ARM64). Évite d'embarquer
         // trois architectures inutiles dans l'APK de test.
         ndk {
