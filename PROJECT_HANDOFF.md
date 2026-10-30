@@ -6,9 +6,9 @@ Dernière mise à jour : 30 octobre 2026.
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK construit : version 0.8.0, build CI 42; compilation, alignement et signature validés. L'essai sur téléphone reste à faire.
-- Dernier test utilisateur : version 0.7.0, build CI 41; ouverture des résultats ZIM et retour validés sur téléphone.
-- Commit Android de la version 0.8.0 : `da952fc` — application unique avec recherche commune guide + ZIM et résultats séparés par source.
+- Dernier APK testé : version 0.8.0, build CI 42; l'utilisateur rapporte que la recherche commune et les parcours du guide et du ZIM fonctionnent correctement.
+- Code source en cours : version 0.9.0, mémorisation et restauration de l'archive ZIM après redémarrage; compilation CI et essai téléphone restent à faire.
+- Commit Android de l'intégration 0.8.0 : `da952fc` — application unique avec recherche commune guide + ZIM et résultats séparés par source.
 - La PWA du guide de survie reste le produit web existant. Ses fichiers n'ont pas été modifiés dans ce chantier Android.
 - L'application Android lit une archive ZIM choisie par l'utilisateur et construit un index plein texte FTS4 local.
 
@@ -36,10 +36,20 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Les fiches et l'interface complètes de la PWA sont intégrées comme ressources locales au build Android, sans modification des fichiers PWA. Les données de recherche du guide sont extraites de `fiches.js` au moment de la compilation.
 - Les articles ZIM continuent de s'ouvrir dans le lecteur natif; les fiches de guide ouvrent le détail existant de la PWA intégrée.
 - Compilation CI : réussie pour le workflow [build 42](https://github.com/Johunn/premiers-secours-offline/actions/runs/41135050442); bibliothèques natives, APK, alignement et signature vérifiés.
-- Essai sur téléphone : pas encore effectué.
+- Essai sur téléphone : l'utilisateur indique que les fonctions testées dans cette version marchent correctement, notamment la recherche `hémorragie` dans le guide et la recherche commune dans le ZIM. Le mode avion n'a pas été précisé explicitement.
+
+### Version 0.9.0 en préparation
+
+- Version source : 0.9.0, code 10.
+- Mémorise l'URI de l'archive seulement quand Android confirme une autorisation SAF de lecture persistante; restaure l'archive au prochain démarrage.
+- Si l'autorisation a disparu, efface l'URI mémorisée et indique qu'il faut choisir l'archive à nouveau. L'index FTS4 existant n'est pas supprimé.
+- Le prochain APK CI aura un nouvel identifiant de paquet de test : l'utilisateur devra choisir à nouveau l'archive et construire un index distinct dans cette installation; la restauration sera ensuite vérifiée après fermeture/réouverture de la même installation.
+- Compilation CI : en attente de la poussée du code.
+- Essai sur téléphone : à faire après publication de l'APK.
 
 ### Dernier essai rapporté par l'utilisateur
 
+- Build 42 / version 0.8.0 : l'utilisateur confirme que la recherche `hémorragie` dans le guide et la recherche commune dans le guide + ZIM fonctionnent. Il dit que tout fonctionne correctement; il n'a pas spécifié séparément le mode avion.
 - Archive : `wikivoyage_fr_all_nopic_2026-10.zim`, UUID `1985c9fc-40e3-5546-ebe0-08bfc503d30d`.
 - Indexation rapportée : 11 985 articles, environ six minutes la première fois.
 - Sur un build précédent, l'utilisateur avait confirmé que la recherche fonctionnait instantanément en mode avion. Son dernier compte rendu ne précise pas le mode réseau.
@@ -55,7 +65,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Les recherches `Bruxelles` et `grand-place` ainsi que l'ouverture des articles et le retour à la liste sont validés sur téléphone avec le build 41. Le build 42 (0.8.0) est prêt pour un essai sur le Galaxy : ouverture du guide hors ligne, recherche `hémorragie` sans ZIM, sélection de l'archive, recherches communes `Bruxelles` et `grand-place`, provenance des groupes, ouverture de fiches et d'articles, retour et mode avion.
+Le build 42 (0.8.0) a été rapporté comme fonctionnel pour l'intégration du guide et du ZIM. Après compilation du build 43 (0.9.0), faire vérifier sur le Galaxy : choisir l'archive, lancer une recherche pour créer l'index, fermer puis rouvrir l'application, vérifier que l'archive est restaurée et refaire une recherche sans re-sélection ni réindexation. Le test explicite en mode avion n'a pas été confirmé.
 
 ### Données et installation
 

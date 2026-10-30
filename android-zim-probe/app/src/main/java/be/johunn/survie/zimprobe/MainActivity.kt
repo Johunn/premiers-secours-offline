@@ -29,6 +29,8 @@ import java.util.concurrent.Executors
 class MainActivity : Activity() {
     companion object {
         private const val REQUEST_OPEN_ZIM = 4102
+        private const val ARCHIVE_PREFS = "selected_zim_archive"
+        private const val ARCHIVE_URI_KEY = "uri"
         private const val MAX_ARTICLE_BYTES = 4_000_000L
         private const val MAX_SEARCH_RESULTS = 10
         private const val MAX_INDEXED_ARTICLE_BYTES = 2_000_000L
@@ -56,6 +58,7 @@ class MainActivity : Activity() {
     private lateinit var homeScreen: ScrollView
     private lateinit var unifiedQueryInput: EditText
     private lateinit var unifiedSearchButton: Button
+    private lateinit var archiveSelectionView: TextView
     private lateinit var unifiedStatusView: TextView
     private lateinit var unifiedResultsScreen: ScrollView
     private lateinit var unifiedResultsContainer: LinearLayout
@@ -162,6 +165,7 @@ class MainActivity : Activity() {
         }
         setContentView(rootContainer)
         showHome()
+        restoreArchiveSelection()
     }
 
     private fun createHomeScreen(): ScrollView {
@@ -198,6 +202,12 @@ class MainActivity : Activity() {
                 setOnClickListener { runUnifiedSearch() }
             }
             addView(unifiedSearchButton, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            archiveSelectionView = TextView(this@MainActivity).apply {
+                text = "Aucune archive ZIM choisie. Le guide reste consultable sans elle."
+                textSize = 13f
+                setPadding(0, 0, 0, dp(12))
+            }
+            addView(archiveSelectionView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(TextView(this@MainActivity).apply {
                 text = "Les résultats du guide et de l’archive seront présentés séparément avec leur provenance."
                 textSize = 13f
@@ -329,6 +339,35 @@ class MainActivity : Activity() {
         unifiedResultsScreen.visibility = android.view.View.GONE
     }
 
+    private fun restoreArchiveSelection() {
+        val preferences = getSharedPreferences(ARCHIVE_PREFS, MODE_PRIVATE)
+        val savedValue = preferences.getString(ARCHIVE_URI_KEY, null)
+        val uri = savedValue?.let { runCatching { Uri.parse(it) }.getOrNull() }
+        if (uri == null) {
+            if (savedValue != null) preferences.edit().remove(ARCHIVE_URI_KEY).apply()
+            archiveSelectionView.text = "Aucune archive ZIM choisie. Le guide reste consultable sans elle."
+            return
+        }
+
+        val permissionRetained = contentResolver.persistedUriPermissions.any {
+            it.uri == uri && it.isReadPermission
+        }
+        if (!permissionRetained) {
+            preferences.edit().remove(ARCHIVE_URI_KEY).apply()
+            selectedArchiveUri = null
+            searchButton.isEnabled = false
+            archiveSelectionView.text = "L’accès Android à l’archive n’est plus disponible. Choisis-la de nouveau pour rechercher dans le ZIM."
+            statusView.text = "Android n’a pas conservé l’autorisation de lecture de l’archive. Aucune copie n’a été créée."
+            return
+        }
+
+        selectedArchiveUri = uri
+        searchButton.isEnabled = true
+        val displayName = runCatching { queryDisplayName(uri) }.getOrDefault("archive ZIM")
+        archiveSelectionView.text = "Archive conservée : $displayName"
+        statusView.text = "Archive retrouvée. Le prochain résultat réutilisera l’index local s’il est déjà prêt."
+    }
+
     private fun showGuide() {
         activeTopLevelScreen = TopLevelScreen.GUIDE
         homeScreen.visibility = android.view.View.GONE
@@ -391,13 +430,26 @@ class MainActivity : Activity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode != REQUEST_OPEN_ZIM || resultCode != RESULT_OK) return
         val uri = data?.data ?: return
-        try {
+        val hasPersistedReadPermission = try {
             contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            contentResolver.persistedUriPermissions.any {
+                it.uri == uri && it.isReadPermission
+            }
         } catch (_: SecurityException) {
-            // Certains fournisseurs ne proposent pas de permission persistante.
+            false
         }
+        getSharedPreferences(ARCHIVE_PREFS, MODE_PRIVATE).edit().apply {
+            if (hasPersistedReadPermission) putString(ARCHIVE_URI_KEY, uri.toString())
+            else remove(ARCHIVE_URI_KEY)
+        }.apply()
         val requestedTitle = articleTitleInput.text.toString().trim()
         selectedArchiveUri = uri
+        val displayName = runCatching { queryDisplayName(uri) }.getOrDefault("archive ZIM")
+        archiveSelectionView.text = if (hasPersistedReadPermission) {
+            "Archive conservée : $displayName"
+        } else {
+            "Archive disponible pour cette session : Android n’a pas conservé son autorisation."
+        }
         searchButton.isEnabled = true
         chooseButton.isEnabled = false
         statusView.text = "Archive sélectionnée. Vérification et extraction en cours…"
