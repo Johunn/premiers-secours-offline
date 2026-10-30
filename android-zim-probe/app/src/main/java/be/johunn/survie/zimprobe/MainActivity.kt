@@ -14,10 +14,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import org.kiwix.libzim.Archive
-import org.kiwix.libzim.Query
-import org.kiwix.libzim.Search
-import org.kiwix.libzim.Searcher
-import org.kiwix.libzim.SearchIterator
+import org.kiwix.libzim.EntryIterator
 import java.io.FileDescriptor
 import java.util.concurrent.Executors
 
@@ -26,6 +23,8 @@ class MainActivity : Activity() {
         private const val REQUEST_OPEN_ZIM = 4102
         private const val MAX_ARTICLE_BYTES = 4_000_000L
         private const val MAX_SEARCH_RESULTS = 10
+        private const val MAX_INDEXED_ARTICLE_BYTES = 2_000_000L
+        private const val INDEX_BATCH_SIZE = 40
         private val NON_CONTENT_BLOCKS = Regex("(?is)<(script|style|head|noscript|template)\\b[^>]*>.*?</\\1\\s*>")
         private val HTML_COMMENTS = Regex("(?s)<!--.*?-->")
         init {
@@ -158,67 +157,98 @@ class MainActivity : Activity() {
             ?: error("Le fournisseur Android n’a pas fourni de descripteur exploitable.")
         asset.use { afd ->
             val archive = openArchive(afd.fileDescriptor, afd.startOffset, afd.length)
-            if (!archive.hasFulltextIndex()) {
-                archive.dispose()
-                error("Cette archive ne contient pas d’index plein texte. La recherche par titre reste distincte.")
-            }
-            val searcher = try {
-                Searcher(archive)
-            } catch (error: Throwable) {
-                archive.dispose()
-                throw error
-            }
-            var query: Query? = null
-            var search: Search? = null
-            var iterator: SearchIterator? = null
+            val archiveUuid = archive.uuid
+            val localIndex = LocalArticleIndex(this, archiveUuid)
             try {
-                val activeQuery = Query(queryText)
-                query = activeQuery
-                val activeSearch = searcher.search(activeQuery)
-                search = activeSearch
-                val estimated = activeSearch.getEstimatedMatches()
-                val activeIterator = activeSearch.getResults(0, MAX_SEARCH_RESULTS)
-                iterator = activeIterator
-                val output = mutableListOf<String>()
-                while (activeIterator.hasNext() && output.size < MAX_SEARCH_RESULTS) {
-                    val title = activeIterator.getTitle().orEmpty()
-                    val path = activeIterator.getPath().orEmpty()
-                    val score = activeIterator.getScore()
-                    val snippet = activeIterator.getSnippet().orEmpty()
-                    output += buildString {
-                        appendLine(title.ifBlank { "(titre indisponible)" })
-                        appendLine("Chemin : ${path}")
-                        appendLine("Score : ${score}")
-                        if (snippet.isNotBlank()) appendLine("Extrait : ${snippet}")
-                        append("Provenance : ${displayName} / ${path}")
+                if (!localIndex.isReady()) {
+                    localIndex.beginRebuild()
+                    val iterator = archive.iterEfficient()
+                    var scanned = 0
+                    var indexed = 0
+                    val batch = mutableListOf<ArticleDocument>()
+                    try {
+                        while (iterator.hasNext()) {
+                            val entry = iterator.next()
+                            scanned++
+                            val path = entry.path.orEmpty()
+                            if (!entry.isRedirect() && path.startsWith("A/")) {
+                                val item = entry.getItem(true)
+                                if (item.size in 1..MAX_INDEXED_ARTICLE_BYTES &&
+                                    item.mimetype.orEmpty().startsWith("text/html", ignoreCase = true)
+                                ) {
+                                    val html = item.data.data.toString(Charsets.UTF_8)
+                                    val articleHtml = html
+                                        .replace(HTML_COMMENTS, " ")
+                                        .replace(NON_CONTENT_BLOCKS, " ")
+                                    val body = android.text.Html.fromHtml(
+                                        articleHtml, android.text.Html.FROM_HTML_MODE_COMPACT
+                                    ).toString()
+                                        .replace(Regex("[ \\t]+"), " ")
+                                        .replace(Regex(" *\\n *"), "\\n")
+                                        .replace(Regex("\\n{3,}"), "\\n\\n")
+                                        .trim()
+                                    if (body.length >= 40) {
+                                        batch += ArticleDocument(
+                                            title = entry.title.orEmpty(),
+                                            path = path,
+                                            body = body
+                                        )
+                                    }
+                                }
+                            }
+
+                            if (batch.size >= INDEX_BATCH_SIZE) {
+                                localIndex.addArticles(batch)
+                                indexed += batch.size
+                                batch.clear()
+                            }
+                            if (scanned % 250 == 0) {
+                                val progress = "Indexation locale en cours…\\n\\n" +
+                                    "Entrées parcourues : $scanned / ${archive.allEntryCount}\\n" +
+                                    "Articles indexés : $indexed"
+                                mainHandler.post { statusView.text = progress }
+                            }
+                        }
+                        if (batch.isNotEmpty()) {
+                            localIndex.addArticles(batch)
+                            indexed += batch.size
+                            batch.clear()
+                        }
+                    } finally {
+                        iterator.dispose()
                     }
-                    activeIterator.next()
+                    if (indexed == 0) {
+                        error("Aucun article HTML du namespace A/ n’a pu être indexé.")
+                    }
+                    localIndex.finishRebuild(indexed)
                 }
+
+                val results = localIndex.search(queryText, MAX_SEARCH_RESULTS)
                 return buildString {
-                    appendLine("RECHERCHE PLEIN TEXTE")
+                    appendLine("RECHERCHE LOCALE")
                     appendLine()
-                    appendLine("Requête : ${queryText}")
-                    appendLine("Archive : ${displayName}")
-                    appendLine("UUID : ${archive.uuid}")
-                    appendLine("Index plein texte : présent")
-                    appendLine("Correspondances estimées : ${estimated}")
-                    appendLine("Résultats affichés : ${output.size} (maximum ${MAX_SEARCH_RESULTS})")
+                    appendLine("Requête : $queryText")
+                    appendLine("Archive : $displayName")
+                    appendLine("UUID : $archiveUuid")
+                    appendLine("Index : SQLite FTS4 local, conservé sur le téléphone")
+                    appendLine("Articles indexés : ${localIndex.articleCount()}")
+                    appendLine("Résultats affichés : ${results.size} (maximum $MAX_SEARCH_RESULTS)")
                     appendLine()
-                    if (output.isEmpty()) {
-                        appendLine("Aucun résultat retourné pour cette requête.")
+                    if (results.isEmpty()) {
+                        appendLine("Aucun résultat pour cette requête.")
                     } else {
-                        output.forEachIndexed { index, item ->
-                            appendLine("${index + 1}. ${item}")
+                        results.forEachIndexed { index, result ->
+                            appendLine("${index + 1}. ${result.title}")
+                            appendLine("Chemin : ${result.path}")
+                            appendLine("Extrait : ${result.snippet}")
+                            appendLine("Provenance : $displayName / ${result.path}")
                             appendLine()
                         }
                     }
                 }
             } finally {
-                runCatching { iterator?.dispose() }
-                runCatching { search?.dispose() }
-                runCatching { query?.dispose() }
-                runCatching { searcher.dispose() }
-                runCatching { archive.dispose() }
+                localIndex.close()
+                archive.dispose()
             }
         }
     }
