@@ -3,11 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools">
     <application
         android:allowBackup="false"
-        android:label="Test lecteur ZIM"
+        android:icon="@drawable/ic_launcher"
+        android:label="Lecteur ZIM (test)"
+        android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
-        tools:replace="android:allowBackup,android:label">
-        <activity android:name=".MainActivity" android:exported="true">
+        tools:replace="android:allowBackup,android:icon,android:label,android:roundIcon">
+        <activity
+            android:name=".MainActivity"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
