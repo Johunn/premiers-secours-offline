@@ -114,14 +114,24 @@ class LocalArticleIndex(
     @Synchronized
     fun search(rawQuery: String, limit: Int): List<ArticleSearchResult> {
         if (limit <= 0) return emptyList()
-        val tokens = Regex("[\\p{L}\\p{N}]+")
+        val queryGroups = Regex("(?:[\\p{L}\\p{N}]+[-‐‑‒–—−])+[\\p{L}\\p{N}]+|[\\p{L}\\p{N}]+")
             .findAll(rawQuery)
-            .map { it.value }
+            .map { group ->
+                Regex("[\\p{L}\\p{N}]+")
+                    .findAll(group.value)
+                    .map { it.value }
+                    .toList()
+            }
             .toList()
-        if (tokens.isEmpty()) return emptyList()
+        if (queryGroups.isEmpty()) return emptyList()
 
-        // Quote each token so punctuation cannot become FTS query syntax.
-        val matchQuery = tokens.joinToString(" AND ") { "\"$it\"" }
+        // Keep hyphenated words as phrases (e.g. grand-place -> "grand place").
+        // Separate query groups still use AND, while punctuation cannot become
+        // FTS query syntax.
+        val tokens = queryGroups.flatten()
+        val matchQuery = queryGroups.joinToString(" AND ") { group ->
+            "\"${group.joinToString(" ")}\""
+        }
         val phraseQuery = "\"${tokens.joinToString(" ")}\""
         val documentCount = articleCount().coerceAtLeast(1)
         val db = readableDatabase
