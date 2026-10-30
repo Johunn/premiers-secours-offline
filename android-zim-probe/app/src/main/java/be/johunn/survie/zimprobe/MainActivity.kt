@@ -14,6 +14,10 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import org.kiwix.libzim.Archive
+import org.kiwix.libzim.Query
+import org.kiwix.libzim.Search
+import org.kiwix.libzim.Searcher
+import org.kiwix.libzim.SearchIterator
 import java.io.FileDescriptor
 import java.util.concurrent.Executors
 
@@ -21,6 +25,7 @@ class MainActivity : Activity() {
     companion object {
         private const val REQUEST_OPEN_ZIM = 4102
         private const val MAX_ARTICLE_BYTES = 4_000_000L
+        private const val MAX_SEARCH_RESULTS = 10
         private val NON_CONTENT_BLOCKS = Regex("(?is)<(script|style|head|noscript|template)\\b[^>]*>.*?</\\1\\s*>")
         private val HTML_COMMENTS = Regex("(?s)<!--.*?-->")
         init {
@@ -36,6 +41,9 @@ class MainActivity : Activity() {
     private lateinit var statusView: TextView
     private lateinit var chooseButton: Button
     private lateinit var articleTitleInput: EditText
+    private lateinit var searchQueryInput: EditText
+    private lateinit var searchButton: Button
+    private var selectedArchiveUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +62,16 @@ class MainActivity : Activity() {
             setSingleLine(true)
             textSize = 16f
         }
+        searchQueryInput = EditText(this).apply {
+            hint = "Rechercher dans l’archive (plein texte)"
+            setSingleLine(true)
+            textSize = 16f
+        }
+        searchButton = Button(this).apply {
+            text = "Rechercher dans le ZIM"
+            isEnabled = false
+            setOnClickListener { runFullTextSearch() }
+        }
         chooseButton = Button(this).apply {
             text = "Sélectionner une archive ZIM"
             setOnClickListener { openDocumentPicker() }
@@ -64,6 +82,8 @@ class MainActivity : Activity() {
             addView(title, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(articleTitleInput, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(chooseButton, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(searchQueryInput, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(searchButton, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(statusView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
         setContentView(ScrollView(this).apply { addView(content) })
@@ -89,6 +109,8 @@ class MainActivity : Activity() {
             // Certains fournisseurs ne proposent pas de permission persistante.
         }
         val requestedTitle = articleTitleInput.text.toString().trim()
+        selectedArchiveUri = uri
+        searchButton.isEnabled = true
         chooseButton.isEnabled = false
         statusView.text = "Archive sélectionnée. Vérification et extraction en cours…"
         executor.execute {
@@ -101,6 +123,94 @@ class MainActivity : Activity() {
             mainHandler.post {
                 statusView.text = result
                 chooseButton.isEnabled = true
+            }
+        }
+    }
+
+    private fun runFullTextSearch() {
+        val uri = selectedArchiveUri ?: return
+        val queryText = searchQueryInput.text.toString().trim()
+        if (queryText.isBlank()) {
+            statusView.text = "Saisis un terme à rechercher dans l’archive."
+            return
+        }
+        chooseButton.isEnabled = false
+        searchButton.isEnabled = false
+        statusView.text = "Recherche plein texte en cours…"
+        executor.execute {
+            val result = runCatching { searchArchive(uri, queryText) }.fold(
+                onSuccess = { it },
+                onFailure = { error ->
+                    "ÉCHEC DE RECHERCHE\\n${error.javaClass.simpleName}: ${error.message ?: "erreur sans détail"}"
+                }
+            )
+            mainHandler.post {
+                statusView.text = result
+                chooseButton.isEnabled = true
+                searchButton.isEnabled = selectedArchiveUri != null
+            }
+        }
+    }
+
+    private fun searchArchive(uri: Uri, queryText: String): String {
+        val displayName = queryDisplayName(uri)
+        val asset = contentResolver.openAssetFileDescriptor(uri, "r")
+            ?: error("Le fournisseur Android n’a pas fourni de descripteur exploitable.")
+        asset.use { afd ->
+            val archive = openArchive(afd.fileDescriptor, afd.startOffset, afd.length)
+            if (!archive.hasFulltextIndex()) {
+                archive.dispose()
+                error("Cette archive ne contient pas d’index plein texte. La recherche par titre reste distincte.")
+            }
+            val searcher = Searcher(archive)
+            var query: Query? = null
+            var search: Search? = null
+            var iterator: SearchIterator? = null
+            try {
+                query = Query(queryText)
+                search = searcher.search(query)
+                val estimated = search.getEstimatedMatches()
+                iterator = search.getResults(0, MAX_SEARCH_RESULTS)
+                val output = mutableListOf<String>()
+                while (iterator.hasNext() && output.size < MAX_SEARCH_RESULTS) {
+                    val title = iterator.getTitle().orEmpty()
+                    val path = iterator.getPath().orEmpty()
+                    val score = iterator.getScore()
+                    val snippet = iterator.getSnippet().orEmpty()
+                    output += buildString {
+                        appendLine(title.ifBlank { "(titre indisponible)" })
+                        appendLine("Chemin : ${path}")
+                        appendLine("Score : ${score}")
+                        if (snippet.isNotBlank()) appendLine("Extrait : ${snippet}")
+                        append("Provenance : ${displayName} / ${path}")
+                    }
+                    iterator.next()
+                }
+                return buildString {
+                    appendLine("RECHERCHE PLEIN TEXTE")
+                    appendLine()
+                    appendLine("Requête : ${queryText}")
+                    appendLine("Archive : ${displayName}")
+                    appendLine("UUID : ${archive.uuid}")
+                    appendLine("Index plein texte : présent")
+                    appendLine("Correspondances estimées : ${estimated}")
+                    appendLine("Résultats affichés : ${output.size} (maximum ${MAX_SEARCH_RESULTS})")
+                    appendLine()
+                    if (output.isEmpty()) {
+                        appendLine("Aucun résultat retourné pour cette requête.")
+                    } else {
+                        output.forEachIndexed { index, item ->
+                            appendLine("${index + 1}. ${item}")
+                            appendLine()
+                        }
+                    }
+                }
+            } finally {
+                runCatching { iterator?.dispose() }
+                runCatching { search?.dispose() }
+                runCatching { query?.dispose() }
+                runCatching { searcher.dispose() }
+                runCatching { archive.dispose() }
             }
         }
     }
