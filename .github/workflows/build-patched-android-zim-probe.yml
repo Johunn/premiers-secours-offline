@@ -1,0 +1,129 @@
+name: Build patched Android ZIM probe
+
+on:
+  push:
+    branches:
+      - feature/android-zim-probe
+    paths:
+      - "android-zim-probe/**"
+      - ".github/workflows/build-android-zim-probe.yml"
+      - ".github/workflows/build-patched-android-zim-probe.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-patched-libzim:
+    name: Build libzim with SAF descriptor support
+    runs-on: ubuntu-22.04
+    container:
+      image: ghcr.io/kiwix/kiwix-build_ci_focal:2023-10-30
+    env:
+      HOME: /home/runner
+    steps:
+      - name: Checkout application repository
+        uses: actions/checkout@v4
+
+      - name: Checkout libzim 9.7.0
+        uses: actions/checkout@v4
+        with:
+          repository: openzim/libzim
+          ref: 9.7.0
+          path: vendor/libzim
+
+      - name: Download Android ARM64 build dependencies
+        uses: kiwix/kiwix-build/actions/dl_deps_archive@main
+        with:
+          target_platform: android-arm64
+
+      - name: Install Meson and Ninja
+        run: |
+          apt-get update
+          apt-get install -y python3-pip ninja-build pkg-config
+          pip3 install meson
+
+      - name: Apply SAF descriptor patch
+        working-directory: vendor/libzim
+        run: git apply ../../android-zim-probe/patches/libzim-saf-fd.patch
+
+      - name: Configure and compile patched libzim
+        working-directory: vendor/libzim
+        env:
+          PKG_CONFIG_PATH: /home/runner/BUILD_aarch64-linux-android/INSTALL/lib/pkgconfig:/home/runner/BUILD_aarch64-linux-android/INSTALL/lib/aarch64-linux-android/pkgconfig
+        run: |
+          CROSS_FILE="$HOME/BUILD_aarch64-linux-android/meson_cross_file.txt"
+          test -f "$CROSS_FILE"
+          meson setup . build \
+            --default-library=shared \
+            --cross-file "$CROSS_FILE" \
+            -Dstatic-linkage=true \
+            -DUSE_BUFFER_HEADER=false \
+            -Dwith_xapian=false \
+            -Dtests=false \
+            -Dexamples=false
+          ninja -C build
+          LIBZIM_SO="$(find build -type f -name 'libzim.so' -print -quit)"
+          test -n "$LIBZIM_SO"
+          mkdir -p "$GITHUB_WORKSPACE/patched-native"
+          cp "$LIBZIM_SO" "$GITHUB_WORKSPACE/patched-native/libzim.so"
+          file "$GITHUB_WORKSPACE/patched-native/libzim.so"
+
+      - name: Upload patched libzim
+        uses: actions/upload-artifact@v4
+        with:
+          name: patched-libzim-arm64
+          path: patched-native/libzim.so
+          if-no-files-found: error
+          retention-days: 1
+
+  build-apk:
+    name: Package patched library and build APK
+    needs: build-patched-libzim
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout application repository
+        uses: actions/checkout@v4
+
+      - name: Download patched libzim
+        uses: actions/download-artifact@v4
+        with:
+          name: patched-libzim-arm64
+          path: patched-native
+
+      - name: Download official Java/Kotlin binding AAR
+        run: |
+          curl --fail --location --retry 3 \
+            https://repo.maven.apache.org/maven2/org/kiwix/libkiwix/2.6.0/libkiwix-2.6.0.aar \
+            --output /tmp/libkiwix-2.6.0.aar
+          mkdir -p /tmp/libkiwix-aar
+          unzip -q /tmp/libkiwix-2.6.0.aar -d /tmp/libkiwix-aar
+          LIBZIM_IN_AAR="$(find /tmp/libkiwix-aar -type f -path '*/arm64-v8a/libzim.so' -print -quit)"
+          test -n "$LIBZIM_IN_AAR"
+          cp patched-native/libzim.so "$LIBZIM_IN_AAR"
+          mkdir -p android-zim-probe/app/libs
+          (cd /tmp/libkiwix-aar && zip -qr "$GITHUB_WORKSPACE/android-zim-probe/app/libs/libkiwix-patched.aar" .)
+          unzip -l android-zim-probe/app/libs/libkiwix-patched.aar | grep 'arm64-v8a/libzim.so'
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle 8.13
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.13"
+
+      - name: Build debug APK
+        working-directory: android-zim-probe
+        run: gradle --no-daemon assembleDebug
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-zim-probe-patched-debug
+          path: android-zim-probe/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
