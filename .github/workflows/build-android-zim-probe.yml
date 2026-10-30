@@ -1,12 +1,6 @@
 name: Build Android ZIM probe
 
 on:
-  push:
-    branches:
-      - feature/android-zim-probe
-    paths:
-      - "android-zim-probe/**"
-      - ".github/workflows/build-android-zim-probe.yml"
   workflow_dispatch:
 
 permissions:
