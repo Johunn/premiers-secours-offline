@@ -1,6 +1,6 @@
 # Sources, périmètre et dates
 
-**Version de l’application : 1.4.0 · Vérification éditoriale : 30 octobre 2026.** Les dates indiquent la consultation ou la mise à jour éditoriale, pas la date d’émission des recommandations ni une garantie de mise à jour future. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
+**Version de l’application : 1.5.0 · Vérification éditoriale : 30 octobre 2026.** Les dates indiquent la consultation ou la mise à jour éditoriale, pas la date d’émission des recommandations ni une garantie de mise à jour future. La PWA conserve une copie locale qui ne peut pas vérifier les consignes en temps réel.
 
 ## Premiers secours — Belgique
 
@@ -34,7 +34,7 @@ La fiche de traitement de l’eau intègre une méthode d’ébullition et, à t
 
 Le code couleur rouge/orange/vert de la fiche d’eau suspecte décrit l’avis SWDE uniquement; les autres distributeurs peuvent utiliser d’autres formulations. Les quantités de 4 L/jour sont le repère belge de préparation, à adapter aux personnes et aux conditions.
 
-La copie locale peut devenir dépassée. Vérification éditoriale de l’édition 1.4.0 : **30 octobre 2026**. Vérifier les recommandations et alertes dès qu’une connexion est à nouveau disponible. Aucune liste de refuges, hôpitaux ou points d’eau n’est incluse, car ces données locales changent. Organic Maps reste une application séparée; les cartes téléchargées peuvent être utilisées hors ligne mais ne reflètent pas l’état actuel des routes ou services. Les favoris et cases cochées sont enregistrés localement sur l’appareil.
+La copie locale peut devenir dépassée. Vérification éditoriale de l’édition 1.5.0 : **30 octobre 2026**. Vérifier les recommandations et alertes dès qu’une connexion est à nouveau disponible. Aucune liste de refuges, hôpitaux ou points d’eau n’est incluse, car ces données locales changent. Organic Maps reste une application séparée; les cartes téléchargées peuvent être utilisées hors ligne mais ne reflètent pas l’état actuel des routes ou services. Les favoris et cases cochées sont enregistrés localement sur l’appareil.
 
 ## Références des procédures embarquées
 
@@ -53,7 +53,7 @@ Les catégories utilisent une planche d’illustrations éditoriales originale, 
 
 ## Illustrations des gestes
 
-Les pictogrammes de liste restent de simples repères. Les 16 fiches procédurales disposent maintenant d’illustrations narratives en plusieurs étapes, conçues pour cette application et regroupées dans quatre planches PNG préchargées hors ligne. Chaque fiche associe son illustration à ses consignes écrites et à ses propres références. Les images sont illustratives; les textes sourcés restent la référence pratique. Elles ne reprennent pas les affiches sous droit d’auteur de la Croix-Rouge. Les recommandations de gestes sont documentées dans les fiches et dans les références officielles correspondantes, notamment les [affiches de premiers secours de la Croix-Rouge belge](https://formations.croix-rouge.be/affiches-premiers-secours/) et les [recommandations ERC 2025](https://www.erc.edu/science-research/guidelines/guidelines-2025).
+Les pictogrammes de liste restent de simples repères. Seize fiches procédurales déjà présentes disposent d’illustrations narratives en plusieurs étapes, regroupées dans quatre planches PNG préchargées hors ligne. Les fiches ajoutées dans l’édition 1.5.0 utilisent l’illustration de leur catégorie; les consignes écrites et leurs références restent la base pratique. Les images sont illustratives; les textes sourcés restent la référence pratique. Elles ne reprennent pas les affiches sous droit d’auteur de la Croix-Rouge. Les recommandations de gestes sont documentées dans les fiches et dans les références officielles correspondantes, notamment les [affiches de premiers secours de la Croix-Rouge belge](https://formations.croix-rouge.be/affiches-premiers-secours/) et les [recommandations ERC 2025](https://www.erc.edu/science-research/guidelines/guidelines-2025).
 
 
 
@@ -72,3 +72,21 @@ Kiwix Android accepte les URI d’article de la forme `zim://<identifiant-du-ZIM
 Un examen de l’inventaire de la PWA à la lumière des thèmes de premiers secours couverts par l’ERC 2025 a fait ressortir quatre lacunes prioritaires que cette version comble : anaphylaxie, asthme, hypoglycémie et noyade. L’inventaire comprenait déjà notamment arrêt cardiaque, inconscience, étouffement adulte et bébé, hémorragie, brûlure, douleur thoracique, AVC, convulsions, traumatisme, chaleur et hypothermie.
 
 Cette passe est un contrôle de couverture, pas une validation clinique exhaustive ni une relecture ligne par ligne de chaque fiche existante. Des thèmes ERC tels que la surdose d’opioïdes et la crise suicidaire ne sont pas ajoutés dans cette version : leurs gestes et relais nécessitent des sources et un cadrage belge dédiés.
+
+
+## Ajouts et divergences de la version 1.5.0 — 30 octobre 2026
+
+Cette version ajoute des repères hors ligne sur la réanimation du nourrisson, le plan médical du foyer, la suspicion de surdose d’opioïdes, la plaie thoracique ouverte, la conservation d’une partie amputée, la déshydratation et les gelures. Les fiches pédiatriques et de trauma suivent principalement les recommandations ERC 2025; la disponibilité des médicaments et les relais locaux sont adaptés aux sources belges.
+
+- ERC, [Paediatric Life Support 2025 (PDF)](https://www.erc.edu/media/03xnpjmj/gl2025-09-pls-e.pdf) et [Adult Basic Life Support 2025 (PDF)](https://www.erc.edu/media/wrhj5sye/gl2025-04-bls-e.pdf) — réanimation bébé, enfant et adulte, dont la cadence, la profondeur et les ratios selon la formation PBLS. Consultés le 30-10-2026.
+- Croix-Rouge de Belgique, [affiche RCP enfant](https://formations.croix-rouge.be/files/files/affiches-secours/Affiche-R-animation-enfant-Croix-Rouge-de-Belgique-2.pdf) — affiche actuellement consultée indiquant 15 compressions / 2 insufflations sans distinguer le niveau PBLS. ERC 2025 recommande 30:2 pour les personnes non formées en PBLS et 15:2 pour les personnes formées. La fiche 1.5.0 indique cette divergence et suit la distinction ERC 2025; suivre les instructions du 112 ou la formation locale si disponibles.
+- ERC, [Guidelines 2025 First Aid](https://www.erc.edu/media/i2vllpae/gl2025-12-faid-e.pdf) — surdose d’opioïdes, plaie thoracique ouverte et conservation d’une partie amputée. Consulté le 30-10-2026.
+- CBIP, [Naloxone en cas d’intoxication par les opioïdes](https://www.cbip.be/fr/chapters/21?frag=19265) et Conseil Supérieur de la Santé, [mise à disposition de naloxone](https://www.hgr-css.be/fr/avis/9695/mise-a-disposition-de-naloxone-aux-consommateurs-dopioides) — situation belge et limites d’accès; la fiche ne donne pas de dose d’injection. Consultés le 30-10-2026.
+- Centre de Crise, [plan pour les personnes ayant besoin d’une aide supplémentaire](https://centredecrise.be/fr/que-pouvez-vous-faire/faites-un-plan/un-plan-pour-ceux-qui-ont-besoin-dune-aide-supplementaire), [kit d’urgence](https://centredecrise.be/fr/que-pouvez-vous-faire/preparez-un-kit-durgence/un-kit-durgence-la-maison) et [évacuation](https://centredecrise.be/fr/que-pouvez-vous-faire/le-bon-reflexe/evacuer) — plan médical et continuité des soins en crise.
+- ONE, [Vive les vacances (édition 2024)](https://www.one.be/fileadmin/user_upload/siteone/PARENTS/Brochures/Vive-les-vacances-2024-ACC.pdf) et Kind en Gezin, [infections gastro-intestinales de l’enfant](https://www.kindengezin.be/nl/thema/gezondheid-en-vaccinatie/koorts-ziekte-en-medicatie/ziek/maag-darminfecties) — symptômes de déshydratation, hydratation et signes appelant un avis médical. Consultés le 30-10-2026.
+- NHS, [Frostbite](https://www.nhs.uk/conditions/frostbite/) — premiers gestes pour une gelure; référence complémentaire non belge. Consultée le 30-10-2026.
+- ERC 2025 recommande l’aspirine dans certains cas de douleur thoracique évoquant une origine cardiaque; la fiche de cette application n’ajoute pas de dose sans validation d’une consigne belge destinée au grand public. Elle conserve l’aide au traitement personnel prescrit pour une angine de poitrine.
+
+Cette version reste un guide de préparation à domicile et de premiers gestes, centré sur les premières 72 heures. Elle ne remplace ni une formation pratique, ni une consultation, ni les secours, et ne constitue pas un manuel complet de survie prolongée ou en milieu sauvage.
+
+- Centre de Prévention du Suicide, [ligne d’écoute 0800 32 123](https://www.preventionsuicide.be/la-ligne-decoute-0800-32-123), et Centre de Crise, [lignes d’écoute](https://centredecrise.be/fr/que-pouvez-vous-faire/prenez-soin-de-vous/lignes-decoute) — soutien en Belgique francophone; nécessite un réseau téléphonique. Consultées le 30-10-2026.
