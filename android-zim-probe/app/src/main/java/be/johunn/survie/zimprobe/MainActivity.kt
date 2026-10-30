@@ -2,11 +2,16 @@ package be.johunn.survie.zimprobe
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.OpenableColumns
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -41,7 +46,13 @@ class MainActivity : Activity() {
     private lateinit var articleTitleInput: EditText
     private lateinit var searchQueryInput: EditText
     private lateinit var searchButton: Button
+    private lateinit var searchControls: LinearLayout
+    private lateinit var resultsContainer: LinearLayout
+    private lateinit var scrollView: ScrollView
     private var selectedArchiveUri: Uri? = null
+    private var currentSearchScreen: SearchScreen? = null
+    private var showingArticle = false
+    private var openingArticle = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,17 +85,26 @@ class MainActivity : Activity() {
             text = "Sélectionner une archive ZIM"
             setOnClickListener { openDocumentPicker() }
         }
-        val content = LinearLayout(this).apply {
+        searchControls = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(24, 24, 24, 24)
-            addView(title, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(articleTitleInput, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(chooseButton, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(searchQueryInput, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(searchButton, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            addView(statusView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
-        setContentView(ScrollView(this).apply { addView(content) })
+        resultsContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        val content = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(24, 24, 24, 24)
+            addView(title, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(searchControls, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(statusView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(resultsContainer, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
+        scrollView = ScrollView(this).apply { addView(content) }
+        setContentView(scrollView)
     }
 
     private fun openDocumentPicker() {
@@ -136,21 +156,22 @@ class MainActivity : Activity() {
         searchButton.isEnabled = false
         statusView.text = "Recherche plein texte en cours…"
         executor.execute {
-            val result = runCatching { searchArchive(uri, queryText) }.fold(
-                onSuccess = { it },
-                onFailure = { error ->
-                    "ÉCHEC DE RECHERCHE\n${error.javaClass.simpleName}: ${error.message ?: "erreur sans détail"}"
-                }
-            )
+            val result = runCatching { searchArchive(uri, queryText) }
             mainHandler.post {
-                statusView.text = result
+                result.fold(
+                    onSuccess = { screen -> showSearchResults(screen) },
+                    onFailure = { error ->
+                        resultsContainer.removeAllViews()
+                        statusView.text = "ÉCHEC DE RECHERCHE\n${error.javaClass.simpleName}: ${error.message ?: "erreur sans détail"}"
+                    }
+                )
                 chooseButton.isEnabled = true
                 searchButton.isEnabled = selectedArchiveUri != null
             }
         }
     }
 
-    private fun searchArchive(uri: Uri, queryText: String): String {
+    private fun searchArchive(uri: Uri, queryText: String): SearchScreen {
         val displayName = queryDisplayName(uri)
         val asset = contentResolver.openAssetFileDescriptor(uri, "r")
             ?: error("Le fournisseur Android n’a pas fourni de descripteur exploitable.")
@@ -225,7 +246,7 @@ class MainActivity : Activity() {
                 }
 
                 val results = localIndex.search(queryText, MAX_SEARCH_RESULTS)
-                return buildString {
+                val summary = buildString {
                     appendLine("RECHERCHE LOCALE")
                     appendLine()
                     appendLine("Requête : $queryText")
@@ -236,23 +257,237 @@ class MainActivity : Activity() {
                     appendLine("Résultats affichés : ${results.size} (maximum $MAX_SEARCH_RESULTS)")
                     appendLine()
                     if (results.isEmpty()) {
-                        appendLine("Aucun résultat pour cette requête.")
+                        append("Aucun résultat pour cette requête.")
                     } else {
-                        results.forEachIndexed { index, result ->
-                            appendLine("${index + 1}. ${result.title}")
-                            appendLine("Chemin : ${result.path}")
-                            appendLine("Extrait : ${result.snippet}")
-                            appendLine("Provenance : $displayName / ${result.path}")
-                            appendLine()
-                        }
+                        append("Touchez un résultat ci-dessous pour ouvrir l’article.")
                     }
                 }
+                return SearchScreen(
+                    archiveName = displayName,
+                    archiveUuid = archiveUuid,
+                    summary = summary,
+                    results = results
+                )
             } finally {
                 localIndex.close()
                 archive.dispose()
             }
         }
     }
+
+    private fun showSearchResults(screen: SearchScreen) {
+        currentSearchScreen = screen
+        showingArticle = false
+        openingArticle = false
+        searchControls.visibility = android.view.View.VISIBLE
+        statusView.visibility = android.view.View.VISIBLE
+        statusView.text = screen.summary
+        resultsContainer.removeAllViews()
+
+        if (screen.results.isEmpty()) {
+            resultsContainer.addView(TextView(this).apply {
+                text = "Aucun résultat pour cette requête."
+                textSize = 16f
+                setPadding(0, dp(12), 0, dp(12))
+            })
+        } else {
+            screen.results.forEachIndexed { index, result ->
+                val row = LinearLayout(this).apply {
+                    orientation = LinearLayout.VERTICAL
+                    gravity = Gravity.CENTER_VERTICAL
+                    isClickable = true
+                    isFocusable = true
+                    val background = TypedValue()
+                    if (theme.resolveAttribute(android.R.attr.selectableItemBackground, background, true)) {
+                        setBackgroundResource(background.resourceId)
+                    }
+                    setPadding(dp(12), dp(12), dp(12), dp(12))
+                    contentDescription = "Ouvrir l’article ${result.title}"
+                    setOnClickListener { openSearchResult(result) }
+                }
+                row.addView(TextView(this).apply {
+                    text = "${index + 1}. ${result.title}"
+                    textSize = 17f
+                    setTypeface(typeface, Typeface.BOLD)
+                })
+                row.addView(TextView(this).apply {
+                    text = "Chemin : ${result.path}\nExtrait :"
+                    textSize = 14f
+                    setPadding(0, dp(4), 0, 0)
+                })
+                row.addView(TextView(this).apply {
+                    text = highlightSnippet(result.snippet)
+                    textSize = 14f
+                })
+                row.addView(TextView(this).apply {
+                    text = "Provenance : ${screen.archiveName} / ${result.path}"
+                    textSize = 12f
+                    setPadding(0, dp(4), 0, 0)
+                })
+                resultsContainer.addView(
+                    row,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                if (index < screen.results.lastIndex) {
+                    resultsContainer.addView(android.view.View(this).apply {
+                        setBackgroundColor(0x33000000)
+                    }, ViewGroup.LayoutParams.MATCH_PARENT, dp(1))
+                }
+            }
+        }
+        scrollView.post { scrollView.scrollTo(0, 0) }
+    }
+
+    private fun highlightSnippet(markedText: String): CharSequence {
+        val formatted = SpannableStringBuilder()
+        var position = 0
+        while (position < markedText.length) {
+            val start = markedText.indexOf('⟦', position)
+            if (start < 0) {
+                formatted.append(markedText.substring(position))
+                break
+            }
+            formatted.append(markedText.substring(position, start))
+            val end = markedText.indexOf('⟧', start + 1)
+            if (end < 0) {
+                formatted.append(markedText.substring(start + 1))
+                break
+            }
+            val spanStart = formatted.length
+            formatted.append(markedText.substring(start + 1, end))
+            if (formatted.length > spanStart) {
+                formatted.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    spanStart,
+                    formatted.length,
+                    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            position = end + 1
+        }
+        return formatted
+    }
+
+    private fun openSearchResult(result: ArticleSearchResult) {
+        if (openingArticle) return
+        val uri = selectedArchiveUri ?: return
+        openingArticle = true
+        chooseButton.isEnabled = false
+        searchButton.isEnabled = false
+        statusView.visibility = android.view.View.VISIBLE
+        statusView.text = "Ouverture de « ${result.title} » depuis l’archive…"
+        executor.execute {
+            val page = runCatching { readSearchResult(uri, result.path) }
+            mainHandler.post {
+                page.fold(
+                    onSuccess = { showArticle(it) },
+                    onFailure = { error ->
+                        openingArticle = false
+                        statusView.visibility = android.view.View.VISIBLE
+                        statusView.text = "ÉCHEC D’OUVERTURE DE L’ARTICLE\n${error.javaClass.simpleName}: ${error.message ?: "erreur sans détail"}"
+                    }
+                )
+                chooseButton.isEnabled = true
+                searchButton.isEnabled = selectedArchiveUri != null
+            }
+        }
+    }
+
+    private fun readSearchResult(uri: Uri, path: String): ArticlePage {
+        val displayName = queryDisplayName(uri)
+        val asset = contentResolver.openAssetFileDescriptor(uri, "r")
+            ?: error("Le fournisseur Android n’a pas fourni de descripteur exploitable.")
+        asset.use { afd ->
+            val archive = openArchive(afd.fileDescriptor, afd.startOffset, afd.length)
+            try {
+                val entry = archive.getEntryByPath(path)
+                val item = entry.getItem(true)
+                val itemSize = item.size
+                require(itemSize in 1..MAX_ARTICLE_BYTES) {
+                    "L’article sélectionné fait ${itemSize} octets. Limite du prototype : ${MAX_ARTICLE_BYTES} octets."
+                }
+                val html = item.data.data.toString(Charsets.UTF_8)
+                val contentHtml = html
+                    .replace(HTML_COMMENTS, " ")
+                    .replace(NON_CONTENT_BLOCKS, " ")
+                val text = android.text.Html.fromHtml(
+                    contentHtml, android.text.Html.FROM_HTML_MODE_COMPACT
+                ).toString()
+                    .replace("\uFFFC", " ")
+                    .replace(Regex("[ \\t]+"), " ")
+                    .replace(Regex(" *\\n *"), "\n")
+                    .replace(Regex("\\n{3,}"), "\n\n")
+                    .trim()
+                return ArticlePage(
+                    archiveName = displayName,
+                    archiveUuid = archive.uuid,
+                    title = item.title.orEmpty().ifBlank { entry.title.orEmpty() },
+                    path = item.path.orEmpty().ifBlank { path },
+                    byteSize = itemSize,
+                    text = text.ifBlank { "Aucun texte lisible n’a été extrait de cet article." }
+                )
+            } finally {
+                archive.dispose()
+            }
+        }
+    }
+
+    private fun showArticle(page: ArticlePage) {
+        showingArticle = true
+        openingArticle = false
+        searchControls.visibility = android.view.View.GONE
+        statusView.visibility = android.view.View.GONE
+        resultsContainer.removeAllViews()
+        resultsContainer.addView(Button(this).apply {
+            text = "← Retour aux résultats"
+            isAllCaps = false
+            setOnClickListener { currentSearchScreen?.let(::showSearchResults) }
+        }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        resultsContainer.addView(TextView(this).apply {
+            text = page.title
+            textSize = 22f
+            setTypeface(typeface, Typeface.BOLD)
+            setPadding(0, dp(16), 0, dp(8))
+        })
+        resultsContainer.addView(TextView(this).apply {
+            text = "Chemin : ${page.path}\nArchive : ${page.archiveName}\nUUID : ${page.archiveUuid}\nTaille : ${page.byteSize} octets"
+            textSize = 13f
+            setTextIsSelectable(true)
+        })
+        resultsContainer.addView(TextView(this).apply {
+            text = page.text
+            textSize = 16f
+            setTextIsSelectable(true)
+            setPadding(0, dp(16), 0, dp(24))
+        })
+        scrollView.post { scrollView.scrollTo(0, 0) }
+    }
+
+    private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+
+    @Deprecated("Prototype: article view has an explicit return-to-results button.")
+    override fun onBackPressed() {
+        val screen = currentSearchScreen
+        if (showingArticle && screen != null) showSearchResults(screen)
+        else super.onBackPressed()
+    }
+
+    private data class SearchScreen(
+        val archiveName: String,
+        val archiveUuid: String,
+        val summary: String,
+        val results: List<ArticleSearchResult>
+    )
+
+    private data class ArticlePage(
+        val archiveName: String,
+        val archiveUuid: String,
+        val title: String,
+        val path: String,
+        val byteSize: Long,
+        val text: String
+    )
 
     private fun inspectArchive(uri: Uri, requestedTitle: String): String {
         val displayName = queryDisplayName(uri)

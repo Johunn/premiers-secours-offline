@@ -9,6 +9,8 @@ Version 0.4.0 : nettoyage du HTML MediaWiki avant affichage et message explicite
 3. Ouvre l'archive par `Archive(FileDescriptor, offset, length)` si le fournisseur donne une longueur exploitable. Si la longueur est inconnue, utilise `Archive(FileDescriptor)` uniquement lorsque le décalage vaut zéro.
 4. Lit les métadonnées et extrait l'article correspondant au titre exact saisi; si le champ est vide, il extrait l'entrée principale.
 5. Affiche le titre, le chemin, le type MIME, un extrait et la provenance.
+6. Pour la recherche plein texte, affiche des résultats activables. Toucher un résultat ouvre l'article correspondant par son chemin dans le ZIM; un bouton permet de revenir à la liste.
+7. Affiche l'article sous forme de texte nettoyé, avec son titre, son chemin et sa provenance.
 
 Si l'accès direct n'est pas possible, le prototype affiche une erreur explicite. Il ne copie, ne déplace et ne modifie aucun fichier ZIM.
 
@@ -16,6 +18,7 @@ Si l'accès direct n'est pas possible, le prototype affiche une erreur explicite
 
 - Aucune modification de la PWA.
 - Aucun pont JavaScript/Kotlin ni WebView.
+- Les articles ouverts depuis les résultats sont rendus en texte; les liens internes, tableaux et images ne sont pas encore navigables ou reproduits.
 - Lors de la première recherche, l'application parcourt les entrées du namespace `A/`, extrait le texte des articles HTML et construit un index SQLite FTS4 dans son espace privé. Les recherches suivantes réutilisent cet index. Le ZIM original n'est ni modifié ni copié.\n- Aucun RAG ni modèle IA.
 - Aucune garantie de compatibilité avec tous les fournisseurs SAF.
 - L'API Java utilisée n'expose pas ici de fermeture native déterministe de l'archive; ce point devra être traité avant un usage prolongé.

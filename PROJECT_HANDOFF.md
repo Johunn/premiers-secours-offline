@@ -36,9 +36,13 @@ L'idée évoquée est une expérience Android unique permettant de chercher à l
 - Sur le build 40, `grand-place` renvoie des pages où l'expression apparaît effectivement. `Quartier du Centre (Bruxelles)` arrive en premier; la page `Bruxelles` est neuvième, avec des pages d'autres villes ayant elles aussi une Grand-Place entre les deux. Les extraits confirment les correspondances exactes.
 - La pertinence de ces deux recherches est donc validée sur téléphone. Le classement reflète les occurrences dans l'archive; une recherche générale `grand-place` peut légitimement retourner les Grand-Places d'autres villes.
 
+### Navigation des résultats (en cours)
+
+L'utilisateur a signalé que les résultats étaient affichés comme du texte non activable. Le code en cours rend chaque ligne activable, ouvre l'article par son chemin ZIM et affiche le texte nettoyé avec un retour à la liste. La compilation et l'essai sur téléphone de cette navigation restent à faire. Les liens internes, images et tableaux ne sont pas inclus dans ce premier affichage.
+
 ### Prochaine étape
 
-Les recherches `Bruxelles` et `grand-place` ont été rapportées sur téléphone avec le build 40 et sont pertinentes. Aucune correction supplémentaire de recherche n'est actuellement justifiée par ces résultats. Garder le prochain chantier en attente de la décision de l'utilisateur sur l'expérience Android unifiée (guide + archive ZIM) et sur la place de la PWA.
+Les recherches `Bruxelles` et `grand-place` sont validées sur le build 40. Première priorité : livrer puis faire vérifier le tap sur un résultat, l'ouverture du contenu, le retour à la liste et la réouverture en mode avion. Après cette navigation, cadrer l'expérience Android unifiée (guide + archive ZIM); la PWA reste la version web et n'est pas à modifier dans ce chantier.
 
 ### Données et installation
 
