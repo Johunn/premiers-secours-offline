@@ -122,24 +122,38 @@ class LocalArticleIndex(
 
         // Quote each token so punctuation cannot become FTS query syntax.
         val matchQuery = tokens.joinToString(" AND ") { "\"$it\"" }
+        val phraseQuery = "\"${tokens.joinToString(" ")}\""
         val documentCount = articleCount().coerceAtLeast(1)
+        val db = readableDatabase
+        val phraseMatches = db.rawQuery(
+            "SELECT docid FROM $TABLE WHERE $TABLE MATCH ?",
+            arrayOf(phraseQuery)
+        ).use { cursor ->
+            buildSet {
+                while (cursor.moveToNext()) add(cursor.getLong(0))
+            }
+        }
         val rankedResults = mutableListOf<RankedArticleSearchResult>()
 
-        readableDatabase.rawQuery(
-            "SELECT title, path, snippet($TABLE, -1, '⟦', '⟧', '…', 18), " +
+        db.rawQuery(
+            "SELECT docid, title, path, snippet($TABLE, '⟦', '⟧', '…', -1, 18), " +
                 "matchinfo($TABLE, 'pcx') " +
                 "FROM $TABLE WHERE $TABLE MATCH ?",
             arrayOf(matchQuery)
         ).use { cursor ->
             while (cursor.moveToNext()) {
                 val result = ArticleSearchResult(
-                    title = cursor.getString(0).orEmpty(),
-                    path = cursor.getString(1).orEmpty(),
-                    snippet = cursor.getString(2).orEmpty()
+                    title = cursor.getString(1).orEmpty(),
+                    path = cursor.getString(2).orEmpty(),
+                    snippet = cursor.getString(3).orEmpty()
                 )
                 rankedResults += RankedArticleSearchResult(
                     result = result,
-                    score = relevanceScore(cursor.getBlob(3), documentCount)
+                    score = relevanceScore(
+                        matchInfo = cursor.getBlob(4),
+                        documentCount = documentCount,
+                        phraseMatch = cursor.getLong(0) in phraseMatches
+                    )
                 )
             }
         }
@@ -155,7 +169,11 @@ class LocalArticleIndex(
             .map { it.result }
     }
 
-    private fun relevanceScore(matchInfo: ByteArray, documentCount: Int): Double {
+    private fun relevanceScore(
+        matchInfo: ByteArray,
+        documentCount: Int,
+        phraseMatch: Boolean
+    ): Double {
         if (matchInfo.size < 8 || matchInfo.size % Int.SIZE_BYTES != 0) return 0.0
 
         val info = ByteBuffer.wrap(matchInfo).order(ByteOrder.nativeOrder())
@@ -166,16 +184,13 @@ class LocalArticleIndex(
         val requiredInts = phraseCount.toLong() * columnCount * 3L
         if (requiredInts > info.remaining() / Int.SIZE_BYTES) return 0.0
 
-        val columnWeights = DoubleArray(columnCount) { column ->
-            when (column) {
-                0 -> 12.0 // title
-                1 -> 4.0  // path
-                else -> 1.0 // article body
-            }
-        }
+        val columnWeights = doubleArrayOf(2.0, 1.5, 1.0)
+        val phraseHitsInTitle = LongArray(phraseCount)
+        var idfTotal = 0.0
         var score = 0.0
 
-        repeat(phraseCount) {
+        repeat(phraseCount) { phrase ->
+            var phraseIdf = 0.0
             repeat(columnCount) { column ->
                 val hitsInRow = info.int.toLong() and 0xffffffffL
                 info.int // Total hits in this column across the index.
@@ -188,10 +203,23 @@ class LocalArticleIndex(
                     val termFrequency = hitsInRow.toDouble()
                     val saturatedFrequency =
                         termFrequency * 2.2 / (termFrequency + 1.2)
-                    score += columnWeights[column] * idf * saturatedFrequency
+                    val columnWeight = columnWeights.getOrElse(column) { 1.0 }
+                    score += columnWeight * idf * saturatedFrequency
+                    phraseIdf = maxOf(phraseIdf, idf)
+                    if (column == 0) phraseHitsInTitle[phrase] = hitsInRow
                 }
             }
+            idfTotal += phraseIdf
         }
+
+        // A partial title hit must not outweigh a complete phrase in an article.
+        // Give a strong title boost only when every query term is in the title.
+        if (phraseHitsInTitle.all { it > 0L }) score += idfTotal * 12.0
+        else if (phraseHitsInTitle.any { it > 0L }) score += idfTotal * 0.5
+
+        // Prefer results where the normalized words occur together, such as
+        // “Grand-Place”, over pages that contain the words far apart.
+        if (phraseMatch) score += idfTotal * 8.0
         return score
     }
 
