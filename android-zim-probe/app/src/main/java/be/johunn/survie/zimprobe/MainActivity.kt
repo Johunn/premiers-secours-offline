@@ -135,8 +135,8 @@ class MainActivity : Activity() {
                 contentHtml, android.text.Html.FROM_HTML_MODE_COMPACT
             ).toString()
                 .replace(Regex("[ \\t]+"), " ")
-                .replace(Regex(" *\\n *"), "\\n")
-                .replace(Regex("\\n{3,}"), "\\n\\n")
+                .replace(Regex(" *\\n *"), "\n")
+                .replace(Regex("\\n{3,}"), "\n\n")
                 .trim()
             val excerpt = plainText.take(5_000).ifBlank {
                 "Aucun texte éditorial lisible n’a été extrait de cette entrée HTML."
