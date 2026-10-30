@@ -162,21 +162,27 @@ class MainActivity : Activity() {
                 archive.dispose()
                 error("Cette archive ne contient pas d’index plein texte. La recherche par titre reste distincte.")
             }
-            val searcher = Searcher(archive)
-            var query: Query? = null
+            val searcher = try {
+                Searcher(archive)
+            } catch (error: Throwable) {
+                archive.dispose()
+                throw error
+            }
+            val query = Query(queryText)
             var search: Search? = null
             var iterator: SearchIterator? = null
             try {
-                query = Query(queryText)
-                search = searcher.search(query)
-                val estimated = search.getEstimatedMatches()
-                iterator = search.getResults(0, MAX_SEARCH_RESULTS)
+                val activeSearch = searcher.search(query)
+                search = activeSearch
+                val estimated = activeSearch.getEstimatedMatches()
+                val activeIterator = activeSearch.getResults(0, MAX_SEARCH_RESULTS)
+                iterator = activeIterator
                 val output = mutableListOf<String>()
-                while (iterator.hasNext() && output.size < MAX_SEARCH_RESULTS) {
-                    val title = iterator.getTitle().orEmpty()
-                    val path = iterator.getPath().orEmpty()
-                    val score = iterator.getScore()
-                    val snippet = iterator.getSnippet().orEmpty()
+                while (activeIterator.hasNext() && output.size < MAX_SEARCH_RESULTS) {
+                    val title = activeIterator.getTitle().orEmpty()
+                    val path = activeIterator.getPath().orEmpty()
+                    val score = activeIterator.getScore()
+                    val snippet = activeIterator.getSnippet().orEmpty()
                     output += buildString {
                         appendLine(title.ifBlank { "(titre indisponible)" })
                         appendLine("Chemin : ${path}")
@@ -184,7 +190,7 @@ class MainActivity : Activity() {
                         if (snippet.isNotBlank()) appendLine("Extrait : ${snippet}")
                         append("Provenance : ${displayName} / ${path}")
                     }
-                    iterator.next()
+                    activeIterator.next()
                 }
                 return buildString {
                     appendLine("RECHERCHE PLEIN TEXTE")
@@ -208,7 +214,7 @@ class MainActivity : Activity() {
             } finally {
                 runCatching { iterator?.dispose() }
                 runCatching { search?.dispose() }
-                runCatching { query?.dispose() }
+                runCatching { query.dispose() }
                 runCatching { searcher.dispose() }
                 runCatching { archive.dispose() }
             }
