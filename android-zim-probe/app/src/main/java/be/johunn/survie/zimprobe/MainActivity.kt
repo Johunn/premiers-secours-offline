@@ -14,15 +14,19 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.Spinner
 import android.widget.TextView
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import org.kiwix.libzim.Archive
+import org.json.JSONArray
 import java.io.FileDescriptor
 import java.util.concurrent.Executors
 
@@ -30,7 +34,10 @@ class MainActivity : Activity() {
     companion object {
         private const val REQUEST_OPEN_ZIM = 4102
         private const val ARCHIVE_PREFS = "selected_zim_archive"
+        // ARCHIVE_URI_KEY is retained only to migrate installations from the single-archive build.
         private const val ARCHIVE_URI_KEY = "uri"
+        private const val ARCHIVE_URIS_KEY = "uris"
+        private const val ACTIVE_ARCHIVE_URI_KEY = "active_uri"
         private const val MAX_ARTICLE_BYTES = 4_000_000L
         private const val MAX_SEARCH_RESULTS = 10
         private const val MAX_INDEXED_ARTICLE_BYTES = 2_000_000L
@@ -59,6 +66,7 @@ class MainActivity : Activity() {
     private lateinit var unifiedQueryInput: EditText
     private lateinit var unifiedSearchButton: Button
     private lateinit var archiveSelectionView: TextView
+    private lateinit var archivePicker: Spinner
     private lateinit var unifiedStatusView: TextView
     private lateinit var unifiedResultsScreen: ScrollView
     private lateinit var unifiedResultsContainer: LinearLayout
@@ -67,6 +75,10 @@ class MainActivity : Activity() {
     private lateinit var guideBackButton: Button
     private lateinit var rootContainer: LinearLayout
     private var selectedArchiveUri: Uri? = null
+    private val savedArchiveUris = mutableListOf<Uri>()
+    private val archiveOptions = mutableListOf<ArchiveOption>()
+    private var sessionOnlyArchiveUri: Uri? = null
+    private var archivePickerIsRefreshing = false
     private var currentSearchScreen: SearchScreen? = null
     private var showingArticle = false
     private var openingArticle = false
@@ -105,7 +117,8 @@ class MainActivity : Activity() {
             setOnClickListener { runFullTextSearch() }
         }
         chooseButton = Button(this).apply {
-            text = "Sélectionner une archive ZIM"
+            text = "Ajouter une archive ZIM"
+            isAllCaps = false
             setOnClickListener { openDocumentPicker() }
         }
         searchControls = LinearLayout(this).apply {
@@ -196,8 +209,36 @@ class MainActivity : Activity() {
                 }
             }
             addView(unifiedQueryInput, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(TextView(this@MainActivity).apply {
+                text = "Archive ZIM incluse dans la recherche"
+                textSize = 14f
+                setPadding(0, dp(12), 0, 0)
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            archivePicker = Spinner(this@MainActivity).apply {
+                contentDescription = "Choisir l’archive ZIM à inclure avec le guide"
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: android.view.View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        if (archivePickerIsRefreshing || archivePicker.selectedItemPosition != position) return
+                        val uri = archiveOptions.getOrNull(position)?.uri
+                        if (uri != selectedArchiveUri) selectArchive(uri)
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+                }
+            }
+            addView(archivePicker, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(Button(this@MainActivity).apply {
+                text = "Ajouter une archive ZIM"
+                isAllCaps = false
+                setOnClickListener { openDocumentPicker() }
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             unifiedSearchButton = Button(this@MainActivity).apply {
-                text = "Rechercher dans les deux sources"
+                text = "Rechercher dans le guide"
                 isAllCaps = false
                 setOnClickListener { runUnifiedSearch() }
             }
@@ -209,7 +250,7 @@ class MainActivity : Activity() {
             }
             addView(archiveSelectionView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(TextView(this@MainActivity).apply {
-                text = "Les résultats du guide et de l’archive seront présentés séparément avec leur provenance."
+                text = "Choisis une archive dans la liste. Les résultats du guide et de cette archive seront présentés séparément avec leur provenance."
                 textSize = 13f
                 setPadding(0, 0, 0, dp(12))
             }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -341,31 +382,118 @@ class MainActivity : Activity() {
 
     private fun restoreArchiveSelection() {
         val preferences = getSharedPreferences(ARCHIVE_PREFS, MODE_PRIVATE)
-        val savedValue = preferences.getString(ARCHIVE_URI_KEY, null)
-        val uri = savedValue?.let { runCatching { Uri.parse(it) }.getOrNull() }
-        if (uri == null) {
-            if (savedValue != null) preferences.edit().remove(ARCHIVE_URI_KEY).apply()
-            archiveSelectionView.text = "Aucune archive ZIM choisie. Le guide reste consultable sans elle."
-            return
+        val storedUris = runCatching {
+            val array = JSONArray(preferences.getString(ARCHIVE_URIS_KEY, "[]"))
+            (0 until array.length()).mapNotNull { index ->
+                array.optString(index).takeIf { it.isNotBlank() }?.let {
+                    runCatching { Uri.parse(it) }.getOrNull()
+                }
+            }
+        }.getOrDefault(emptyList())
+        val legacyValue = preferences.getString(ARCHIVE_URI_KEY, null)
+        val legacyUri = legacyValue?.let { runCatching { Uri.parse(it) }.getOrNull() }
+        val candidates = (storedUris + listOfNotNull(legacyUri)).distinct()
+        val retainedUris = contentResolver.persistedUriPermissions
+            .filter { it.isReadPermission }
+            .map { it.uri }
+            .toSet()
+        val availableUris = candidates.filter { it in retainedUris }
+        val lostArchiveCount = candidates.size - availableUris.size
+        savedArchiveUris.clear()
+        savedArchiveUris.addAll(availableUris)
+
+        val hasSavedActiveSelection = preferences.contains(ACTIVE_ARCHIVE_URI_KEY)
+        val savedActiveValue = preferences.getString(ACTIVE_ARCHIVE_URI_KEY, null)
+        val savedActiveUri = savedActiveValue?.let { runCatching { Uri.parse(it) }.getOrNull() }
+        val preferredUri = if (hasSavedActiveSelection && savedActiveValue.isNullOrEmpty()) {
+            null
+        } else {
+            savedActiveUri?.takeIf { it in savedArchiveUris }
+                ?: legacyUri?.takeIf { it in savedArchiveUris }
+                ?: savedArchiveUris.firstOrNull()
         }
 
-        val permissionRetained = contentResolver.persistedUriPermissions.any {
-            it.uri == uri && it.isReadPermission
+        preferences.edit().apply {
+            putString(ARCHIVE_URIS_KEY, JSONArray(savedArchiveUris.map(Uri::toString)).toString())
+            remove(ARCHIVE_URI_KEY)
+            if (preferredUri != null) putString(ACTIVE_ARCHIVE_URI_KEY, preferredUri.toString())
+            else if (hasSavedActiveSelection && savedActiveValue.isNullOrEmpty()) {
+                putString(ACTIVE_ARCHIVE_URI_KEY, "")
+            } else remove(ACTIVE_ARCHIVE_URI_KEY)
+        }.apply()
+        refreshArchivePicker(preferredUri)
+        if (lostArchiveCount > 0) {
+            archiveSelectionView.append(
+                "\nL’accès à $lostArchiveCount archive(s) a expiré; son index local n’a pas été supprimé."
+            )
+            statusView.text = "Android n’a plus l’autorisation de lecture d’une archive. Son index local est conservé; ajoute de nouveau l’archive pour la rechercher."
+        } else if (preferredUri != null) {
+            statusView.text = "Archive retrouvée. Son index local sera réutilisé s’il est déjà prêt."
         }
-        if (!permissionRetained) {
-            preferences.edit().remove(ARCHIVE_URI_KEY).apply()
-            selectedArchiveUri = null
-            searchButton.isEnabled = false
-            archiveSelectionView.text = "L’accès Android à l’archive n’est plus disponible. Choisis-la de nouveau pour rechercher dans le ZIM."
-            statusView.text = "Android n’a pas conservé l’autorisation de lecture de l’archive. Aucune copie n’a été créée."
-            return
+    }
+
+    private fun refreshArchivePicker(preferredUri: Uri?) {
+        archiveOptions.clear()
+        archiveOptions += ArchiveOption(uri = null, label = "Guide uniquement")
+        savedArchiveUris.forEach { uri ->
+            val name = runCatching { queryDisplayName(uri) }.getOrDefault("archive ZIM")
+            archiveOptions += ArchiveOption(uri = uri, label = name)
+        }
+        sessionOnlyArchiveUri?.takeIf { it !in savedArchiveUris }?.let { uri ->
+            val name = runCatching { queryDisplayName(uri) }.getOrDefault("archive ZIM")
+            archiveOptions += ArchiveOption(uri = uri, label = "$name · cette session")
         }
 
+        selectedArchiveUri = preferredUri?.takeIf { uri -> archiveOptions.any { it.uri == uri } }
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            archiveOptions.map { it.label }
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        archivePickerIsRefreshing = true
+        archivePicker.adapter = adapter
+        val selectedPosition = archiveOptions.indexOfFirst { it.uri == selectedArchiveUri }
+            .coerceAtLeast(0)
+        archivePicker.setSelection(selectedPosition, false)
+        archivePicker.post { archivePickerIsRefreshing = false }
+        updateArchiveSelectionUi()
+    }
+
+    private fun selectArchive(uri: Uri?) {
         selectedArchiveUri = uri
-        searchButton.isEnabled = true
-        val displayName = runCatching { queryDisplayName(uri) }.getOrDefault("archive ZIM")
-        archiveSelectionView.text = "Archive conservée : $displayName"
-        statusView.text = "Archive retrouvée. Le prochain résultat réutilisera l’index local s’il est déjà prêt."
+        getSharedPreferences(ARCHIVE_PREFS, MODE_PRIVATE).edit().apply {
+            if (uri != null && uri in savedArchiveUris) {
+                putString(ACTIVE_ARCHIVE_URI_KEY, uri.toString())
+            } else if (uri == null) {
+                putString(ACTIVE_ARCHIVE_URI_KEY, "")
+            } else {
+                remove(ACTIVE_ARCHIVE_URI_KEY)
+            }
+        }.apply()
+        updateArchiveSelectionUi()
+    }
+
+    private fun updateArchiveSelectionUi() {
+        searchButton.isEnabled = selectedArchiveUri != null
+        unifiedSearchButton.text = if (selectedArchiveUri == null) {
+            "Rechercher dans le guide seul"
+        } else {
+            "Rechercher dans le guide et l’archive choisie"
+        }
+        archiveSelectionView.text = selectedArchiveUri?.let { uri ->
+            val name = runCatching { queryDisplayName(uri) }.getOrDefault("archive ZIM")
+            if (uri in savedArchiveUris) {
+                "Archive choisie : $name. Son index local est conservé séparément."
+            } else {
+                "Archive choisie : $name. Elle sera disponible jusqu’à la fermeture de l’application."
+            }
+        } ?: if (savedArchiveUris.isEmpty()) {
+            "Aucune archive ZIM choisie. Le guide reste consultable sans elle."
+        } else {
+            "Recherche dans le guide seul. Choisis une archive enregistrée ci-dessus pour inclure son index."
+        }
     }
 
     private fun showGuide() {
@@ -438,21 +566,26 @@ class MainActivity : Activity() {
         } catch (_: SecurityException) {
             false
         }
-        getSharedPreferences(ARCHIVE_PREFS, MODE_PRIVATE).edit().apply {
-            if (hasPersistedReadPermission) putString(ARCHIVE_URI_KEY, uri.toString())
-            else remove(ARCHIVE_URI_KEY)
-        }.apply()
-        val requestedTitle = articleTitleInput.text.toString().trim()
-        selectedArchiveUri = uri
-        val displayName = runCatching { queryDisplayName(uri) }.getOrDefault("archive ZIM")
-        archiveSelectionView.text = if (hasPersistedReadPermission) {
-            "Archive conservée : $displayName"
+        if (hasPersistedReadPermission) {
+            if (uri !in savedArchiveUris) savedArchiveUris += uri
+            sessionOnlyArchiveUri = null
+            getSharedPreferences(ARCHIVE_PREFS, MODE_PRIVATE).edit().apply {
+                putString(ARCHIVE_URIS_KEY, JSONArray(savedArchiveUris.map(Uri::toString)).toString())
+                putString(ACTIVE_ARCHIVE_URI_KEY, uri.toString())
+                remove(ARCHIVE_URI_KEY)
+            }.apply()
         } else {
-            "Archive disponible pour cette session : Android n’a pas conservé son autorisation."
+            sessionOnlyArchiveUri = uri
         }
-        searchButton.isEnabled = true
+        val requestedTitle = articleTitleInput.text.toString().trim()
+        refreshArchivePicker(uri)
+        val displayName = runCatching { queryDisplayName(uri) }.getOrDefault("archive ZIM")
         chooseButton.isEnabled = false
-        statusView.text = "Archive sélectionnée. Vérification et extraction en cours…"
+        statusView.text = if (hasPersistedReadPermission) {
+            "Archive ajoutée : $displayName. Vérification et extraction en cours…"
+        } else {
+            "Archive disponible pour cette session : Android n’a pas conservé son autorisation. Vérification en cours…"
+        }
         executor.execute {
             val result = runCatching { inspectArchive(uri, requestedTitle) }.fold(
                 onSuccess = { it },
@@ -544,7 +677,7 @@ class MainActivity : Activity() {
         unifiedResultsContainer.removeAllViews()
         unifiedStatusView.text = buildString {
             appendLine("Requête : $queryText")
-            if (selectedArchiveUri == null) {
+            if (zimScreen == null && selectedArchiveUri == null) {
                 append("Aucune archive ZIM sélectionnée. Les résultats affichés viennent du guide.")
             } else if (zimScreen != null) {
                 appendLine("Guide : ${guideResults.size} résultat(s)")
@@ -570,8 +703,8 @@ class MainActivity : Activity() {
         }
 
         addUnifiedSectionHeader("ARCHIVE ZIM · ${zimScreen?.results?.size ?: 0}")
-        if (selectedArchiveUri == null) {
-            addUnifiedEmptyMessage("Choisis une archive dans « Rechercher dans une archive ZIM » pour inclure ses articles.")
+        if (zimScreen == null && selectedArchiveUri == null) {
+            addUnifiedEmptyMessage("Choisis une archive ZIM sur l’écran d’accueil pour inclure ses articles.")
         } else if (zimScreen == null) {
             addUnifiedEmptyMessage("Les résultats ZIM ne sont pas disponibles : ${zimError ?: "erreur inconnue"}")
         } else if (zimScreen.results.isEmpty()) {
@@ -758,6 +891,7 @@ class MainActivity : Activity() {
                     }
                 }
                 return SearchScreen(
+                    archiveUri = uri,
                     archiveName = displayName,
                     archiveUuid = archiveUuid,
                     summary = summary,
@@ -866,7 +1000,7 @@ class MainActivity : Activity() {
 
     private fun openSearchResult(result: ArticleSearchResult) {
         if (openingArticle) return
-        val uri = selectedArchiveUri ?: return
+        val uri = currentSearchScreen?.archiveUri ?: selectedArchiveUri ?: return
         openingArticle = true
         chooseButton.isEnabled = false
         searchButton.isEnabled = false
@@ -973,10 +1107,16 @@ class MainActivity : Activity() {
     }
 
     private data class SearchScreen(
+        val archiveUri: Uri,
         val archiveName: String,
         val archiveUuid: String,
         val summary: String,
         val results: List<ArticleSearchResult>
+    )
+
+    private data class ArchiveOption(
+        val uri: Uri?,
+        val label: String
     )
 
     private data class ArticlePage(

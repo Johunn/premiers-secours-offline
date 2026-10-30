@@ -1,18 +1,18 @@
 # Reprise du projet
 
-Dernière mise à jour : 30 octobre 2026.
+Dernière mise à jour : 31 octobre 2026.
 
 ## Point de reprise
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK testé : version 0.9.0, build CI 43; l'archive a été restaurée après redémarrage et une recherche a réutilisé l'index sans le reconstruire.
+- Dernier APK testé : version 0.9.0, build CI 43; deux archives ont été essayées, mais une seule pouvait être active à la fois.
 - Dernière compilation : version 0.9.0, build CI 43; compilation, alignement et signature validés.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
 - Commit de l'intégration guide + ZIM : `da952fc`.
 - La PWA du guide de survie reste le produit web existant. Ses fichiers n'ont pas été modifiés dans ce chantier Android.
-- L'application Android lit une archive ZIM choisie par l'utilisateur et construit un index plein texte FTS4 local.
+- L'application Android lit l'archive ZIM active choisie par l'utilisateur et construit un index plein texte FTS4 local, distinct par UUID d'archive.
 
 ## Décision produit
 
@@ -49,12 +49,22 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Compilation CI : réussie pour le workflow [build 43](https://github.com/Johunn/premiers-secours-offline/actions/runs/41139363163); bibliothèques natives, APK, alignement et signature vérifiés.
 - Essai sur téléphone : réussi pour la restauration de l'archive et la recherche sans réindexation. Le mode avion n'a pas été précisé.
 
+### Version 0.10.0 en préparation
+
+- Code Android version 11; le prochain APK CI aura un identifiant distinct (run 44) et un espace de données séparé.
+- Permet de conserver plusieurs URI SAF autorisées, de choisir depuis l'accueil l'archive à inclure dans la recherche commune et d'en ajouter une sans remplacer les autres.
+- L'option « Guide uniquement » permet d'exclure le ZIM de la recherche commune. La recherche ZIM utilise une seule archive choisie à la fois; les deux sources restent présentées séparément.
+- Le retour d'un résultat ZIM conserve l'URI de l'archive qui a produit ce résultat, même si l'archive active change ensuite.
+- Migre l'ancienne préférence à archive unique et conserve les index locaux par UUID.
+- CI : à lancer après push. Essai sur téléphone : à faire.
+
 ### Dernier essai rapporté par l'utilisateur
 
 - Build 42 / version 0.8.0 : l'utilisateur confirme que la recherche `hémorragie` dans le guide et la recherche commune dans le guide + ZIM fonctionnent. Il dit que tout fonctionne correctement; il n'a pas spécifié séparément le mode avion.
 - Archive : `wikivoyage_fr_all_nopic_2026-10.zim`, UUID `1985c9fc-40e3-5546-ebe0-08bfc503d30d`.
 - Indexation rapportée : 11 985 articles, environ six minutes la première fois.
 - Sur un build précédent, l'utilisateur avait confirmé que la recherche fonctionnait instantanément en mode avion. Son dernier compte rendu ne précise pas le mode réseau.
+- Build 43 / version 0.9.0 : l'utilisateur a sélectionné WikiMed après Wikivoyage; la recherche ne portait alors que sur l'archive sélectionnée, sans choix dans la recherche de l'accueil. Après avoir re-sélectionné Wikivoyage, ses résultats sont revenus sans nouvelle indexation. Les index sont donc réutilisés par archive, mais le build 43 ne mémorise qu'une archive active.
 - Avec le build précédent, `Bruxelles` renvoyait les articles bruxellois en tête et des extraits surlignés lisibles.
 - Avec le build précédent, `grand-place` renvoyait encore des résultats trop larges : les mots pouvaient apparaître séparément dans l'article. Le correctif du build 40 conserve les groupes avec trait d'union comme une phrase, par exemple `grand-place` → « grand place ».
 - Sur le build 40, `Bruxelles` renvoie Bruxelles en premier et des pages bruxelloises pertinentes; les extraits surlignent correctement le mot recherché.
@@ -67,7 +77,9 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Le guide + ZIM, la restauration de l'archive et la réutilisation de l'index sont validés sur téléphone avec le build 43. Prochaine vérification de robustesse : sélectionner une autre archive ZIM dans la même installation run43, relever le nombre d'articles indexés et le temps de première indexation, puis refaire une recherche après fermeture/réouverture. WikiMed (~306 Mo d'après l'inventaire utilisateur) est une option plus utile au projet que la grande archive Wikipédia; aucun de ces corpus n'est, à lui seul, une validation médicale éditoriale.
+Le guide + ZIM, la restauration de l'archive et la réutilisation d'un index sont validés sur téléphone avec le build 43. La version 0.10.0 doit être compilée, puis testée sur le téléphone : sélectionner Wikivoyage et WikiMed à tour de rôle depuis le sélecteur de l'accueil; vérifier qu'une recherche utilise le ZIM choisi avec le guide; après une première indexation dans cette installation, revenir à l'autre archive et vérifier qu'elle réutilise son index. Fermer et rouvrir l'application pour confirmer que les deux choix restent disponibles.
+
+Le build 44 aura un nouvel identifiant Android et donc des données séparées du build 43 : les deux archives devront être sélectionnées à nouveau et leurs index seront reconstruits dans cette installation. Leurs index du build 43 ne sont pas effacés. WikiMed (~306 Mo d'après l'inventaire utilisateur) est le corpus suivant le plus pertinent; cela ne constitue pas une validation médicale éditoriale.
 
 ### Données et installation
 
