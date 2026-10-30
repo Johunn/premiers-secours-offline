@@ -43,6 +43,8 @@ jobs:
           meson --version
           ninja --version
           pkg-config --version
+          export PKG_CONFIG_PATH=/home/runner/BUILD_aarch64-linux-android/INSTALL/lib/pkgconfig:/home/runner/BUILD_aarch64-linux-android/INSTALL/lib/aarch64-linux-android/pkgconfig
+          pkg-config --modversion xapian-core
 
       - name: Apply SAF descriptor patch
         working-directory: vendor/libzim
@@ -60,7 +62,7 @@ jobs:
             --cross-file "$CROSS_FILE" \
             -Dstatic-linkage=true \
             -DUSE_BUFFER_HEADER=false \
-            -Dwith_xapian=false \
+            -Dwith_xapian=true \
             -Dtests=false \
             -Dexamples=false
           ninja -C build
