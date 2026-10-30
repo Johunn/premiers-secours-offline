@@ -135,6 +135,20 @@ jobs:
         working-directory: android-zim-probe
         run: gradle --no-daemon assembleDebug
 
+      - name: Verify APK alignment and signature
+        working-directory: android-zim-probe
+        run: |
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          test -n "$SDK_ROOT"
+          APKSIGNER="$(find "$SDK_ROOT/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
+          ZIPALIGN="$(find "$SDK_ROOT/build-tools" -type f -name zipalign | sort -V | tail -n 1)"
+          test -x "$APKSIGNER"
+          test -x "$ZIPALIGN"
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          "$ZIPALIGN" -c -v 4 "$APK"
+          "$APKSIGNER" verify --verbose --print-certs "$APK"
+          ls -lh "$APK"
+
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
