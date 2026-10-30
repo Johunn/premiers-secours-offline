@@ -6,10 +6,11 @@ Dernière mise à jour : 31 octobre 2026.
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK testé : version 0.9.0, build CI 43; deux archives ont été essayées, mais une seule pouvait être active à la fois.
-- Dernière compilation : version 0.9.0, build CI 43; compilation, alignement et signature validés.
+- Dernier APK testé sur téléphone : version 0.9.0, build CI 43; deux archives ont été essayées, mais une seule pouvait être active à la fois.
+- Dernière compilation : version 0.10.0, build CI 45; compilation, alignement et signature validés.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
+- Commit de la sélection de plusieurs archives : `d87705f`.
 - Commit de l'intégration guide + ZIM : `da952fc`.
 - La PWA du guide de survie reste le produit web existant. Ses fichiers n'ont pas été modifiés dans ce chantier Android.
 - L'application Android lit l'archive ZIM active choisie par l'utilisateur et construit un index plein texte FTS4 local, distinct par UUID d'archive.
@@ -49,14 +50,15 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Compilation CI : réussie pour le workflow [build 43](https://github.com/Johunn/premiers-secours-offline/actions/runs/41139363163); bibliothèques natives, APK, alignement et signature vérifiés.
 - Essai sur téléphone : réussi pour la restauration de l'archive et la recherche sans réindexation. Le mode avion n'a pas été précisé.
 
-### Version 0.10.0 en préparation
+### Version 0.10.0
 
-- Code Android version 11; le prochain APK CI aura un identifiant distinct (run 44) et un espace de données séparé.
+- Code Android version 11; APK CI run 45, identifiant `be.johunn.survie.zimprobe.debug.run45`.
 - Permet de conserver plusieurs URI SAF autorisées, de choisir depuis l'accueil l'archive à inclure dans la recherche commune et d'en ajouter une sans remplacer les autres.
 - L'option « Guide uniquement » permet d'exclure le ZIM de la recherche commune. La recherche ZIM utilise une seule archive choisie à la fois; les deux sources restent présentées séparément.
 - Le retour d'un résultat ZIM conserve l'URI de l'archive qui a produit ce résultat, même si l'archive active change ensuite.
 - Migre l'ancienne préférence à archive unique et conserve les index locaux par UUID.
-- CI : à lancer après push. Essai sur téléphone : à faire.
+- Compilation CI : réussie pour le workflow [build 45](https://github.com/Johunn/premiers-secours-offline/actions/runs/41146181199); l'APK est disponible dans l'artefact `android-zim-probe-patched-debug`.
+- Essai sur téléphone : à faire. Cette installation a des données séparées de run 43.
 
 ### Dernier essai rapporté par l'utilisateur
 
@@ -77,9 +79,9 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Le guide + ZIM, la restauration de l'archive et la réutilisation d'un index sont validés sur téléphone avec le build 43. La version 0.10.0 doit être compilée, puis testée sur le téléphone : sélectionner Wikivoyage et WikiMed à tour de rôle depuis le sélecteur de l'accueil; vérifier qu'une recherche utilise le ZIM choisi avec le guide; après une première indexation dans cette installation, revenir à l'autre archive et vérifier qu'elle réutilise son index. Fermer et rouvrir l'application pour confirmer que les deux choix restent disponibles.
+Le guide + ZIM, la restauration de l'archive et la réutilisation d'un index sont validés sur téléphone avec le build 43. Le build 45 doit être testé sur le téléphone : ajouter Wikivoyage et WikiMed depuis l'accueil; choisir l'une puis l'autre dans la liste; vérifier qu'une recherche utilise le ZIM choisi avec le guide; après l'indexation de chacune dans cette installation, revenir à l'autre archive et vérifier qu'elle réutilise son index. Fermer et rouvrir l'application pour confirmer que les deux choix restent disponibles.
 
-Le build 44 aura un nouvel identifiant Android et donc des données séparées du build 43 : les deux archives devront être sélectionnées à nouveau et leurs index seront reconstruits dans cette installation. Leurs index du build 43 ne sont pas effacés. WikiMed (~306 Mo d'après l'inventaire utilisateur) est le corpus suivant le plus pertinent; cela ne constitue pas une validation médicale éditoriale.
+Le build 45 a un nouvel identifiant Android et donc des données séparées du build 43 : les deux archives devront être ajoutées à nouveau et leurs index seront reconstruits dans cette installation. Leurs index du build 43 ne sont pas effacés. WikiMed (~306 Mo d'après l'inventaire utilisateur) est le corpus suivant le plus pertinent; cela ne constitue pas une validation médicale éditoriale.
 
 ### Données et installation
 
