@@ -7,7 +7,7 @@ Prototype isolé destiné à vérifier qu'une archive ZIM peut être choisie ave
 1. Ouvre le sélecteur Android avec `ACTION_OPEN_DOCUMENT`.
 2. Demande un descripteur avec `ContentResolver.openAssetFileDescriptor()`.
 3. Ouvre l'archive par `Archive(FileDescriptor, offset, length)` si le fournisseur donne une longueur exploitable. Si la longueur est inconnue, utilise `Archive(FileDescriptor)` uniquement lorsque le décalage vaut zéro.
-4. Lit les métadonnées et extrait l'entrée principale.
+4. Lit les métadonnées et extrait l'article correspondant au titre exact saisi; si le champ est vide, il extrait l'entrée principale.
 5. Affiche le titre, le chemin, le type MIME, un extrait et la provenance.
 
 Si l'accès direct n'est pas possible, le prototype affiche une erreur explicite. Il ne copie, ne déplace et ne modifie aucun fichier ZIM.
