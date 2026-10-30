@@ -6,8 +6,9 @@ Dernière mise à jour : 30 octobre 2026.
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK construit : version 0.9.0, build CI 43; compilation, alignement et signature validés. L'essai sur téléphone reste à faire.
-- Dernière version testée : 0.8.0, build CI 42; l'utilisateur rapporte que la recherche commune et les parcours du guide et du ZIM fonctionnent correctement.
+- Dernier APK testé : version 0.9.0, build CI 43; l'archive a été restaurée après redémarrage et une recherche a réutilisé l'index sans le reconstruire.
+- Dernière compilation : version 0.9.0, build CI 43; compilation, alignement et signature validés.
+- Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
 - Commit de l'intégration guide + ZIM : `da952fc`.
 - La PWA du guide de survie reste le produit web existant. Ses fichiers n'ont pas été modifiés dans ce chantier Android.
@@ -44,9 +45,9 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Version source : 0.9.0, code 10, commit `962a42a`.
 - Mémorise l'URI de l'archive seulement quand Android confirme une autorisation SAF de lecture persistante; restaure l'archive au prochain démarrage.
 - Si l'autorisation a disparu, efface l'URI mémorisée et indique qu'il faut choisir l'archive à nouveau. L'index FTS4 existant n'est pas supprimé.
-- L'APK run 43 a un nouvel identifiant de paquet de test : l'utilisateur devra choisir à nouveau l'archive et construire un index distinct dans cette installation; la restauration sera ensuite vérifiée après fermeture/réouverture de cette même installation.
+- L'APK run 43 a un nouvel identifiant de paquet de test : l'utilisateur a choisi à nouveau l'archive et construit l'index distinct de cette installation; la restauration et la réutilisation après fermeture/réouverture sont confirmées sur téléphone.
 - Compilation CI : réussie pour le workflow [build 43](https://github.com/Johunn/premiers-secours-offline/actions/runs/41139363163); bibliothèques natives, APK, alignement et signature vérifiés.
-- Essai sur téléphone : à faire après publication de l'APK.
+- Essai sur téléphone : réussi pour la restauration de l'archive et la recherche sans réindexation. Le mode avion n'a pas été précisé.
 
 ### Dernier essai rapporté par l'utilisateur
 
@@ -66,7 +67,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Le build 42 (0.8.0) a été rapporté comme fonctionnel pour l'intégration du guide et du ZIM. Le build 43 (0.9.0) est prêt pour essai sur le Galaxy : choisir l'archive, lancer une recherche pour créer l'index, fermer puis rouvrir l'application, vérifier que l'archive est restaurée et refaire une recherche sans re-sélection ni réindexation. Le test explicite en mode avion n'a pas été confirmé.
+Le guide + ZIM, la restauration de l'archive et la réutilisation de l'index sont validés sur téléphone avec le build 43. Prochaine vérification de robustesse : sélectionner une autre archive ZIM dans la même installation run43, relever le nombre d'articles indexés et le temps de première indexation, puis refaire une recherche après fermeture/réouverture. WikiMed (~306 Mo d'après l'inventaire utilisateur) est une option plus utile au projet que la grande archive Wikipédia; aucun de ces corpus n'est, à lui seul, une validation médicale éditoriale.
 
 ### Données et installation
 
