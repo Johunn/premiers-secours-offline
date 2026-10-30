@@ -16,7 +16,7 @@ Si l'accès direct n'est pas possible, le prototype affiche une erreur explicite
 
 - Aucune modification de la PWA.
 - Aucun pont JavaScript/Kotlin ni WebView.
-- Aucun index supplémentaire n'est construit : la recherche utilise l'index plein texte déjà présent dans le ZIM.\n- Aucun RAG ni modèle IA.
+- Lors de la première recherche, l'application parcourt les entrées du namespace `A/`, extrait le texte des articles HTML et construit un index SQLite FTS4 dans son espace privé. Les recherches suivantes réutilisent cet index. Le ZIM original n'est ni modifié ni copié.\n- Aucun RAG ni modèle IA.
 - Aucune garantie de compatibilité avec tous les fournisseurs SAF.
 - L'API Java utilisée n'expose pas ici de fermeture native déterministe de l'archive; ce point devra être traité avant un usage prolongé.
 
@@ -31,7 +31,7 @@ Ouvrir le dossier `android-zim-probe` dans Android Studio avec un JDK 17, laisse
 - Minimum Android 8.0 (API 26)
 - `org.kiwix:libkiwix:2.7.0` (libkiwix 14.2.1 et libzim 9.8.2)
 
-Le workflow reconstruit libzim 9.8.2 avec le correctif SAF et le support Xapian activé (nécessaire aux fonctions de recherche utilisées par libkiwix). Il vérifie ensuite avant assemblage que les symboles libzim requis par libkiwix sont bien exportés. Cette vérification ABI évite de confondre une compilation APK réussie avec un ensemble de bibliothèques chargeables.
+Le workflow reconstruit libzim 9.8.2 avec le correctif SAF et vérifie les symboles requis par libkiwix. La recherche plein texte applicative repose sur SQLite FTS4 et ne dépend pas d'un index Xapian dans l'archive.
 
 Une connexion sera nécessaire à la première synchronisation Gradle pour télécharger les dépendances. L'application n'a pas besoin d'Internet à l'exécution.
 
