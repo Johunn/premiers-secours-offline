@@ -16,7 +16,7 @@ Si l'accès direct n'est pas possible, le prototype affiche une erreur explicite
 
 - Aucune modification de la PWA.
 - Aucun pont JavaScript/Kotlin ni WebView.
-- Aucun RAG, index ou modèle IA.
+- Aucun index supplémentaire n'est construit : la recherche utilise l'index plein texte déjà présent dans le ZIM.\n- Aucun RAG ni modèle IA.
 - Aucune garantie de compatibilité avec tous les fournisseurs SAF.
 - L'API Java utilisée n'expose pas ici de fermeture native déterministe de l'archive; ce point devra être traité avant un usage prolongé.
 
