@@ -49,7 +49,7 @@ class MainActivity : Activity() {
         }
         articleTitleInput = EditText(this).apply {
             hint = "Titre exact de l’article (facultatif)"
-            singleLine = true
+            setSingleLine(true)
             textSize = 16f
         }
         chooseButton = Button(this).apply {
