@@ -6,13 +6,16 @@ Dernière mise à jour : 30 octobre 2026.
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier commit de code Android : `3d843d7ab643f06d4f32b4fbffdda48b96417392` — résultats activables et ouverture d'article; build CI 41 réussi.
+- Dernier APK livré et testé : version 0.7.0, build CI 41; ouverture des résultats ZIM et retour validés sur téléphone.
+- Le code source prépare la version 0.8.0 : application Android unique, recherche commune guide + ZIM, résultats séparés par source. La compilation CI et l'essai de cette version restent à faire.
 - La PWA du guide de survie reste le produit web existant. Ses fichiers n'ont pas été modifiés dans ce chantier Android.
-- Le prototype Android lit une archive ZIM choisie par l'utilisateur et construit un index plein texte FTS4 local.
+- L'application Android lit une archive ZIM choisie par l'utilisateur et construit un index plein texte FTS4 local.
 
-## Orientation produit envisagée
+## Décision produit
 
-L'idée évoquée est une expérience Android unique permettant de chercher à la fois dans le guide de premiers secours et dans les articles d'une archive ZIM, avec la source indiquée pour chaque résultat. C'est une orientation à confirmer après les essais; la PWA peut continuer d'exister comme version web. Un assistant conversationnel qui rédige des réponses à partir de ces sources n'est pas inclus dans le prototype actuel.
+Faire une seule application Android hors ligne avec une recherche commune dans le guide et l'archive ZIM. Présenter les résultats dans deux groupes distincts, chacun avec sa provenance; ne pas fusionner leurs classements. Le guide continue d'être livré comme PWA/web séparément et ses fichiers sont copiés dans l'APK au moment de la compilation. Aucun assistant génératif ni réponse médicale rédigée n'est inclus à cette étape.
+
+L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecteur; elle ne doit pas être présentée comme source médicale.
 
 ## État Android
 
@@ -24,6 +27,15 @@ L'idée évoquée est une expérience Android unique permettant de chercher à l
 - SHA-256 de l'APK : `E997E19009E48F997F6B4381D21F0806598843CAE8CAEA6DD4690982FBBB8AED`.
 - La compilation CI, l'alignement et la signature APK ont réussi. Le tap d'un résultat et l'ouverture d'un article ont aussi été confirmés sur téléphone pour `Bruxelles` et `grand-place`; le retour aux résultats a fonctionné.
 - L'artefact GitHub expire le 13 novembre 2026. S'il n'est plus disponible, relancer la compilation sur la branche active.
+
+### Version intégrée en préparation
+
+- Version source : 0.8.0, code 9.
+- L'accueil permet une requête commune dans les fiches hors ligne et dans l'archive ZIM sélectionnée; les résultats sont présentés séparément (jusqu'à 10 par source).
+- Les fiches et l'interface complètes de la PWA sont intégrées comme ressources locales au build Android, sans modification des fichiers PWA. Les données de recherche du guide sont extraites de `fiches.js` au moment de la compilation.
+- Les articles ZIM continuent de s'ouvrir dans le lecteur natif; les fiches de guide ouvrent le détail existant de la PWA intégrée.
+- Compilation CI : en attente de la poussée du code.
+- Essai sur téléphone : pas encore effectué.
 
 ### Dernier essai rapporté par l'utilisateur
 
@@ -42,7 +54,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Les recherches `Bruxelles` et `grand-place` ainsi que l'ouverture des articles et le retour à la liste sont validés sur téléphone. Prochaine étape : cadrer l'expérience Android unifiée (guide + archive ZIM); la PWA reste la version web et n'est pas à modifier dans ce chantier. Le fonctionnement hors ligne de la navigation du build 41 peut être confirmé lors d'un prochain essai, si nécessaire.
+Les recherches `Bruxelles` et `grand-place` ainsi que l'ouverture des articles et le retour à la liste sont validés sur téléphone avec le build 41. La version 0.8.0 doit maintenant être compilée puis testée sur le Galaxy : ouverture du guide hors ligne, recherche commune avec et sans archive choisie, provenance des résultats, ouverture de chaque type de résultat, retour et mode avion.
 
 ### Données et installation
 

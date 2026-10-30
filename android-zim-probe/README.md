@@ -1,54 +1,43 @@
-# Prototype Android de lecture ZIM
+# Guide hors ligne pour Android
 
-Version 0.4.0 : nettoyage du HTML MediaWiki avant affichage et message explicite lorsqu'un titre exact ou une entrée principale est introuvable.\n\nPrototype isolé destiné à vérifier qu'une archive ZIM peut être choisie avec le Storage Access Framework (SAF) et lue directement par libkiwix, sans copie préalable.
+La branche `feature/android-zim-probe` fait évoluer le lecteur ZIM de test vers une application Android regroupant le guide de survie existant et la recherche locale dans une archive ZIM.
 
-## Fonctionnement prévu
+## Version 0.8.0
 
-1. Ouvre le sélecteur Android avec `ACTION_OPEN_DOCUMENT`.
-2. Demande un descripteur avec `ContentResolver.openAssetFileDescriptor()`.
-3. Ouvre l'archive par `Archive(FileDescriptor, offset, length)` si le fournisseur donne une longueur exploitable. Si la longueur est inconnue, utilise `Archive(FileDescriptor)` uniquement lorsque le décalage vaut zéro.
-4. Lit les métadonnées et extrait l'article correspondant au titre exact saisi; si le champ est vide, il extrait l'entrée principale.
-5. Affiche le titre, le chemin, le type MIME, un extrait et la provenance.
-6. Pour la recherche plein texte, affiche des résultats activables. Toucher un résultat ouvre l'article correspondant par son chemin dans le ZIM; un bouton permet de revenir à la liste.
-7. Affiche l'article sous forme de texte nettoyé, avec son titre, son chemin et sa provenance.
+- L'accueil propose une recherche commune dans les fiches du guide et dans l'archive ZIM sélectionnée.
+- Les résultats restent regroupés par source, avec leur provenance. Chaque source affiche jusqu'à 10 résultats.
+- Toucher une fiche ouvre son détail dans le guide; toucher un article ZIM l'ouvre depuis l'archive.
+- Le guide complet, ses filtres, ses illustrations, ses favoris et sa liste de préparation sont chargés depuis des ressources locales intégrées à l'APK.
+- La compilation copie les fichiers du guide depuis la PWA à la racine du dépôt et en extrait les données JSON. Les fichiers PWA ne sont pas modifiés.
+- La recherche ZIM utilise un index SQLite FTS4 local, conservé dans les données privées Android. Le ZIM original reste à son emplacement et n'est pas copié.
+- L'application n'appelle aucun serveur et ne génère pas de conseil médical avec un modèle d'IA.
 
-Si l'accès direct n'est pas possible, le prototype affiche une erreur explicite. Il ne copie, ne déplace et ne modifie aucun fichier ZIM.
+L'archive Wikivoyage utilisée pour les essais sert à vérifier le lecteur et la recherche. Elle n'est pas une référence médicale. Pour toute fiche de secours, la provenance éditoriale affichée dans le guide reste distincte des articles ZIM.
 
-## Hors périmètre
+## Limites actuelles
 
-- Aucune modification de la PWA.
-- Aucun pont JavaScript/Kotlin ni WebView.
-- Les articles ouverts depuis les résultats sont rendus en texte; les liens internes, tableaux et images ne sont pas encore navigables ou reproduits.
-- Lors de la première recherche, l'application parcourt les entrées du namespace `A/`, extrait le texte des articles HTML et construit un index SQLite FTS4 dans son espace privé. Les recherches suivantes réutilisent cet index. Le ZIM original n'est ni modifié ni copié.\n- Aucun RAG ni modèle IA.
-- Aucune garantie de compatibilité avec tous les fournisseurs SAF.
-- L'API Java utilisée n'expose pas ici de fermeture native déterministe de l'archive; ce point devra être traité avant un usage prolongé.
+- Une seule archive ZIM est sélectionnée à la fois.
+- La première indexation d'une archive peut prendre plusieurs minutes; les recherches suivantes réutilisent la base locale.
+- Les articles ZIM sont affichés en texte nettoyé. Leurs liens internes, images et tableaux ne sont pas reproduits.
+- Les liens externes des fiches ouvrent une autre application et peuvent nécessiter du réseau. Les fiches elles-mêmes sont locales.
+- La pertinence de la nouvelle recherche commune doit être vérifiée sur téléphone avec des termes venant du guide et du ZIM.
 
 ## Construction
 
-Ouvrir le dossier `android-zim-probe` dans Android Studio avec un JDK 17, laisser Gradle synchroniser les dépendances, puis lancer la configuration `app` sur un appareil Android.
+Ouvrir `android-zim-probe` dans Android Studio avec Java 17 et Gradle 8.13. La compilation synchronise d'abord les ressources locales du guide. Le workflow GitHub Actions reconstruit libzim 9.8.2 avec le correctif SAF, vérifie les bibliothèques natives et produit l'APK ARM64.
 
-- Android Gradle Plugin 8.11.1
-- Kotlin Android 2.2.0
-- Gradle 8.13 (wrapper recommandé)
-- Compile SDK 35
-- Minimum Android 8.0 (API 26)
-- `org.kiwix:libkiwix:2.7.0` (libkiwix 14.2.1 et libzim 9.8.2)
+L'application ne demande pas d'accès Internet à l'exécution. La sélection de ZIM utilise le sélecteur de documents Android (SAF) et une autorisation de lecture accordée pour l'archive choisie.
 
-Le workflow reconstruit libzim 9.8.2 avec le correctif SAF et vérifie les symboles requis par libkiwix. La recherche plein texte applicative repose sur SQLite FTS4 et ne dépend pas d'un index Xapian dans l'archive.
+## Premier essai intégré sur le Galaxy S21 FE
 
-Une connexion sera nécessaire à la première synchronisation Gradle pour télécharger les dépendances. L'application n'a pas besoin d'Internet à l'exécution.
+1. Ouvrir le guide seul et parcourir une fiche; essayer aussi ses filtres, ses favoris et la liste du kit.
+2. Depuis l'accueil, rechercher un terme présent dans le guide, par exemple `hémorragie`, sans avoir encore sélectionné de ZIM. Le groupe du guide doit apparaître.
+3. Choisir l'archive Wikivoyage avec « Rechercher dans une archive ZIM ».
+4. Refaire une recherche commune, par exemple `Bruxelles`, puis `grand-place`. Vérifier que les groupes indiquent leur source, que les résultats ZIM ouvrent les articles, que les fiches ouvrent leur détail et que le retour ramène à la recherche.
+5. Répéter les recherches utiles en mode avion.
 
-## Validation sur le Galaxy S21 FE
+Chaque APK CI possède un identifiant de paquet distinct pour coexister avec les versions précédentes. Une nouvelle installation demande de choisir de nouveau l'archive et de reconstruire son index. Elle ne supprime ni l'ancienne application ni ses données. Ne pas désinstaller les anciennes versions pour installer ce build.
 
-1. Installer et lancer le prototype.
-2. Saisir si nécessaire le titre exact d'un article, puis choisir une archive ZIM déjà présente sur le téléphone. Si le champ est vide, le prototype extrait la page principale de l'archive.
-3. Vérifier que le sélecteur Android la propose sans demander de la copier ou déplacer.
-4. Vérifier l'écran « LECTURE RÉUSSIE », les métadonnées, le titre et le chemin d'une entrée, ainsi qu'un extrait lisible, sans code JavaScript ni feuilles de style MediaWiki.
-5. Refaire le test en mode avion après installation.
-6. Répéter avec au moins deux archives de types différents.
+## Licences
 
-Un échec SAF ou libkiwix doit être consigné avec son message exact. Ne pas contourner l'échec en copiant plusieurs gigaoctets sans décision explicite.
-
-## Licence
-
-La dépendance `org.kiwix:libkiwix` est publiée sous GPL-3.0 ou ultérieure. Toute distribution de ce prototype ou d'un binaire qui l'intègre doit être examinée au regard des obligations de cette licence, notamment la fourniture du code source correspondant et des mentions requises. Vérifier les licences de toutes les dépendances avant toute distribution publique.
+La dépendance `org.kiwix:libkiwix` est publiée sous GPL-3.0 ou ultérieure. Avant toute distribution publique, vérifier les obligations de cette licence et celles des autres dépendances et ressources intégrées.

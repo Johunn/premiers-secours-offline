@@ -13,11 +13,15 @@ import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import org.kiwix.libzim.Archive
 import java.io.FileDescriptor
 import java.util.concurrent.Executors
@@ -49,21 +53,37 @@ class MainActivity : Activity() {
     private lateinit var searchControls: LinearLayout
     private lateinit var resultsContainer: LinearLayout
     private lateinit var scrollView: ScrollView
+    private lateinit var homeScreen: ScrollView
+    private lateinit var unifiedQueryInput: EditText
+    private lateinit var unifiedSearchButton: Button
+    private lateinit var unifiedStatusView: TextView
+    private lateinit var unifiedResultsScreen: ScrollView
+    private lateinit var unifiedResultsContainer: LinearLayout
+    private lateinit var guideScreen: LinearLayout
+    private lateinit var guideWebView: WebView
+    private lateinit var guideBackButton: Button
+    private lateinit var rootContainer: LinearLayout
     private var selectedArchiveUri: Uri? = null
     private var currentSearchScreen: SearchScreen? = null
     private var showingArticle = false
     private var openingArticle = false
+    private var guideLoaded = false
+    private var guidePageReady = false
+    private var pendingGuideFicheId: String? = null
+    private var guideReturnToSearch = false
+    private var activeTopLevelScreen = TopLevelScreen.HOME
+    private val guideContentIndex by lazy { GuideContentIndex(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val title = TextView(this).apply {
-            text = "Prototype de lecture ZIM"
+            text = "Bibliothèque ZIM"
             textSize = 22f
             setPadding(0, 0, 0, 16)
         }
         statusView = TextView(this).apply {
             textSize = 14f
-            text = "Aucune archive sélectionnée.\n\nCe prototype tente une lecture directe via le sélecteur Android. Il ne copie pas l’archive."
+            text = "Aucune archive sélectionnée. Le ZIM est lu depuis son emplacement et n’est pas copié."
             setTextIsSelectable(true)
         }
         articleTitleInput = EditText(this).apply {
@@ -98,14 +118,264 @@ class MainActivity : Activity() {
         val content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(24, 24, 24, 24)
+            addView(Button(this@MainActivity).apply {
+                text = "← Accueil"
+                isAllCaps = false
+                setOnClickListener { showHome() }
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(title, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(searchControls, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(statusView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             addView(resultsContainer, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
         scrollView = ScrollView(this).apply { addView(content) }
-        setContentView(scrollView)
+
+        homeScreen = createHomeScreen()
+        unifiedResultsScreen = createUnifiedResultsScreen()
+        guideWebView = createGuideWebView()
+        guideScreen = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            guideBackButton = Button(this@MainActivity).apply {
+                text = "← Accueil"
+                isAllCaps = false
+                setOnClickListener { returnFromGuide() }
+            }
+            addView(guideBackButton, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(guideWebView, LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
+            ))
+        }
+        rootContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(homeScreen, LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+            ))
+            addView(guideScreen, LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+            ))
+            addView(scrollView, LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+            ))
+            addView(unifiedResultsScreen, LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+            ))
+        }
+        setContentView(rootContainer)
+        showHome()
     }
+
+    private fun createHomeScreen(): ScrollView {
+        val content = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(24), dp(32), dp(24), dp(24))
+            addView(TextView(this@MainActivity).apply {
+                text = "Guide hors ligne"
+                textSize = 28f
+                setTypeface(typeface, Typeface.BOLD)
+                setPadding(0, 0, 0, dp(8))
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(TextView(this@MainActivity).apply {
+                text = "Fiches de préparation et bibliothèque ZIM, réunies dans une seule application. Les contenus intégrés restent disponibles sans réseau."
+                textSize = 16f
+                setPadding(0, 0, 0, dp(20))
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            unifiedQueryInput = EditText(this@MainActivity).apply {
+                hint = "Rechercher dans le guide et le ZIM"
+                setSingleLine(true)
+                textSize = 16f
+                imeOptions = EditorInfo.IME_ACTION_SEARCH
+                setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
+                        runUnifiedSearch()
+                        true
+                    } else false
+                }
+            }
+            addView(unifiedQueryInput, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            unifiedSearchButton = Button(this@MainActivity).apply {
+                text = "Rechercher dans les deux sources"
+                isAllCaps = false
+                setOnClickListener { runUnifiedSearch() }
+            }
+            addView(unifiedSearchButton, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(TextView(this@MainActivity).apply {
+                text = "Les résultats du guide et de l’archive seront présentés séparément avec leur provenance."
+                textSize = 13f
+                setPadding(0, 0, 0, dp(12))
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(Button(this@MainActivity).apply {
+                text = "Ouvrir le guide de premiers secours"
+                isAllCaps = false
+                setOnClickListener {
+                    guideReturnToSearch = false
+                    showGuide()
+                }
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(Button(this@MainActivity).apply {
+                text = "Rechercher dans une archive ZIM"
+                isAllCaps = false
+                setOnClickListener { showZimLibrary() }
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(Button(this@MainActivity).apply {
+                text = "Appeler le 112"
+                isAllCaps = false
+                setOnClickListener {
+                    startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:112")))
+                }
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(TextView(this@MainActivity).apply {
+                text = "L’appel au 112 exige un réseau téléphonique. Les fiches hors ligne ne remplacent pas les secours."
+                textSize = 13f
+                setPadding(0, dp(8), 0, 0)
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
+        return ScrollView(this).apply { addView(content) }
+    }
+
+    private fun createUnifiedResultsScreen(): ScrollView {
+        unifiedStatusView = TextView(this).apply {
+            textSize = 14f
+            setPadding(0, dp(8), 0, dp(12))
+        }
+        unifiedResultsContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        val content = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(20), dp(16), dp(20), dp(24))
+            addView(Button(this@MainActivity).apply {
+                text = "← Accueil"
+                isAllCaps = false
+                setOnClickListener { showHome() }
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(TextView(this@MainActivity).apply {
+                text = "Résultats de recherche"
+                textSize = 22f
+                setTypeface(typeface, Typeface.BOLD)
+                setPadding(0, dp(8), 0, 0)
+            }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(unifiedStatusView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            addView(unifiedResultsContainer, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
+        return ScrollView(this).apply { addView(content) }
+    }
+
+    private fun createGuideWebView(): WebView = WebView(this).apply {
+        settings.javaScriptEnabled = true
+        settings.domStorageEnabled = true
+        settings.allowFileAccess = true
+        settings.allowContentAccess = false
+        settings.allowFileAccessFromFileURLs = false
+        settings.allowUniversalAccessFromFileURLs = false
+        webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?, request: WebResourceRequest?
+            ): Boolean = handleGuideNavigation(request?.url)
+
+            @Suppress("DEPRECATION")
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean =
+                handleGuideNavigation(url?.let { Uri.parse(it) })
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                guidePageReady = true
+                // Keep the web guide's content and interactions; expose only a small local
+                // entry point so a unified search can open its existing fiche dialog.
+                val integrationScript =
+                    "document.querySelector('#install')?.remove();" +
+                        "document.querySelector('#refresh-app')?.remove();" +
+                        "window.openBundledGuideFiche=function(id){" +
+                        "const fiche=window.FICHES?.find(item=>item.id===id);if(!fiche)return;" +
+                        "const fav=document.querySelector('#favorites-toggle');" +
+                        "if(fav?.classList.contains('active'))fav.click();" +
+                        "const all=[...document.querySelectorAll('#filters button')].find(b=>b.textContent==='Tout');" +
+                        "if(all&&!all.classList.contains('selected'))all.click();" +
+                        "const dialog=document.querySelector('#detail');if(dialog?.open)dialog.close();" +
+                        "const input=document.querySelector('#search');if(!input)return;" +
+                        "input.value=fiche.title;input.dispatchEvent(new Event('input',{bubbles:true}));" +
+                        "requestAnimationFrame(()=>{const card=[...document.querySelectorAll('.fiche')].find(c=>c.querySelector('h3')?.textContent===fiche.title);card?.click();});" +
+                        "};"
+                val pendingId = pendingGuideFicheId
+                pendingGuideFicheId = null
+                val openPendingFiche = pendingId?.let { id ->
+                    "window.openBundledGuideFiche?.(${org.json.JSONObject.quote(id)});"
+                }.orEmpty()
+                view?.evaluateJavascript(integrationScript + openPendingFiche, null)
+            }
+        }
+    }
+
+    private fun handleGuideNavigation(uri: Uri?): Boolean {
+        uri ?: return true
+        val scheme = uri.scheme.orEmpty().lowercase()
+        if (scheme == "file" && uri.path.orEmpty().startsWith("/android_asset/guide/")) {
+            return false
+        }
+        if (scheme == "tel" || scheme == "geo" || scheme == "https" || scheme == "http") {
+            runCatching { startActivity(Intent(Intent.ACTION_VIEW, uri)) }
+            return true
+        }
+        // Keep navigation inside the bundled guide; do not let it reach arbitrary local files.
+        return true
+    }
+
+    private fun showHome() {
+        activeTopLevelScreen = TopLevelScreen.HOME
+        showingArticle = false
+        openingArticle = false
+        homeScreen.visibility = android.view.View.VISIBLE
+        guideScreen.visibility = android.view.View.GONE
+        scrollView.visibility = android.view.View.GONE
+        unifiedResultsScreen.visibility = android.view.View.GONE
+    }
+
+    private fun showGuide() {
+        activeTopLevelScreen = TopLevelScreen.GUIDE
+        homeScreen.visibility = android.view.View.GONE
+        guideScreen.visibility = android.view.View.VISIBLE
+        scrollView.visibility = android.view.View.GONE
+        unifiedResultsScreen.visibility = android.view.View.GONE
+        if (!guideLoaded) {
+            guideLoaded = true
+            guideWebView.loadUrl("file:///android_asset/guide/index.html")
+        }
+    }
+
+    private fun showZimLibrary() {
+        activeTopLevelScreen = TopLevelScreen.ZIM
+        homeScreen.visibility = android.view.View.GONE
+        guideScreen.visibility = android.view.View.GONE
+        scrollView.visibility = android.view.View.VISIBLE
+        unifiedResultsScreen.visibility = android.view.View.GONE
+    }
+
+    private fun showUnifiedResults() {
+        activeTopLevelScreen = TopLevelScreen.RESULTS
+        homeScreen.visibility = android.view.View.GONE
+        guideScreen.visibility = android.view.View.GONE
+        scrollView.visibility = android.view.View.GONE
+        unifiedResultsScreen.visibility = android.view.View.VISIBLE
+    }
+
+    private fun openGuideFicheInWebView(id: String) {
+        guideWebView.evaluateJavascript(
+            "window.openBundledGuideFiche?.(${org.json.JSONObject.quote(id)});",
+            null
+        )
+    }
+
+    private fun openGuideFiche(id: String) {
+        guideReturnToSearch = true
+        guideBackButton.text = "← Résultats"
+        pendingGuideFicheId = id
+        showGuide()
+        if (guidePageReady) {
+            pendingGuideFicheId = null
+            openGuideFicheInWebView(id)
+        }
+    }
+
+    private enum class TopLevelScreen { HOME, GUIDE, ZIM, RESULTS }
 
     private fun openDocumentPicker() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
@@ -171,7 +441,177 @@ class MainActivity : Activity() {
         }
     }
 
-    private fun searchArchive(uri: Uri, queryText: String): SearchScreen {
+    private fun runUnifiedSearch() {
+        val queryText = unifiedQueryInput.text.toString().trim()
+        if (queryText.isBlank()) {
+            unifiedStatusView.text = "Saisis un mot ou une expression à rechercher."
+            unifiedResultsContainer.removeAllViews()
+            showUnifiedResults()
+            return
+        }
+        val archiveUri = selectedArchiveUri
+        unifiedSearchButton.isEnabled = false
+        unifiedResultsContainer.removeAllViews()
+        unifiedStatusView.text = if (archiveUri == null) {
+            "Recherche dans le guide. Sélectionne une archive ZIM pour inclure sa bibliothèque."
+        } else {
+            "Recherche locale dans le guide et l’archive ZIM…"
+        }
+        showUnifiedResults()
+
+        executor.execute {
+            val guideResults = runCatching { guideContentIndex.search(queryText, MAX_SEARCH_RESULTS) }
+            val zimResults = archiveUri?.let { uri ->
+                runCatching {
+                    searchArchive(uri, queryText) { progress ->
+                        unifiedStatusView.text = "Indexation ou recherche dans le ZIM\n$progress"
+                    }
+                }
+            }
+            mainHandler.post {
+                showUnifiedSearchResults(
+                    queryText = queryText,
+                    guideResults = guideResults.getOrDefault(emptyList()),
+                    guideError = guideResults.exceptionOrNull()?.message,
+                    zimScreen = zimResults?.getOrNull(),
+                    zimError = zimResults?.exceptionOrNull()?.message
+                )
+                unifiedSearchButton.isEnabled = true
+            }
+        }
+    }
+
+    private fun showUnifiedSearchResults(
+        queryText: String,
+        guideResults: List<GuideSearchResult>,
+        guideError: String?,
+        zimScreen: SearchScreen?,
+        zimError: String?
+    ) {
+        showUnifiedResults()
+        unifiedResultsContainer.removeAllViews()
+        unifiedStatusView.text = buildString {
+            appendLine("Requête : $queryText")
+            if (selectedArchiveUri == null) {
+                append("Aucune archive ZIM sélectionnée. Les résultats affichés viennent du guide.")
+            } else if (zimScreen != null) {
+                appendLine("Guide : ${guideResults.size} résultat(s)")
+                append("ZIM : ${zimScreen.archiveName} · ${zimScreen.results.size} résultat(s) · index local prêt (${zimScreen.archiveUuid})")
+            } else {
+                append("Recherche dans le ZIM impossible : ${zimError ?: "erreur inconnue"}")
+            }
+            if (guideError != null) appendLine("\nRecherche dans le guide impossible : $guideError")
+        }
+
+        addUnifiedSectionHeader("GUIDE DE PREMIERS SECOURS · ${guideResults.size}")
+        if (guideResults.isEmpty()) {
+            addUnifiedEmptyMessage("Aucune fiche du guide ne correspond à cette recherche.")
+        } else {
+            guideResults.forEach { result ->
+                addUnifiedResultRow(
+                    title = result.fiche.title,
+                    snippet = result.snippet,
+                    provenance = "Source : Guide hors ligne · ${result.fiche.category}",
+                    onClick = { openGuideFiche(result.fiche.id) }
+                )
+            }
+        }
+
+        addUnifiedSectionHeader("ARCHIVE ZIM · ${zimScreen?.results?.size ?: 0}")
+        if (selectedArchiveUri == null) {
+            addUnifiedEmptyMessage("Choisis une archive dans « Rechercher dans une archive ZIM » pour inclure ses articles.")
+        } else if (zimScreen == null) {
+            addUnifiedEmptyMessage("Les résultats ZIM ne sont pas disponibles : ${zimError ?: "erreur inconnue"}")
+        } else if (zimScreen.results.isEmpty()) {
+            addUnifiedEmptyMessage("Aucun article ZIM ne correspond à cette recherche.")
+        } else {
+            zimScreen.results.forEach { result ->
+                addUnifiedResultRow(
+                    title = result.title,
+                    snippet = result.snippet.replace("⟦", "").replace("⟧", ""),
+                    provenance = "Source : ${zimScreen.archiveName} · ${result.path}",
+                    onClick = {
+                        currentSearchScreen = zimScreen
+                        showZimLibrary()
+                        openSearchResult(result)
+                    }
+                )
+            }
+        }
+        unifiedResultsScreen.post { unifiedResultsScreen.scrollTo(0, 0) }
+    }
+
+    private fun addUnifiedSectionHeader(text: String) {
+        unifiedResultsContainer.addView(TextView(this).apply {
+            this.text = text
+            textSize = 14f
+            setTypeface(typeface, Typeface.BOLD)
+            setPadding(0, dp(18), 0, dp(6))
+        }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
+    private fun addUnifiedEmptyMessage(text: String) {
+        unifiedResultsContainer.addView(TextView(this).apply {
+            this.text = text
+            textSize = 14f
+            setPadding(0, dp(4), 0, dp(8))
+        }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
+    private fun addUnifiedResultRow(
+        title: String,
+        snippet: String,
+        provenance: String,
+        onClick: () -> Unit
+    ) {
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER_VERTICAL
+            isClickable = true
+            isFocusable = true
+            val background = TypedValue()
+            if (theme.resolveAttribute(android.R.attr.selectableItemBackground, background, true)) {
+                setBackgroundResource(background.resourceId)
+            }
+            setPadding(dp(10), dp(10), dp(10), dp(10))
+            setOnClickListener { onClick() }
+        }
+        row.addView(TextView(this).apply {
+            text = title
+            textSize = 16f
+            setTypeface(typeface, Typeface.BOLD)
+        })
+        row.addView(TextView(this).apply {
+            text = snippet
+            textSize = 14f
+            setPadding(0, dp(3), 0, 0)
+        })
+        row.addView(TextView(this).apply {
+            text = provenance
+            textSize = 12f
+            setPadding(0, dp(3), 0, 0)
+        })
+        unifiedResultsContainer.addView(row, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        unifiedResultsContainer.addView(android.view.View(this).apply {
+            setBackgroundColor(0x33000000)
+        }, ViewGroup.LayoutParams.MATCH_PARENT, dp(1))
+    }
+
+    private fun returnFromGuide() {
+        guideWebView.evaluateJavascript(
+            "(()=>{const dialog=document.querySelector('#detail');if(dialog?.open)dialog.close();})();",
+            null
+        )
+        if (guideReturnToSearch) showUnifiedResults() else showHome()
+        guideReturnToSearch = false
+        guideBackButton.text = "← Accueil"
+    }
+
+    private fun searchArchive(
+        uri: Uri,
+        queryText: String,
+        onProgress: ((String) -> Unit)? = null
+    ): SearchScreen {
         val displayName = queryDisplayName(uri)
         val asset = contentResolver.openAssetFileDescriptor(uri, "r")
             ?: error("Le fournisseur Android n’a pas fourni de descripteur exploitable.")
@@ -228,7 +668,10 @@ class MainActivity : Activity() {
                                     appendLine("Entrées parcourues : $scanned / ${archive.allEntryCount}")
                                     append("Articles indexés : $indexed")
                                 }
-                                mainHandler.post { statusView.text = progress }
+                                mainHandler.post {
+                                    statusView.text = progress
+                                    onProgress?.invoke(progress)
+                                }
                             }
                         }
                         if (batch.isNotEmpty()) {
@@ -470,7 +913,11 @@ class MainActivity : Activity() {
     override fun onBackPressed() {
         val screen = currentSearchScreen
         if (showingArticle && screen != null) showSearchResults(screen)
-        else super.onBackPressed()
+        else when (activeTopLevelScreen) {
+            TopLevelScreen.GUIDE -> returnFromGuide()
+            TopLevelScreen.ZIM, TopLevelScreen.RESULTS -> showHome()
+            TopLevelScreen.HOME -> super.onBackPressed()
+        }
     }
 
     private data class SearchScreen(
@@ -579,6 +1026,7 @@ class MainActivity : Activity() {
 
     override fun onDestroy() {
         executor.shutdown()
+        if (::guideWebView.isInitialized) guideWebView.destroy()
         super.onDestroy()
     }
 }
