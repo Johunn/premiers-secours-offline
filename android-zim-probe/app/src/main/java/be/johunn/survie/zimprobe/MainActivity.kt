@@ -141,7 +141,7 @@ class MainActivity : Activity() {
             val result = runCatching { searchArchive(uri, queryText) }.fold(
                 onSuccess = { it },
                 onFailure = { error ->
-                    "ÉCHEC DE RECHERCHE\\n${error.javaClass.simpleName}: ${error.message ?: "erreur sans détail"}"
+                    "ÉCHEC DE RECHERCHE\n${error.javaClass.simpleName}: ${error.message ?: "erreur sans détail"}"
                 }
             )
             mainHandler.post {
@@ -168,11 +168,13 @@ class MainActivity : Activity() {
                 archive.dispose()
                 throw error
             }
-            val query = Query(queryText)
+            var query: Query? = null
             var search: Search? = null
             var iterator: SearchIterator? = null
             try {
-                val activeSearch = searcher.search(query)
+                val activeQuery = Query(queryText)
+                query = activeQuery
+                val activeSearch = searcher.search(activeQuery)
                 search = activeSearch
                 val estimated = activeSearch.getEstimatedMatches()
                 val activeIterator = activeSearch.getResults(0, MAX_SEARCH_RESULTS)
@@ -214,7 +216,7 @@ class MainActivity : Activity() {
             } finally {
                 runCatching { iterator?.dispose() }
                 runCatching { search?.dispose() }
-                runCatching { query.dispose() }
+                runCatching { query?.dispose() }
                 runCatching { searcher.dispose() }
                 runCatching { archive.dispose() }
             }
