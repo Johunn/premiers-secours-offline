@@ -1,7 +1,7 @@
 diff --git a/src/file_part.h b/src/file_part.h
 --- a/src/file_part.h
 +++ b/src/file_part.h
-@@ -24,6 +24,11 @@
+@@ -24,5 +24,10 @@
  #include <string>
  #include <memory>
 +#include <cerrno>
