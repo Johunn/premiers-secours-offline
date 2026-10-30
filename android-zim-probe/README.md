@@ -1,6 +1,6 @@
 # Prototype Android de lecture ZIM
 
-Prototype isolé destiné à vérifier qu'une archive ZIM peut être choisie avec le Storage Access Framework (SAF) et lue directement par libkiwix, sans copie préalable.
+Version 0.4.0 : nettoyage du HTML MediaWiki avant affichage et message explicite lorsqu'un titre exact ou une entrée principale est introuvable.\n\nPrototype isolé destiné à vérifier qu'une archive ZIM peut être choisie avec le Storage Access Framework (SAF) et lue directement par libkiwix, sans copie préalable.
 
 ## Fonctionnement prévu
 
@@ -40,7 +40,7 @@ Une connexion sera nécessaire à la première synchronisation Gradle pour tél�
 1. Installer et lancer le prototype.
 2. Saisir si nécessaire le titre exact d'un article, puis choisir une archive ZIM déjà présente sur le téléphone. Si le champ est vide, le prototype extrait la page principale de l'archive.
 3. Vérifier que le sélecteur Android la propose sans demander de la copier ou déplacer.
-4. Vérifier l'écran « LECTURE RÉUSSIE », les métadonnées, le titre et le chemin d'une entrée, ainsi qu'un extrait lisible.
+4. Vérifier l'écran « LECTURE RÉUSSIE », les métadonnées, le titre et le chemin d'une entrée, ainsi qu'un extrait lisible, sans code JavaScript ni feuilles de style MediaWiki.
 5. Refaire le test en mode avion après installation.
 6. Répéter avec au moins deux archives de types différents.
 
