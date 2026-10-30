@@ -21,6 +21,8 @@ class MainActivity : Activity() {
     companion object {
         private const val REQUEST_OPEN_ZIM = 4102
         private const val MAX_ARTICLE_BYTES = 4_000_000L
+        private val NON_CONTENT_BLOCKS = Regex("(?is)<(script|style|head|noscript|template)\\b[^>]*>.*?</\\1\\s*>")
+        private val HTML_COMMENTS = Regex("(?s)<!--.*?-->")
         init {
             System.loadLibrary("kiwix")
             System.loadLibrary("zim")
@@ -115,17 +117,30 @@ class MainActivity : Activity() {
             val uuid = runCatching { archive.uuid }.getOrNull().orEmpty()
             val selectedEntry = if (requestedTitle.isBlank()) archive.mainEntry
                 else archive.getEntryByTitle(requestedTitle)
-            val item = selectedEntry.getItem(true)
+            val entry = requireNotNull(selectedEntry) {
+                if (requestedTitle.isBlank()) "L’archive ne déclare aucune entrée principale."
+                else "Aucun article ne porte exactement le titre « $requestedTitle »."
+            }
+            val item = entry.getItem(true)
             val itemSize = item.size
             require(itemSize in 1..MAX_ARTICLE_BYTES) {
                 "L’article sélectionné fait ${itemSize} octets. Limite du prototype : ${MAX_ARTICLE_BYTES} octets."
             }
             val bytes = item.data.data
             val html = bytes.toString(Charsets.UTF_8)
+            val contentHtml = html
+                .replace(HTML_COMMENTS, " ")
+                .replace(NON_CONTENT_BLOCKS, " ")
             val plainText = android.text.Html.fromHtml(
-                html, android.text.Html.FROM_HTML_MODE_COMPACT
-            ).toString().replace(Regex("\\n{3,}"), "\n\n").trim()
-            val excerpt = plainText.take(5_000).ifBlank { html.take(1_500) }
+                contentHtml, android.text.Html.FROM_HTML_MODE_COMPACT
+            ).toString()
+                .replace(Regex("[ \\t]+"), " ")
+                .replace(Regex(" *\\n *"), "\\n")
+                .replace(Regex("\\n{3,}"), "\\n\\n")
+                .trim()
+            val excerpt = plainText.take(5_000).ifBlank {
+                "Aucun texte éditorial lisible n’a été extrait de cette entrée HTML."
+            }
             return buildString {
                 appendLine("LECTURE RÉUSSIE")
                 appendLine()
