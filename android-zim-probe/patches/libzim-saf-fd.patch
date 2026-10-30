@@ -1,18 +1,19 @@
 diff --git a/src/file_part.h b/src/file_part.h
-index 0000000..0000000 100644
 --- a/src/file_part.h
 +++ b/src/file_part.h
-@@ -18,6 +18,9 @@
+@@ -24,6 +24,10 @@
  #include <string>
  #include <memory>
 +#include <cerrno>
 +#include <system_error>
++#ifndef _WIN32
 +#include <unistd.h>
++#endif
  
  #include <zim/zim.h>
+@@ -32,6 +36,19 @@ namespace zim {
  
-@@ -28,6 +31,17 @@ namespace zim {
- 
++#ifndef _WIN32
 +// SAF providers may grant access to an already-open descriptor while
 +// denying a second open() of /dev/fd/N. Keep the granted capability by
 +// duplicating the descriptor instead of resolving that path again.
@@ -25,10 +26,10 @@ index 0000000..0000000 100644
 +  }
 +  return duplicate;
 +}
++#endif
 +
  /** A part of file.
-@@ -52,12 +66,16 @@ class FilePart {
- 
+@@ -55,10 +72,14 @@
  #ifndef _WIN32
      explicit FilePart(int fd) :
 -        FilePart(getFilePathFromFD(fd)) {}
