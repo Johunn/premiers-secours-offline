@@ -36,6 +36,7 @@ jobs:
         uses: kiwix/kiwix-build/actions/dl_deps_archive@main
         with:
           target_platform: android-arm64
+          project: libzim
 
       - name: Install Meson and Ninja
         run: |
