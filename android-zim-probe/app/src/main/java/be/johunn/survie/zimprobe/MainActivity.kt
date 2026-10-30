@@ -23,7 +23,7 @@ class MainActivity : Activity() {
         private const val MAX_ARTICLE_BYTES = 4_000_000L
         private const val MAX_SEARCH_RESULTS = 10
         private const val MAX_INDEXED_ARTICLE_BYTES = 2_000_000L
-        private const val INDEX_BATCH_SIZE = 40
+        private const val INDEX_BATCH_SIZE = 10
         private val NON_CONTENT_BLOCKS = Regex("(?is)<(script|style|head|noscript|template)\\b[^>]*>.*?</\\1\\s*>")
         private val HTML_COMMENTS = Regex("(?s)<!--.*?-->")
         init {
