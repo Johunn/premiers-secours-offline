@@ -22,7 +22,7 @@ L'idée évoquée est une expérience Android unique permettant de chercher à l
 - Identifiant Android : `be.johunn.survie.zimprobe.debug.run41`.
 - Fichier joint à l'exécution CI : [APK run 41](https://github.com/Johunn/premiers-secours-offline/actions/runs/41128831129).
 - SHA-256 de l'APK : `E997E19009E48F997F6B4381D21F0806598843CAE8CAEA6DD4690982FBBB8AED`.
-- La compilation CI, l'alignement et la signature APK ont réussi. Le tap d'un résultat et l'ouverture d'un article restent à vérifier sur téléphone.
+- La compilation CI, l'alignement et la signature APK ont réussi. Le tap d'un résultat et l'ouverture d'un article ont aussi été confirmés sur téléphone pour `Bruxelles` et `grand-place`; le retour aux résultats a fonctionné.
 - L'artefact GitHub expire le 13 novembre 2026. S'il n'est plus disponible, relancer la compilation sur la branche active.
 
 ### Dernier essai rapporté par l'utilisateur
@@ -36,13 +36,13 @@ L'idée évoquée est une expérience Android unique permettant de chercher à l
 - Sur le build 40, `grand-place` renvoie des pages où l'expression apparaît effectivement. `Quartier du Centre (Bruxelles)` arrive en premier; la page `Bruxelles` est neuvième, avec des pages d'autres villes ayant elles aussi une Grand-Place entre les deux. Les extraits confirment les correspondances exactes.
 - La pertinence de ces deux recherches est donc validée sur téléphone. Le classement reflète les occurrences dans l'archive; une recherche générale `grand-place` peut légitimement retourner les Grand-Places d'autres villes.
 
-### Navigation des résultats (build 41, téléphone à vérifier)
+### Navigation des résultats (build 41, validée sur téléphone)
 
-L'utilisateur a signalé que les résultats étaient affichés comme du texte non activable. Le build 41 rend chaque ligne activable, ouvre l'article par son chemin ZIM et affiche le texte nettoyé avec un bouton de retour à la liste. La compilation CI est réussie; l'essai sur téléphone de cette navigation reste à faire. Les liens internes, images et tableaux ne sont pas inclus dans ce premier affichage.
+L'utilisateur a signalé que les résultats étaient affichés comme du texte non activable. Le build 41 rend chaque ligne activable, ouvre l'article par son chemin ZIM et affiche le texte nettoyé avec un bouton de retour à la liste. Sur téléphone, l'utilisateur confirme que les résultats s'ouvrent correctement pour `Bruxelles` et `grand-place`, et que le retour fonctionne. Le mode avion n'a pas été précisé pour cet essai. Les liens internes, images et tableaux ne sont pas inclus dans ce premier affichage.
 
 ### Prochaine étape
 
-Les recherches `Bruxelles` et `grand-place` sont validées sur le build 40. Première priorité : faire vérifier sur le build 41 le tap sur un résultat, l'ouverture du contenu, le retour à la liste et, si possible, ces gestes en mode avion. Après cette navigation, cadrer l'expérience Android unifiée (guide + archive ZIM); la PWA reste la version web et n'est pas à modifier dans ce chantier.
+Les recherches `Bruxelles` et `grand-place` ainsi que l'ouverture des articles et le retour à la liste sont validés sur téléphone. Prochaine étape : cadrer l'expérience Android unifiée (guide + archive ZIM); la PWA reste la version web et n'est pas à modifier dans ce chantier. Le fonctionnement hors ligne de la navigation du build 41 peut être confirmé lors d'un prochain essai, si nécessaire.
 
 ### Données et installation
 
