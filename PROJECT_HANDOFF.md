@@ -6,7 +6,7 @@ Dernière mise à jour : 31 octobre 2026.
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK testé sur téléphone : version 0.9.0, build CI 43; deux archives ont été essayées, mais une seule pouvait être active à la fois.
+- Dernier APK essayé sur téléphone : version 0.10.0, build CI 45; essai en cours, avec un résultat nul à diagnostiquer pour un ZIM de grammaire.
 - Dernière compilation : version 0.10.0, build CI 45; compilation, alignement et signature validés.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
@@ -58,7 +58,7 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Le retour d'un résultat ZIM conserve l'URI de l'archive qui a produit ce résultat, même si l'archive active change ensuite.
 - Migre l'ancienne préférence à archive unique et conserve les index locaux par UUID.
 - Compilation CI : réussie pour le workflow [build 45](https://github.com/Johunn/premiers-secours-offline/actions/runs/41146181199); l'APK est disponible dans l'artefact `android-zim-probe-patched-debug`.
-- Essai sur téléphone : à faire. Cette installation a des données séparées de run 43.
+- Essai sur téléphone : en cours. Cette installation a des données séparées de run 43.
 
 ### Dernier essai rapporté par l'utilisateur
 
@@ -67,6 +67,7 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Indexation rapportée : 11 985 articles, environ six minutes la première fois.
 - Sur un build précédent, l'utilisateur avait confirmé que la recherche fonctionnait instantanément en mode avion. Son dernier compte rendu ne précise pas le mode réseau.
 - Build 43 / version 0.9.0 : l'utilisateur a sélectionné WikiMed après Wikivoyage; la recherche ne portait alors que sur l'archive sélectionnée, sans choix dans la recherche de l'accueil. Après avoir re-sélectionné Wikivoyage, ses résultats sont revenus sans nouvelle indexation. Les index sont donc réutilisés par archive, mais le build 43 ne mémorise qu'une archive active.
+- Build 45 / version 0.10.0 : le premier essai sur cette installation a réindexé Wikivoyage, ce qui est attendu car run45 a ses propres données. L'utilisateur a ensuite choisi un petit ZIM de grammaire « Maître Lucas Grammaire » (~10 Mo); une recherche d'un mot verbal a affiché zéro résultat et aucun progrès d'indexation n'a été remarqué. L'utilisateur voit ce mot dans un article via l'application Kiwix. Le compte rendu détaillé (nom d'archive/UUID/nombre d'articles indexés/terme exact) n'a pas été fourni; on ne sait donc pas encore si le sélecteur pointait sur le bon fichier, si un index marqué prêt était réutilisé, ou si ce ZIM présente une variante de contenu non indexée par les filtres HTML.
 - Avec le build précédent, `Bruxelles` renvoyait les articles bruxellois en tête et des extraits surlignés lisibles.
 - Avec le build précédent, `grand-place` renvoyait encore des résultats trop larges : les mots pouvaient apparaître séparément dans l'article. Le correctif du build 40 conserve les groupes avec trait d'union comme une phrase, par exemple `grand-place` → « grand place ».
 - Sur le build 40, `Bruxelles` renvoie Bruxelles en premier et des pages bruxelloises pertinentes; les extraits surlignent correctement le mot recherché.
@@ -79,9 +80,9 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Le guide + ZIM, la restauration de l'archive et la réutilisation d'un index sont validés sur téléphone avec le build 43. Le build 45 doit être testé sur le téléphone : ajouter Wikivoyage et WikiMed depuis l'accueil; choisir l'une puis l'autre dans la liste; vérifier qu'une recherche utilise le ZIM choisi avec le guide; après l'indexation de chacune dans cette installation, revenir à l'autre archive et vérifier qu'elle réutilise son index. Fermer et rouvrir l'application pour confirmer que les deux choix restent disponibles.
+Le build 45 est en essai sur téléphone. Prochaine étape : dans run45, ouvrir « Rechercher dans une archive ZIM », refaire une recherche dans « Maître Lucas Grammaire », puis copier le compte rendu local complet. Cette vue indique l'archive, son UUID et le nombre d'articles indexés. Cela permettra de vérifier si la nouvelle archive a vraiment été sélectionnée et si son index est prêt; conserver le terme exact et le titre de l'article où il apparaît dans Kiwix. Ne pas réinstaller ni effacer les données avant ce diagnostic.
 
-Le build 45 a un nouvel identifiant Android et donc des données séparées du build 43 : les deux archives devront être ajoutées à nouveau et leurs index seront reconstruits dans cette installation. Leurs index du build 43 ne sont pas effacés. WikiMed (~306 Mo d'après l'inventaire utilisateur) est le corpus suivant le plus pertinent; cela ne constitue pas une validation médicale éditoriale.
+Le build 45 a un nouvel identifiant Android et donc des données séparées du build 43 : les archives choisies sont indexées à nouveau dans cette installation. Leurs index du build 43 ne sont pas effacés. Après le diagnostic du ZIM de grammaire, reprendre la vérification du sélecteur multiple et du maintien des deux choix après redémarrage.
 
 ### Données et installation
 
