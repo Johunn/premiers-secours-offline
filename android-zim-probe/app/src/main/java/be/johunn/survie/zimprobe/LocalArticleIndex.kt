@@ -25,7 +25,7 @@ class LocalArticleIndex(
     DATABASE_VERSION
 ) {
     companion object {
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
         private const val TABLE = "article_fts"
         private const val STATE_TABLE = "index_state"
     }

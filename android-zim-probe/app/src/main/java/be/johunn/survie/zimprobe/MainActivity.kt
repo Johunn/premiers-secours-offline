@@ -818,8 +818,9 @@ class MainActivity : Activity() {
                         statusView.text = progress
                         onProgress?.invoke(progress)
                     }
-                    // iterByTitle() yields editorial articles on both legacy A/ and modern namespace ZIMs.
-                    val iterator = archive.iterByTitle()
+                    // iterByTitle() omits media entries such as PDFs on modern ZIMs.
+                    // iterByPath() visits every user entry, including both articles and media.
+                    val iterator = archive.iterByPath()
                     var scanned = 0
                     var indexed = 0
                     val batch = mutableListOf<ArticleDocument>()
@@ -842,7 +843,7 @@ class MainActivity : Activity() {
                                     val body = extractArticleText(mimeType, item.data.data)
                                     if (body != null && body.length >= 40) {
                                         batch += ArticleDocument(
-                                            title = entry.title.orEmpty(),
+                                            title = searchableTitle(entry.title.orEmpty(), path),
                                             path = path,
                                             body = body
                                         )
@@ -860,7 +861,7 @@ class MainActivity : Activity() {
                                     appendLine("Indexation locale en cours…")
                                     appendLine()
                                     appendLine("Entrées parcourues : $scanned / ${archive.allEntryCount}")
-                                    append("Articles indexés : $indexed")
+                                    append("Documents indexés : $indexed")
                                 }
                                 mainHandler.post {
                                     statusView.text = progress
@@ -882,7 +883,7 @@ class MainActivity : Activity() {
                         onProgress?.invoke(progress)
                     }
                     if (indexed == 0) {
-                        error("Aucun article HTML ou PDF éditorial n’a pu être indexé. Articles déclarés par l’archive : ${archive.articleCount}.")
+                        error("Aucun document HTML ou PDF lisible n’a pu être indexé.")
                     }
                     localIndex.finishRebuild(indexed)
                 }
@@ -895,7 +896,7 @@ class MainActivity : Activity() {
                     appendLine("Archive : $displayName")
                     appendLine("UUID : $archiveUuid")
                     appendLine("Index : SQLite FTS4 local, conservé sur le téléphone")
-                    appendLine("Articles indexés : ${localIndex.articleCount()}")
+                    appendLine("Documents indexés : ${localIndex.articleCount()}")
                     appendLine("Résultats affichés : ${results.size} (maximum $MAX_SEARCH_RESULTS)")
                     appendLine()
                     if (results.isEmpty()) {
@@ -1231,6 +1232,12 @@ class MainActivity : Activity() {
             .take(MAX_INDEXED_ARTICLE_TEXT_CHARS)
             .takeIf { it.isNotBlank() }
     }
+
+    private fun searchableTitle(title: String, path: String): String =
+        title.ifBlank {
+            val filename = path.substringAfterLast('/')
+            filename.substringBeforeLast('.', filename).replace('_', ' ')
+        }
 
     private fun queryDisplayName(uri: Uri): String {
         contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
