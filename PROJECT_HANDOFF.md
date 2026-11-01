@@ -1,12 +1,12 @@
 # Reprise du projet
 
-Dernière mise à jour : 31 octobre 2026.
+Dernière mise à jour : 1er novembre 2026.
 
 ## Point de reprise
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK essayé sur téléphone : version 0.10.0, build CI 45; essai en cours, avec un résultat nul à diagnostiquer pour un ZIM de grammaire.
+- Dernier APK essayé sur téléphone : version 0.10.0, build CI 45; capture reçue le 1er novembre pour le ZIM Maître Lucas Grammaire.
 - Dernière compilation : version 0.10.0, build CI 45; compilation, alignement et signature validés.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
@@ -23,7 +23,7 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 
 ## État Android
 
-### Dernier APK
+### APK précédent récupéré (build 43)
 
 - Version : 0.9.0, code 10, build CI numéro 43.
 - Identifiant Android : `be.johunn.survie.zimprobe.debug.run43`.
@@ -31,6 +31,11 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - SHA-256 de l'APK : `F762A8AF760AB8C87A06F210A9D72F2FC2F430458295A3645EE83A0B6BD65B49`.
 - Taille : 68 424 245 octets. L'APK a été extrait de l'artefact CI et son contenu local du guide est valide; le workflow a réussi les contrôles zipalign et apksigner.
 - L'artefact GitHub expire le 13 novembre 2026. S'il n'est plus disponible, relancer la compilation sur la branche active.
+
+### Dernier APK compilé (build 45)
+
+- Version 0.10.0, code 11; identifiant Android `be.johunn.survie.zimprobe.debug.run45`.
+- Fichier : [artefact APK run 45](https://github.com/Johunn/premiers-secours-offline/actions/runs/41146181199/artifacts/13020683012). Le workflow de compilation, zipalign et apksigner est réussi.
 
 ### Version intégrée
 
@@ -60,15 +65,26 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Compilation CI : réussie pour le workflow [build 45](https://github.com/Johunn/premiers-secours-offline/actions/runs/41146181199); l'APK est disponible dans l'artefact `android-zim-probe-patched-debug`.
 - Essai sur téléphone : en cours. Cette installation a des données séparées de run 43.
 
-### Dernier essai rapporté par l'utilisateur
+### Version 0.11.0 — correctif PDF en préparation
+
+- Code Android version 12. Le prochain build CI sur la branche devrait être le run 46; compilation et essai téléphone pas encore effectués.
+- Diagnostic de la recherche « adjectif » : la capture confirme que l'archive sélectionnée est `maitre_lucas_grammaire_fr_2023-05.zim`, UUID `204f92b3-fd36-5e61-9d66-c694392f51ec`, et que son index précédent ne contenait qu'un document.
+- L'inspection du ZIM public portant le même UUID trouve 577 entrées de répertoire au total (ce nombre n'est pas le nombre d'articles), dont 13 fichiers `application/pdf`. Le filtre HTML du build 45 ignorait leurs textes; une seule entrée HTML éditoriale admissible explique le compteur 1 affiché. Parmi les PDF figure `files/Adjectif/adjectif corrigé.pdf`.
+- Le correctif ajoute l'extraction locale du texte des PDF à l'indexation, à l'ouverture des résultats et à l'outil de lecture d'une entrée, avec [PdfBox-Android](https://github.com/TomRoush/PdfBox-Android). La base d'index passe à la version 2 pour provoquer une reconstruction d'un ancien index. Les entrées HTML sont limitées à 2 Mo et les PDF à 4 Mo; le texte est plafonné à 250 000 caractères par entrée. Les PDF composés uniquement d'images ne sont pas traités par OCR.
+- La petite archive affiche maintenant un état de début et de fin d'indexation, même si elle contient moins de 250 entrées.
+- Essai attendu sur téléphone après compilation : installer run 46 sans désinstaller run 45, ajouter de nouveau le ZIM de grammaire, attendre l'indexation, rechercher `adjectif`, ouvrir un résultat PDF puis revenir aux résultats. Vérifier aussi que le guide reste accessible.
+- Run 46 aura le paquet `be.johunn.survie.zimprobe.debug.run46` et un espace de données distinct : il faudra re-sélectionner les archives et reconstruire leurs index. Les données run 45 resteront sur le téléphone tant que l'application run 45 n'est pas désinstallée.
+
+### Derniers essais et diagnostic rapportés
 
 - Build 42 / version 0.8.0 : l'utilisateur confirme que la recherche `hémorragie` dans le guide et la recherche commune dans le guide + ZIM fonctionnent. Il dit que tout fonctionne correctement; il n'a pas spécifié séparément le mode avion.
 - Archive : `wikivoyage_fr_all_nopic_2026-10.zim`, UUID `1985c9fc-40e3-5546-ebe0-08bfc503d30d`.
 - Indexation rapportée : 11 985 articles, environ six minutes la première fois.
 - Sur un build précédent, l'utilisateur avait confirmé que la recherche fonctionnait instantanément en mode avion. Son dernier compte rendu ne précise pas le mode réseau.
 - Build 43 / version 0.9.0 : l'utilisateur a sélectionné WikiMed après Wikivoyage; la recherche ne portait alors que sur l'archive sélectionnée, sans choix dans la recherche de l'accueil. Après avoir re-sélectionné Wikivoyage, ses résultats sont revenus sans nouvelle indexation. Les index sont donc réutilisés par archive, mais le build 43 ne mémorise qu'une archive active.
-- Build 45 / version 0.10.0 : le premier essai sur cette installation a réindexé Wikivoyage, ce qui est attendu car run45 a ses propres données. L'utilisateur a ensuite choisi un petit ZIM de grammaire « Maître Lucas Grammaire » (~10 Mo); une recherche d'un mot verbal a affiché zéro résultat et aucun progrès d'indexation n'a été remarqué. L'utilisateur voit ce mot dans un article via l'application Kiwix. Le compte rendu détaillé (nom d'archive/UUID/nombre d'articles indexés/terme exact) n'a pas été fourni; on ne sait donc pas encore si le sélecteur pointait sur le bon fichier, si un index marqué prêt était réutilisé, ou si ce ZIM présente une variante de contenu non indexée par les filtres HTML.
-- Revue du code run45 : `searchArchive` lance l'indexation à la première recherche si l'index de l'UUID n'est pas prêt. La progression visible ne se met à jour qu'à chaque 250 entrées parcourues; un petit ZIM peut donc être indexé sans afficher de message de progression. Si l'index ne contient aucun article admissible, la recherche échoue avec une erreur explicite; un écran normal « aucun article ZIM ne correspond » indique plutôt qu'une recherche a été exécutée sur un index complet, sans prouver le nombre d'articles ni confirmer le fichier attendu.
+- Build 45 / version 0.10.0 : run45 possède ses propres données; l'utilisateur a choisi le ZIM de grammaire et la recherche « adjectif » a indiqué zéro résultat, avec 1 document indexé. La capture montre l'archive sélectionnée et son UUID; l'hypothèse d'une mauvaise sélection est donc écartée pour cet essai.
+- Le ZIM identifié par cet UUID comporte des fichiers PDF de grammaire. L'ancien indexeur ne traitait que le HTML; il ne pouvait donc pas rechercher le texte de ces documents. Les 577 entrées trouvées sont des entrées de répertoire, pas 577 articles éditoriaux.
+- Sur le build 45, la progression visible était mise à jour tous les 250 articles parcourus; cela pouvait masquer l'indexation rapide d'un petit ZIM. La version 0.11.0 affiche désormais également l'état initial et final.
 - Avec le build précédent, `Bruxelles` renvoyait les articles bruxellois en tête et des extraits surlignés lisibles.
 - Avec le build précédent, `grand-place` renvoyait encore des résultats trop larges : les mots pouvaient apparaître séparément dans l'article. Le correctif du build 40 conserve les groupes avec trait d'union comme une phrase, par exemple `grand-place` → « grand place ».
 - Sur le build 40, `Bruxelles` renvoie Bruxelles en premier et des pages bruxelloises pertinentes; les extraits surlignent correctement le mot recherché.
@@ -81,9 +97,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Le build 45 est en essai sur téléphone. Prochaine étape : dans run45, ouvrir « Rechercher dans une archive ZIM », refaire une recherche dans « Maître Lucas Grammaire », puis copier le compte rendu local complet. Cette vue indique l'archive, son UUID et le nombre d'articles indexés. Cela permettra de vérifier si la nouvelle archive a vraiment été sélectionnée et combien d'articles sont dans son index; conserver le terme exact et le titre de l'article où il apparaît dans Kiwix. Ne pas réinstaller ni effacer les données avant ce diagnostic.
-
-Le build 45 a un nouvel identifiant Android et donc des données séparées du build 43 : les archives choisies sont indexées à nouveau dans cette installation. Leurs index du build 43 ne sont pas effacés. Après le diagnostic du ZIM de grammaire, reprendre la vérification du sélecteur multiple et du maintien des deux choix après redémarrage.
+Compiler le correctif PDF en CI, puis faire vérifier sur téléphone la recherche `adjectif` dans le ZIM Maître Lucas, l'ouverture d'un résultat PDF et le retour à la recherche. L'installation run46 aura des données isolées : garder run45 installé, re-sélectionner le ZIM de grammaire et laisser reconstruire l'index. Les autres archives devront également être re-sélectionnées/réindexées si elles sont testées dans run46.
 
 ### Données et installation
 

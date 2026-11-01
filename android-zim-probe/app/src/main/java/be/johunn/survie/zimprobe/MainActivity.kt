@@ -25,6 +25,9 @@ import android.widget.TextView
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
+import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.text.PDFTextStripper
 import org.kiwix.libzim.Archive
 import org.json.JSONArray
 import java.io.FileDescriptor
@@ -41,6 +44,8 @@ class MainActivity : Activity() {
         private const val MAX_ARTICLE_BYTES = 4_000_000L
         private const val MAX_SEARCH_RESULTS = 10
         private const val MAX_INDEXED_ARTICLE_BYTES = 2_000_000L
+        private const val MAX_INDEXED_PDF_BYTES = 4_000_000L
+        private const val MAX_INDEXED_ARTICLE_TEXT_CHARS = 250_000
         private const val INDEX_BATCH_SIZE = 10
         private val NON_CONTENT_BLOCKS = Regex("(?is)<(script|style|head|noscript|template)\\b[^>]*>.*?</\\1\\s*>")
         private val HTML_COMMENTS = Regex("(?s)<!--.*?-->")
@@ -91,6 +96,7 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        PDFBoxResourceLoader.init(applicationContext)
         val title = TextView(this).apply {
             text = "Bibliothèque ZIM"
             textSize = 22f
@@ -807,6 +813,11 @@ class MainActivity : Activity() {
             try {
                 if (!localIndex.isReady()) {
                     localIndex.beginRebuild()
+                    mainHandler.post {
+                        val progress = "Indexation locale en cours…\n\nEntrées parcourues : 0 / ${archive.allEntryCount}\nDocuments indexés : 0"
+                        statusView.text = progress
+                        onProgress?.invoke(progress)
+                    }
                     // iterByTitle() yields editorial articles on both legacy A/ and modern namespace ZIMs.
                     val iterator = archive.iterByTitle()
                     var scanned = 0
@@ -819,19 +830,17 @@ class MainActivity : Activity() {
                             val path = entry.path.orEmpty()
                             if (!entry.isRedirect()) {
                                 val item = entry.getItem(true)
-                                if (item.size in 1..MAX_INDEXED_ARTICLE_BYTES &&
-                                    item.mimetype.orEmpty().startsWith("text/html", ignoreCase = true)
-                                ) {
-                                    val html = item.data.data.toString(Charsets.UTF_8)
-                                    val articleHtml = html
-                                        .replace(HTML_COMMENTS, " ")
-                                        .replace(NON_CONTENT_BLOCKS, " ")
-                                    val body = android.text.Html.fromHtml(
-                                        articleHtml, android.text.Html.FROM_HTML_MODE_COMPACT
-                                    ).toString()
-                                        .replace(Regex("\\s+"), " ")
-                                        .trim()
-                                    if (body.length >= 40) {
+                                val mimeType = item.mimetype.orEmpty()
+                                val maxBytes = if (mimeType.equals("application/pdf", ignoreCase = true)) {
+                                    MAX_INDEXED_PDF_BYTES
+                                } else {
+                                    MAX_INDEXED_ARTICLE_BYTES
+                                }
+                                if (item.size in 1..maxBytes &&
+                                    (mimeType.startsWith("text/html", ignoreCase = true) ||
+                                        mimeType.equals("application/pdf", ignoreCase = true))) {
+                                    val body = extractArticleText(mimeType, item.data.data)
+                                    if (body != null && body.length >= 40) {
                                         batch += ArticleDocument(
                                             title = entry.title.orEmpty(),
                                             path = path,
@@ -867,8 +876,13 @@ class MainActivity : Activity() {
                     } finally {
                         iterator.dispose()
                     }
+                    mainHandler.post {
+                        val progress = "Indexation locale terminée.\n\nEntrées parcourues : $scanned / ${archive.allEntryCount}\nDocuments indexés : $indexed"
+                        statusView.text = progress
+                        onProgress?.invoke(progress)
+                    }
                     if (indexed == 0) {
-                        error("Aucun article HTML éditorial n’a pu être indexé. Articles déclarés par l’archive : ${archive.articleCount}.")
+                        error("Aucun article HTML ou PDF éditorial n’a pu être indexé. Articles déclarés par l’archive : ${archive.articleCount}.")
                     }
                     localIndex.finishRebuild(indexed)
                 }
@@ -1036,25 +1050,16 @@ class MainActivity : Activity() {
                 require(itemSize in 1..MAX_ARTICLE_BYTES) {
                     "L’article sélectionné fait ${itemSize} octets. Limite du prototype : ${MAX_ARTICLE_BYTES} octets."
                 }
-                val html = item.data.data.toString(Charsets.UTF_8)
-                val contentHtml = html
-                    .replace(HTML_COMMENTS, " ")
-                    .replace(NON_CONTENT_BLOCKS, " ")
-                val text = android.text.Html.fromHtml(
-                    contentHtml, android.text.Html.FROM_HTML_MODE_COMPACT
-                ).toString()
-                    .replace("\uFFFC", " ")
-                    .replace(Regex("[ \\t]+"), " ")
-                    .replace(Regex(" *\\n *"), "\n")
-                    .replace(Regex("\\n{3,}"), "\n\n")
-                    .trim()
+                val mimeType = item.mimetype.orEmpty()
+                val text = extractArticleText(mimeType, item.data.data)
                 return ArticlePage(
                     archiveName = displayName,
                     archiveUuid = archive.uuid,
                     title = item.title.orEmpty().ifBlank { entry.title.orEmpty() },
                     path = item.path.orEmpty().ifBlank { path },
                     byteSize = itemSize,
-                    text = text.ifBlank { "Aucun texte lisible n’a été extrait de cet article." }
+                    mimeType = mimeType,
+                    text = text ?: "Aucun texte lisible n’a été extrait de cet article."
                 )
             } finally {
                 archive.dispose()
@@ -1080,7 +1085,7 @@ class MainActivity : Activity() {
             setPadding(0, dp(16), 0, dp(8))
         })
         resultsContainer.addView(TextView(this).apply {
-            text = "Chemin : ${page.path}\nArchive : ${page.archiveName}\nUUID : ${page.archiveUuid}\nTaille : ${page.byteSize} octets"
+            text = "Chemin : ${page.path}\nArchive : ${page.archiveName}\nUUID : ${page.archiveUuid}\nType : ${page.mimeType}\nTaille : ${page.byteSize} octets"
             textSize = 13f
             setTextIsSelectable(true)
         })
@@ -1125,6 +1130,7 @@ class MainActivity : Activity() {
         val title: String,
         val path: String,
         val byteSize: Long,
+        val mimeType: String,
         val text: String
     )
 
@@ -1150,20 +1156,9 @@ class MainActivity : Activity() {
                 "L’article sélectionné fait ${itemSize} octets. Limite du prototype : ${MAX_ARTICLE_BYTES} octets."
             }
             val bytes = item.data.data
-            val html = bytes.toString(Charsets.UTF_8)
-            val contentHtml = html
-                .replace(HTML_COMMENTS, " ")
-                .replace(NON_CONTENT_BLOCKS, " ")
-            val plainText = android.text.Html.fromHtml(
-                contentHtml, android.text.Html.FROM_HTML_MODE_COMPACT
-            ).toString()
-                .replace(Regex("[ \\t]+"), " ")
-                .replace(Regex(" *\\n *"), "\n")
-                .replace(Regex("\\n{3,}"), "\n\n")
-                .trim()
-            val excerpt = plainText.take(5_000).ifBlank {
-                "Aucun texte éditorial lisible n’a été extrait de cette entrée HTML."
-            }
+            val mimeType = item.mimetype.orEmpty()
+            val plainText = extractArticleText(mimeType, bytes)
+            val excerpt = plainText?.take(5_000) ?: "Aucun texte éditorial lisible n’a été extrait de cette entrée."
             return buildString {
                 appendLine("LECTURE RÉUSSIE")
                 appendLine()
@@ -1182,7 +1177,7 @@ class MainActivity : Activity() {
                 appendLine("Titre recherché : ${requestedTitle.ifBlank { "(page principale de l’archive)" }}")
                 appendLine("Titre extrait : ${item.title}")
                 appendLine("Chemin : ${item.path}")
-                appendLine("Type MIME : ${item.mimetype}")
+                appendLine("Type MIME : $mimeType")
                 appendLine("Taille : ${itemSize} octets")
                 appendLine()
                 appendLine("EXTRAIT DU CONTENU")
@@ -1205,6 +1200,37 @@ class MainActivity : Activity() {
 
     private fun safeMetadata(archive: Archive, key: String): String =
         runCatching { archive.getMetadata(key) }.getOrNull().orEmpty()
+
+    private fun extractArticleText(mimeType: String, bytes: ByteArray): String? {
+        val extracted = when {
+            mimeType.startsWith("text/html", ignoreCase = true) -> {
+                val html = bytes.toString(Charsets.UTF_8)
+                    .replace(HTML_COMMENTS, " ")
+                    .replace(NON_CONTENT_BLOCKS, " ")
+                android.text.Html.fromHtml(
+                    html, android.text.Html.FROM_HTML_MODE_COMPACT
+                ).toString()
+            }
+            mimeType.equals("application/pdf", ignoreCase = true) -> {
+                try {
+                    PDDocument.load(bytes).use { document ->
+                        PDFTextStripper().getText(document)
+                    }
+                } catch (_: Exception) {
+                    return null
+                }
+            }
+            else -> return null
+        }
+        return extracted
+            .replace("\uFFFC", " ")
+            .replace(Regex("[ \\t]+"), " ")
+            .replace(Regex(" *\\n *"), "\n")
+            .replace(Regex("\\n{3,}"), "\n\n")
+            .trim()
+            .take(MAX_INDEXED_ARTICLE_TEXT_CHARS)
+            .takeIf { it.isNotBlank() }
+    }
 
     private fun queryDisplayName(uri: Uri): String {
         contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->

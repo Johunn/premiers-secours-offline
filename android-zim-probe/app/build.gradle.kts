@@ -60,8 +60,8 @@ android {
         applicationId = "be.johunn.survie.zimprobe"
         minSdk = 26
         targetSdk = 35
-        versionCode = 11
-        versionName = "0.10.0"
+        versionCode = 12
+        versionName = "0.11.0"
         // Le prototype vise le Galaxy S21 FE (ARM64). Évite d'embarquer
         // trois architectures inutiles dans l'APK de test.
         ndk {
@@ -91,4 +91,5 @@ dependencies {
     // AAR Kiwix 2.7.0 (libkiwix 14.2.1 / libzim 9.8.2) avec libzim
     // recompilé et patché pour conserver le descripteur SAF autorisé.
     implementation(files("libs/libkiwix-patched.aar"))
+    implementation("com.tom-roush:pdfbox-android:2.0.27.0")
 }
