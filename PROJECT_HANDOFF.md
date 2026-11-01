@@ -7,7 +7,7 @@ Dernière mise à jour : 1er novembre 2026.
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
 - Dernier APK essayé sur téléphone : version 0.11.0, build CI 46; résultat `adjectif` du ZIM Maître Lucas rapporté le 1er novembre, toujours 1 document indexé et aucun résultat.
-- Dernière compilation : version 0.11.0, build CI 46; compilation, alignement et signature validés. La recherche PDF n'a pas fonctionné selon le résultat rapporté.
+- Dernière compilation : version 0.12.0, build CI 47; compilation, alignement et signature validés. Essai téléphone en attente.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
 - Commit de la sélection de plusieurs archives : `d87705f`.
@@ -80,6 +80,13 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Essai à faire après le run 47 : garder les builds précédents, installer le nouvel APK, ajouter de nouveau le ZIM de grammaire, attendre l'indexation, rechercher `adjectif`, ouvrir un résultat PDF puis revenir aux résultats. Vérifier aussi que le guide reste accessible.
 - Run 47 aura son propre espace de données : il faudra re-sélectionner les archives et reconstruire leurs index. Les données des anciens runs resteront sur le téléphone tant que ces applications ne sont pas désinstallées.
 
+### Dernier APK compilé (build 47) — PDF inclus dans le parcours d'indexation
+
+- Version 0.12.0, code 13; commit `c2de67a`; identifiant Android `be.johunn.survie.zimprobe.debug.run47`.
+- Fichier : [artefact APK run 47](https://github.com/Johunn/premiers-secours-offline/actions/runs/41357540742/artifacts/13104310812).
+- CI : [run 47 réussi](https://github.com/Johunn/premiers-secours-offline/actions/runs/41357540742), compilation, zipalign et apksigner validés.
+- Essai téléphone : en attente. Le correctif remplace le parcours des seuls articles par celui de toutes les entrées utilisateur; le ZIM de grammaire doit maintenant présenter ses PDF à l'extracteur.
+
 ### Derniers essais et diagnostic rapportés
 
 - Build 42 / version 0.8.0 : l'utilisateur confirme que la recherche `hémorragie` dans le guide et la recherche commune dans le guide + ZIM fonctionnent. Il dit que tout fonctionne correctement; il n'a pas spécifié séparément le mode avion.
@@ -102,7 +109,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Compiler le parcours `iterByPath()` en build 47, puis faire vérifier sur téléphone la recherche `adjectif` dans le ZIM Maître Lucas, l'ouverture d'un résultat PDF et le retour à la recherche. L'installation run47 aura des données isolées : garder les builds précédents installés, re-sélectionner le ZIM de grammaire et laisser reconstruire l'index. Les autres archives devront également être re-sélectionnées/réindexées si elles sont testées dans run47.
+Faire vérifier sur téléphone la recherche `adjectif` dans le ZIM Maître Lucas, l'ouverture d'un résultat PDF et le retour à la recherche. L'installation run47 aura des données isolées : garder les builds précédents installés, re-sélectionner le ZIM de grammaire et laisser reconstruire l'index. Les autres archives devront également être re-sélectionnées/réindexées si elles sont testées dans run47.
 
 ### Données et installation
 
