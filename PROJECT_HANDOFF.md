@@ -7,7 +7,7 @@ Dernière mise à jour : 1er novembre 2026.
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
 - Dernier APK essayé sur téléphone : version 0.10.0, build CI 45; capture reçue le 1er novembre pour le ZIM Maître Lucas Grammaire.
-- Dernière compilation : version 0.10.0, build CI 45; compilation, alignement et signature validés.
+- Dernière compilation : version 0.11.0, build CI 46; compilation, alignement et signature validés. Essai téléphone à faire.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
 - Commit de la sélection de plusieurs archives : `d87705f`.
@@ -32,7 +32,7 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Taille : 68 424 245 octets. L'APK a été extrait de l'artefact CI et son contenu local du guide est valide; le workflow a réussi les contrôles zipalign et apksigner.
 - L'artefact GitHub expire le 13 novembre 2026. S'il n'est plus disponible, relancer la compilation sur la branche active.
 
-### Dernier APK compilé (build 45)
+### APK compilé (build 45)
 
 - Version 0.10.0, code 11; identifiant Android `be.johunn.survie.zimprobe.debug.run45`.
 - Fichier : [artefact APK run 45](https://github.com/Johunn/premiers-secours-offline/actions/runs/41146181199/artifacts/13020683012). Le workflow de compilation, zipalign et apksigner est réussi.
@@ -65,14 +65,17 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Compilation CI : réussie pour le workflow [build 45](https://github.com/Johunn/premiers-secours-offline/actions/runs/41146181199); l'APK est disponible dans l'artefact `android-zim-probe-patched-debug`.
 - Essai sur téléphone : en cours. Cette installation a des données séparées de run 43.
 
-### Version 0.11.0 — correctif PDF en préparation
+### Dernier APK compilé (build 46) — PDF indexés
 
-- Code Android version 12. Le prochain build CI sur la branche devrait être le run 46; compilation et essai téléphone pas encore effectués.
+- Version 0.11.0, code 12; commit `0beeacb`; identifiant Android `be.johunn.survie.zimprobe.debug.run46`.
+- Fichier : [artefact APK run 46](https://github.com/Johunn/premiers-secours-offline/actions/runs/41323256680/artifacts/13090132620).
+- CI : [run 46 réussi](https://github.com/Johunn/premiers-secours-offline/actions/runs/41323256680), compilation, zipalign et apksigner validés.
+- Essai téléphone : en attente; la compilation CI ne vérifie pas l'extraction des PDF sur l'appareil.
 - Diagnostic de la recherche « adjectif » : la capture confirme que l'archive sélectionnée est `maitre_lucas_grammaire_fr_2023-05.zim`, UUID `204f92b3-fd36-5e61-9d66-c694392f51ec`, et que son index précédent ne contenait qu'un document.
 - L'inspection du ZIM public portant le même UUID trouve 577 entrées de répertoire au total (ce nombre n'est pas le nombre d'articles), dont 13 fichiers `application/pdf`. Le filtre HTML du build 45 ignorait leurs textes; une seule entrée HTML éditoriale admissible explique le compteur 1 affiché. Parmi les PDF figure `files/Adjectif/adjectif corrigé.pdf`.
 - Le correctif ajoute l'extraction locale du texte des PDF à l'indexation, à l'ouverture des résultats et à l'outil de lecture d'une entrée, avec [PdfBox-Android](https://github.com/TomRoush/PdfBox-Android). La base d'index passe à la version 2 pour provoquer une reconstruction d'un ancien index. Les entrées HTML sont limitées à 2 Mo et les PDF à 4 Mo; le texte est plafonné à 250 000 caractères par entrée. Les PDF composés uniquement d'images ne sont pas traités par OCR.
 - La petite archive affiche maintenant un état de début et de fin d'indexation, même si elle contient moins de 250 entrées.
-- Essai attendu sur téléphone après compilation : installer run 46 sans désinstaller run 45, ajouter de nouveau le ZIM de grammaire, attendre l'indexation, rechercher `adjectif`, ouvrir un résultat PDF puis revenir aux résultats. Vérifier aussi que le guide reste accessible.
+- Essai à faire sur téléphone : installer run 46 sans désinstaller run 45, ajouter de nouveau le ZIM de grammaire, attendre l'indexation, rechercher `adjectif`, ouvrir un résultat PDF puis revenir aux résultats. Vérifier aussi que le guide reste accessible.
 - Run 46 aura le paquet `be.johunn.survie.zimprobe.debug.run46` et un espace de données distinct : il faudra re-sélectionner les archives et reconstruire leurs index. Les données run 45 resteront sur le téléphone tant que l'application run 45 n'est pas désinstallée.
 
 ### Derniers essais et diagnostic rapportés
@@ -97,7 +100,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Compiler le correctif PDF en CI, puis faire vérifier sur téléphone la recherche `adjectif` dans le ZIM Maître Lucas, l'ouverture d'un résultat PDF et le retour à la recherche. L'installation run46 aura des données isolées : garder run45 installé, re-sélectionner le ZIM de grammaire et laisser reconstruire l'index. Les autres archives devront également être re-sélectionnées/réindexées si elles sont testées dans run46.
+Faire vérifier sur téléphone la recherche `adjectif` dans le ZIM Maître Lucas, l'ouverture d'un résultat PDF et le retour à la recherche. L'installation run46 aura des données isolées : garder run45 installé, re-sélectionner le ZIM de grammaire et laisser reconstruire l'index. Les autres archives devront également être re-sélectionnées/réindexées si elles sont testées dans run46.
 
 ### Données et installation
 
