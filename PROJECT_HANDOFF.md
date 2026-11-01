@@ -7,7 +7,7 @@ Dernière mise à jour : 2 novembre 2026.
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
 - Dernier APK essayé sur téléphone : version 0.12.0, build CI 47; recherche dans le PDF et non-régression Wikivoyage réussies le 2 novembre.
-- Dernière compilation : version 0.12.0, build CI 47; compilation, alignement et signature validés; recherches PDF et HTML confirmées sur téléphone.
+- Dernière compilation : version 0.12.0, build CI 47; compilation, alignement et signature validés; recherches PDF et HTML, y compris Wikivoyage en mode avion, confirmées sur téléphone.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
 - Commit de la sélection de plusieurs archives : `d87705f`.
@@ -86,7 +86,7 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Fichier : [artefact APK run 47](https://github.com/Johunn/premiers-secours-offline/actions/runs/41357540742/artifacts/13104310812).
 - CI : [run 47 réussi](https://github.com/Johunn/premiers-secours-offline/actions/runs/41357540742), compilation, zipalign et apksigner validés.
 - Essai téléphone : réussi. La recherche `adjectif` indique 11 documents indexés et renvoie `files/Adjectif/adjectif corrigé.pdf`. L'utilisateur confirme que le PDF s'ouvre et que son texte est lisible; le bouton de retour aux résultats est présent.
-- Non-régression téléphone : recherches `Bruxelles` et `grand-place` sur Wikivoyage, archive UUID `1985c9fc-40e3-5546-ebe0-08bfc503d30d`; chacune affiche 10 résultats et le compteur est de 11 986 documents. Les contenus joints montrent les pages « Bruxelles » et « Quartier du Centre (Bruxelles) » ouvertes et lisibles. Le mode avion n'est pas précisé pour cet essai.
+- Non-régression téléphone : recherches `Bruxelles` et `grand-place` sur Wikivoyage, archive UUID `1985c9fc-40e3-5546-ebe0-08bfc503d30d`; chacune affiche 10 résultats et le compteur est de 11 986 documents. Les contenus joints montrent les pages « Bruxelles » et « Quartier du Centre (Bruxelles) » ouvertes et lisibles. L'utilisateur confirme ensuite que la recherche Wikivoyage fonctionne aussi en mode avion sur le build 47.
 - Observation d'interface : l'extrait affiché pour ce résultat est le chemin du PDF, et non un extrait textuel autour de la correspondance. Le contenu extrait contient bien le texte du PDF.
 
 ### Derniers essais et diagnostic rapportés
@@ -100,7 +100,7 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Build 46 / version 0.11.0 : l'extracteur PDF était ajouté, mais `iterByTitle()` ne retournait que les articles éditoriaux du ZIM. L'utilisateur rapporte encore 1 document indexé et 0 résultat; cela confirme que les PDF n'ont pas été parcourus. Les 577 entrées du fichier sont les entrées totales du répertoire, et non 577 articles éditoriaux.
 - La version 0.11.0 affiche l'état initial et final d'indexation même pour les petits ZIM.
 - Build 47 / version 0.12.0 : après passage à `iterByPath()`, l'utilisateur confirme 11 documents indexés, un résultat PDF pour `adjectif`, et l'ouverture du contenu avec retour aux résultats. La recherche locale fonctionne donc pour ce PDF.
-- Build 47 : non-régression Wikivoyage rapportée le 2 novembre : `Bruxelles` et `grand-place` renvoient chacun 10 résultats avec 11 986 documents indexés; les pages « Bruxelles » et « Quartier du Centre (Bruxelles) » ont été ouvertes. Le compte rendu ne précise pas le mode avion.
+- Build 47 : non-régression Wikivoyage rapportée le 2 novembre : `Bruxelles` et `grand-place` renvoient chacun 10 résultats avec 11 986 documents indexés; les pages « Bruxelles » et « Quartier du Centre (Bruxelles) » ont été ouvertes. L'utilisateur confirme aussi le fonctionnement en mode avion.
 - Avec le build précédent, `Bruxelles` renvoyait les articles bruxellois en tête et des extraits surlignés lisibles.
 - Avec le build précédent, `grand-place` renvoyait encore des résultats trop larges : les mots pouvaient apparaître séparément dans l'article. Le correctif du build 40 conserve les groupes avec trait d'union comme une phrase, par exemple `grand-place` → « grand place ».
 - Sur le build 40, `Bruxelles` renvoie Bruxelles en premier et des pages bruxelloises pertinentes; les extraits surlignent correctement le mot recherché.
@@ -113,7 +113,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Confirmer une recherche dans Wikivoyage en mode avion sur le build 47; l'index local est prêt, donc aucune réindexation n'est nécessaire. L'extrait d'un résultat PDF qui affiche seulement le chemin est une amélioration d'interface possible, à prioriser selon les prochains retours.
+Build 47 est confirmé sur téléphone, en mode avion inclus. La prochaine amélioration en préparation force les extraits FTS4 à privilégier le texte de l'article plutôt que le titre/chemin; cela doit faire apparaître le passage autour de la correspondance PDF au lieu du seul chemin. Version prévue : 0.13.0 / build CI 48, code Android 14, paquet `be.johunn.survie.zimprobe.debug.run48`. Après compilation, demander de re-sélectionner le ZIM de grammaire et Wikivoyage dans le nouvel espace de données, laisser les index se construire, puis vérifier un extrait pertinent pour `adjectif`, `Bruxelles` et `grand-place` et que l'ouverture/retour reste fonctionnel. La recherche FTS4 reste locale; confirmer aussi le mode avion sur la nouvelle version.
 
 ### Données et installation
 

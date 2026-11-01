@@ -146,21 +146,25 @@ class LocalArticleIndex(
         val rankedResults = mutableListOf<RankedArticleSearchResult>()
 
         db.rawQuery(
-            "SELECT docid, title, path, snippet($TABLE, '⟦', '⟧', '…', -1, 18), " +
+            "SELECT docid, title, path, " +
+                "snippet($TABLE, '⟦', '⟧', '…', 2, 18), " +
+                "snippet($TABLE, '⟦', '⟧', '…', -1, 18), " +
                 "matchinfo($TABLE, 'pcx') " +
                 "FROM $TABLE WHERE $TABLE MATCH ?",
             arrayOf(matchQuery)
         ).use { cursor ->
             while (cursor.moveToNext()) {
+                val bodySnippet = cursor.getString(3).orEmpty()
+                val anyColumnSnippet = cursor.getString(4).orEmpty()
                 val result = ArticleSearchResult(
                     title = cursor.getString(1).orEmpty(),
                     path = cursor.getString(2).orEmpty(),
-                    snippet = cursor.getString(3).orEmpty()
+                    snippet = bodySnippet.takeIf { '⟦' in it } ?: anyColumnSnippet
                 )
                 rankedResults += RankedArticleSearchResult(
                     result = result,
                     score = relevanceScore(
-                        matchInfo = cursor.getBlob(4),
+                        matchInfo = cursor.getBlob(5),
                         documentCount = documentCount,
                         phraseMatch = cursor.getLong(0) in phraseMatches
                     )
