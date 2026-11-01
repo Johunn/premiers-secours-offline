@@ -1,13 +1,13 @@
 # Reprise du projet
 
-Dernière mise à jour : 1er novembre 2026.
+Dernière mise à jour : 2 novembre 2026.
 
 ## Point de reprise
 
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
-- Dernier APK essayé sur téléphone : version 0.11.0, build CI 46; résultat `adjectif` du ZIM Maître Lucas rapporté le 1er novembre, toujours 1 document indexé et aucun résultat.
-- Dernière compilation : version 0.12.0, build CI 47; compilation, alignement et signature validés. Essai téléphone en attente.
+- Dernier APK essayé sur téléphone : version 0.12.0, build CI 47; recherche `adjectif` dans le PDF du ZIM Maître Lucas réussie le 2 novembre.
+- Dernière compilation : version 0.12.0, build CI 47; compilation, alignement et signature validés; recherche PDF et ouverture du résultat confirmées sur téléphone.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
 - Commit de la sélection de plusieurs archives : `d87705f`.
@@ -85,7 +85,8 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Version 0.12.0, code 13; commit `c2de67a`; identifiant Android `be.johunn.survie.zimprobe.debug.run47`.
 - Fichier : [artefact APK run 47](https://github.com/Johunn/premiers-secours-offline/actions/runs/41357540742/artifacts/13104310812).
 - CI : [run 47 réussi](https://github.com/Johunn/premiers-secours-offline/actions/runs/41357540742), compilation, zipalign et apksigner validés.
-- Essai téléphone : en attente. Le correctif remplace le parcours des seuls articles par celui de toutes les entrées utilisateur; le ZIM de grammaire doit maintenant présenter ses PDF à l'extracteur.
+- Essai téléphone : réussi. La recherche `adjectif` indique 11 documents indexés et renvoie `files/Adjectif/adjectif corrigé.pdf`. L'utilisateur confirme que le PDF s'ouvre et que son texte est lisible; le bouton de retour aux résultats est présent.
+- Observation d'interface : l'extrait affiché pour ce résultat est le chemin du PDF, et non un extrait textuel autour de la correspondance. Le contenu extrait contient bien le texte du PDF.
 
 ### Derniers essais et diagnostic rapportés
 
@@ -97,6 +98,7 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 - Build 45 / version 0.10.0 : la recherche « adjectif » a indiqué zéro résultat, avec 1 document indexé; la capture montre le bon ZIM et son UUID.
 - Build 46 / version 0.11.0 : l'extracteur PDF était ajouté, mais `iterByTitle()` ne retournait que les articles éditoriaux du ZIM. L'utilisateur rapporte encore 1 document indexé et 0 résultat; cela confirme que les PDF n'ont pas été parcourus. Les 577 entrées du fichier sont les entrées totales du répertoire, et non 577 articles éditoriaux.
 - La version 0.11.0 affiche l'état initial et final d'indexation même pour les petits ZIM.
+- Build 47 / version 0.12.0 : après passage à `iterByPath()`, l'utilisateur confirme 11 documents indexés, un résultat PDF pour `adjectif`, et l'ouverture du contenu avec retour aux résultats. La recherche locale fonctionne donc pour ce PDF. Le mode avion n'a pas été précisé dans ce dernier essai.
 - Avec le build précédent, `Bruxelles` renvoyait les articles bruxellois en tête et des extraits surlignés lisibles.
 - Avec le build précédent, `grand-place` renvoyait encore des résultats trop larges : les mots pouvaient apparaître séparément dans l'article. Le correctif du build 40 conserve les groupes avec trait d'union comme une phrase, par exemple `grand-place` → « grand place ».
 - Sur le build 40, `Bruxelles` renvoie Bruxelles en premier et des pages bruxelloises pertinentes; les extraits surlignent correctement le mot recherché.
@@ -109,7 +111,7 @@ L'utilisateur a signalé que les résultats étaient affichés comme du texte no
 
 ### Prochaine étape
 
-Faire vérifier sur téléphone la recherche `adjectif` dans le ZIM Maître Lucas, l'ouverture d'un résultat PDF et le retour à la recherche. L'installation run47 aura des données isolées : garder les builds précédents installés, re-sélectionner le ZIM de grammaire et laisser reconstruire l'index. Les autres archives devront également être re-sélectionnées/réindexées si elles sont testées dans run47.
+Faire une vérification de non-régression sur le build 47 avec Wikivoyage : resélectionner l'archive dans run47, laisser se reconstruire son index (environ six minutes d'après l'essai antérieur), rechercher `Bruxelles` et `grand-place`, puis confirmer si la recherche reste disponible en mode avion. Le build 47 a ses propres données; les archives doivent y être resélectionnées et réindexées. L'extrait d'un résultat PDF qui affiche seulement le chemin est une amélioration d'interface possible, à traiter après cette vérification.
 
 ### Données et installation
 
