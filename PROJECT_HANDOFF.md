@@ -7,7 +7,7 @@ Dernière mise à jour : 2 novembre 2026.
 - Dépôt : [Johunn/premiers-secours-offline](https://github.com/Johunn/premiers-secours-offline)
 - Branche Android active : `feature/android-zim-probe`
 - Dernier APK essayé sur téléphone : version 0.12.0, build CI 47; recherche dans le PDF et non-régression Wikivoyage réussies le 2 novembre.
-- Dernière compilation : version 0.12.0, build CI 47; compilation, alignement et signature validés; recherches PDF et HTML, y compris Wikivoyage en mode avion, confirmées sur téléphone.
+- Dernière compilation : version 0.13.0, build CI 48; compilation, alignement et signature validés. Vérification téléphone en attente.
 - Version 0.8.0 / build 42 : l'utilisateur avait aussi confirmé que la recherche commune et les parcours du guide et du ZIM fonctionnaient correctement.
 - Commit Android du build 43 : `962a42a` — mémoriser et restaurer l'archive ZIM après redémarrage.
 - Commit de la sélection de plusieurs archives : `d87705f`.
@@ -111,9 +111,18 @@ L'archive `wikivoyage_fr_all_nopic_2026-10.zim` reste un corpus d'essai du lecte
 
 L'utilisateur a signalé que les résultats étaient affichés comme du texte non activable. Le build 41 rend chaque ligne activable, ouvre l'article par son chemin ZIM et affiche le texte nettoyé avec un bouton de retour à la liste. Sur téléphone, l'utilisateur confirme que les résultats s'ouvrent correctement pour `Bruxelles` et `grand-place`, et que le retour fonctionne. Le mode avion n'a pas été précisé pour cet essai. Les liens internes, images et tableaux ne sont pas inclus dans ce premier affichage.
 
+### Dernier APK compilé (build 48) — extraits tirés du texte des articles
+
+- Version 0.13.0, code 14; commit `ee6ece5`; identifiant Android `be.johunn.survie.zimprobe.debug.run48`.
+- Fichier : [artefact APK run 48](https://github.com/Johunn/premiers-secours-offline/actions/runs/41362244842/artifacts/13106082013).
+- CI : [run 48 réussi](https://github.com/Johunn/premiers-secours-offline/actions/runs/41362244842), compilation, zipalign et apksigner validés.
+- Le moteur d'extrait privilégie maintenant la colonne texte de l'article quand elle contient la correspondance; sinon il garde l'extrait disponible dans une autre colonne.
+- Essai téléphone : en attente. Vérifier `adjectif` dans le ZIM de grammaire et `Bruxelles` / `grand-place` dans Wikivoyage; l'extrait devrait montrer du texte autour du terme recherché. Vérifier aussi l'ouverture des résultats, le retour et le mode avion.
+- Le build 48 a un paquet et un espace de données propres (`.debug.run48`) : les anciens builds restent installés et gardent leurs données, mais les archives devront être resélectionnées et réindexées dans cette installation.
+
 ### Prochaine étape
 
-Build 47 est confirmé sur téléphone, en mode avion inclus. La prochaine amélioration en préparation force les extraits FTS4 à privilégier le texte de l'article plutôt que le titre/chemin; cela doit faire apparaître le passage autour de la correspondance PDF au lieu du seul chemin. Version prévue : 0.13.0 / build CI 48, code Android 14, paquet `be.johunn.survie.zimprobe.debug.run48`. Après compilation, demander de re-sélectionner le ZIM de grammaire et Wikivoyage dans le nouvel espace de données, laisser les index se construire, puis vérifier un extrait pertinent pour `adjectif`, `Bruxelles` et `grand-place` et que l'ouverture/retour reste fonctionnel. La recherche FTS4 reste locale; confirmer aussi le mode avion sur la nouvelle version.
+Faire vérifier sur le téléphone les extraits de recherche du build 48. Le build 47 est déjà confirmé pour la recherche PDF, la non-régression Wikivoyage et le mode avion. Le prochain build crée un espace de données séparé et demandera une nouvelle sélection/réindexation de chaque archive utilisée.
 
 ### Données et installation
 
